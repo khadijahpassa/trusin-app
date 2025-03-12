@@ -47,3 +47,5 @@ const text300 = Color(0xFF999999);
 const text400 = Color(0xFF111111);
 const text500 = Color(0xFF777777);
 const text600 = Color(0xFF555555);
+
+const defaultPadding = 20.0; 
