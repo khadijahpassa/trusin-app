@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '692168241918',
     projectId: 'trusin-421f7',
     storageBucket: 'trusin-421f7.firebasestorage.app',
-    iosBundleId: 'com.example.trusinApp',
+    iosBundleId: 'com.example.trusin_app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '692168241918',
     projectId: 'trusin-421f7',
     storageBucket: 'trusin-421f7.firebasestorage.app',
-    iosBundleId: 'com.example.trusinApp',
+    iosBundleId: 'com.example.trusin_app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

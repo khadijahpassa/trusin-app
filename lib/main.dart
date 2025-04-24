@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         '/role-selection': (context) => const RoleSelectionScreen(),
         '/register-cs': (context) => RegisterCSScreen(),
         '/register-supervisor': (context) => RegisterSupervisorScreen(),
-        // '/supervisor-home': (context) => DashboardSuperadmin(),
+        '/supervisor-home': (contextr) => DashboardSuperadmin(),
         '/superadmin-home': (context) => DashboardSuperadmin(),
       },
     );
