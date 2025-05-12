@@ -12,7 +12,7 @@ import 'package:trusin_app/ui/general/auth/role_selection_screen.dart';
 import 'package:trusin_app/ui/general/auth/supervisor/register_screen_supervisor.dart';
 import 'package:trusin_app/ui/onboarding/onboarding_screen.dart';
 import 'package:trusin_app/ui/state-management/date_provider.dart';
-import 'package:trusin_app/ui/superadmin/dashboard_superadmin.dart';
+import 'package:trusin_app/ui/super-admin/dashboard-superadmin/components/bottom_navbar.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/dashboard_sv_screen.dart';
 import 'package:trusin_app/ui/supervisor/detail-cs-supervisor/detail_cs_screen.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/detail_lead_screen.dart';
@@ -24,6 +24,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
 
   runApp(
     MultiBlocProvider(
@@ -56,8 +57,8 @@ class MyApp extends StatelessWidget {
         '/role-selection': (context) => const RoleSelectionScreen(),
         '/register-cs': (context) => RegisterCSScreen(),
         '/register-supervisor': (context) => RegisterSupervisorScreen(),
-        '/supervisor-home': (contextr) => DashboardSuperadmin(),
-        '/superadmin-home': (context) => DashboardSuperadmin(),
+        '/supervisor-home': (contextr) => DashboardSvScreen(),
+        '/superadmin-home': (context) => BottomNavbar(),
         '/detail-cs' : (context) => const DetailCsScreen(),
         '/notification' : (context) => const NotifScreen(),
         '/detail-lead' : (context) => const DetailLeadScreen(),
