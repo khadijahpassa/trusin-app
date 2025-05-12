@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/super-admin/verify/components/request_card.dart';
 
 class CompanyRequest extends StatelessWidget {

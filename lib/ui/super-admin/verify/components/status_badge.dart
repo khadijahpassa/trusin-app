@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trusin_app/const.dart';
 
 class StatusBadge extends StatelessWidget {
@@ -18,10 +17,10 @@ class StatusBadge extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SvgPicture.asset(
-                'assets/icons/pending.svg', 
-                width: defaultPadding, 
+              Icon(
+                Icons.close, 
                 color: primary500,
+                size: defaultPadding
               ),
               SizedBox(width: 10),
               Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 
 class ProgressCS extends StatelessWidget {
@@ -73,7 +74,7 @@ class ProgressCS extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/detailcs');
+            Get.toNamed('/detailcs');
           },
           child: Text(
             'Detail',

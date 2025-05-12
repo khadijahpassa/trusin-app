@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/super-admin/verify/components/btn_hubungi.dart';
 import 'package:trusin_app/ui/super-admin/verify/components/btn_terima.dart';
@@ -45,6 +44,7 @@ Card buildRequestCard(BuildContext context) {
             children: [
               // Tombol Hubungi
               HubungiButton(),
+              SizedBox(width: defaultPadding),
               // Tombol Terima
               TerimaButton()
             ],

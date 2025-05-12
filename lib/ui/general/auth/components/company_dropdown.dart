@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trusin_app/const.dart';
 
 class CompanyDropdown extends StatefulWidget {
@@ -13,31 +13,29 @@ class CompanyDropdown extends StatefulWidget {
     super.key,
     required this.selectedCompany,
     required this.onChanged,
-    required this.isSupervisor, 
+    required this.isSupervisor,
     required this.onNewCompanySelected,
-    
   });
 
   @override
-  _CompanyDropdownState createState() => _CompanyDropdownState();
+  State<CompanyDropdown> createState() => _CompanyDropdownState();
 }
 
 class _CompanyDropdownState extends State<CompanyDropdown> {
   List<String> companyList = [];
   List<String> filteredList = [];
   bool isLoading = true;
-  bool isError = false;
-  String? selectedCompany;
   bool isDropdownOpen = false;
+  String? selectedCompany;
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _fetchCompanies();
     selectedCompany = widget.selectedCompany;
     _controller.text = selectedCompany ?? '';
+    _fetchCompanies();
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() => isDropdownOpen = false);
@@ -52,47 +50,36 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
   }
 
   Future<void> _fetchCompanies() async {
-    // await Future.delayed(Duration(seconds: 1));
     try {
       final snapshot = await FirebaseFirestore.instance
           .collection('users')
-          .where('role', isEqualTo: 'Supervisor')
+          .where('role', isEqualTo: 'supervisor')
           .where('status', isEqualTo: 'approved')
           .get();
 
-      // Ambil nama-nama perusahaan unik dari supervisor yg udah disetujui
       final companies = snapshot.docs
           .map((doc) => doc['company'] as String)
           .toSet()
           .toList();
 
-      // Masukin ke companyList
-      companyList = [...companies];
-
-      // Kalau yang login itu Supervisor, tambahin pilihan "Perusahaan Belum Terdaftar"
       if (widget.isSupervisor) {
-        companyList.insert(0, "Perusahaan Belum Terdaftar");
+        companies.insert(0, "Perusahaan Belum Terdaftar");
       }
 
-      // Sort hanya elemen selain "Perusahaan Belum Terdaftar"
-      if (widget.isSupervisor) {
-        companyList = [companyList.first, ...companyList.sublist(1)..sort()];
-      } else {
-        companyList.sort();
+      companies.sort();
+      if (widget.isSupervisor && companies.first != "Perusahaan Belum Terdaftar") {
+        companies.insert(0, companies.removeAt(companies.indexOf("Perusahaan Belum Terdaftar")));
       }
-
+      
       setState(() {
+        companyList = companies;
+        filteredList = companies.take(3).toList(); // ambil 3 awal
         isLoading = false;
-        isError = false;
-        filteredList = companyList.take(3).toList(); // ⬅ Ambil 3 data pertama aja
       });
     } catch (e) {
-      setState(() {
-        isLoading = false;
-        isError = true;
-      });
+      setState(() => isLoading = false);
       print("Error fetching companies: $e");
-    }  
+    }
   }
 
   void _filterCompanies(String input) {
@@ -105,15 +92,23 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
   }
 
   void _toggleDropdown() {
+    setState(() => isDropdownOpen = !isDropdownOpen);
+  }
+
+  void _onCompanySelected(String company) {
+    _controller.text = company;
     setState(() {
-      isDropdownOpen = !isDropdownOpen;
+      selectedCompany = company;
+      isDropdownOpen = false;
     });
+    widget.onChanged(company);
+    widget.onNewCompanySelected(company == "Perusahaan Belum Terdaftar");
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -122,12 +117,14 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
             focusNode: _focusNode,
             onChanged: _filterCompanies,
             onTap: () => setState(() => isDropdownOpen = true),
-            validator: (value) => value == null || value.isEmpty ? 'Pilih perusahaan dulu' : null,
+            validator: (value) =>
+                value == null || value.isEmpty ? 'Pilih perusahaan dulu' : null,
+            readOnly: false,
             decoration: InputDecoration(
               hintText: "Pilih Perusahaan",
               hintStyle: TextStyle(color: text200, fontSize: body),
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: SvgPicture.asset(
                   'assets/icons/building.svg',
                   fit: BoxFit.contain,
@@ -153,14 +150,6 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                 borderSide: BorderSide(width: 1, color: text200),
                 borderRadius: BorderRadius.circular(12),
               ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1, color: text200),
-                borderRadius: BorderRadius.circular(12),
-              ),
             ),
             style: TextStyle(fontSize: body),
           ),
@@ -176,21 +165,18 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                   shrinkWrap: true,
                   itemCount: filteredList.length,
                   itemBuilder: (context, index) {
+                    final company = filteredList[index];
                     return ListTile(
                       title: Text(
-                        filteredList[index],
-                        style: TextStyle(fontSize: body, color: text400),
+                        company,
+                        style: TextStyle(
+                          fontSize: body,
+                          color: selectedCompany == company
+                              ? primary500
+                              : text400,
+                        ),
                       ),
-                      onTap: () {
-                        setState(() {
-                          selectedCompany = filteredList[index];
-                          _controller.text = selectedCompany!;
-                          isDropdownOpen = false;
-                        });
-                        bool isNewCompany = selectedCompany == "Perusahaan Belum Terdaftar";
-                        widget.onChanged(selectedCompany);
-                        widget.onNewCompanySelected(isNewCompany);
-                      },
+                      onTap: () => _onCompanySelected(company),
                     );
                   },
                 ),
