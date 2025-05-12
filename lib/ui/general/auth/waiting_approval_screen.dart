@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/general/auth/components/primary_button.dart';
 
@@ -52,7 +53,7 @@ class WaitingApprovalScreen extends StatelessWidget {
                   PrimaryButton(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacementNamed(context, "/login");
+                      Get.offNamed("/login");
                     },
                     text: 'Ke Halaman Login',
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/general/auth/components/primary_button.dart';
 import 'package:trusin_app/ui/general/auth/components/role_card.dart';
@@ -65,7 +66,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                           // CS Card
                           RoleCard(
                             imagePath: "assets/images/role_cs.png",
-                            role: "Customer Service",
+                            role: "Daftarkan Customer Service",
                             isSelected: selectedRole == "Customer Service",
                             onTap: () {
                               setState(() {
@@ -90,16 +91,16 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                       ? null
                       : () {
                           if (selectedRole == "Supervisor") {
-                            Navigator.pushNamed(context, '/register-supervisor');
+                            Get.toNamed('/register-supervisor');
                           } else if (selectedRole == "Customer Service") {
-                            Navigator.pushNamed(context, '/register-cs');
+                            Get.toNamed('/register-cs');
                           }
                         },
                   ),
                   SizedBox(height: defaultPadding),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/login');
+                      Get.toNamed('/login');
                     },
                     child: const Text.rich(
                       TextSpan(

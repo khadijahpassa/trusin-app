@@ -18,10 +18,10 @@ class StatusBadge extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SvgPicture.asset(
-                'assets/icons/pending.svg', 
-                width: defaultPadding, 
+              Icon(
+                Icons.close, 
                 color: primary500,
+                size: defaultPadding
               ),
               SizedBox(width: 10),
               Text(

@@ -3,7 +3,7 @@ import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/chart_pipeline_leads.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/chart_revenue.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/header.dart';
-import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/periode.dart';
+import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/button_add_cs.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/progress_cs.dart';
 
 class DashboardSvScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _DashboardSvScreenState extends State<DashboardSvScreen> {
           child:
            Column(
             children: [
-              Periode(),
+              ButtonAddCs(),
               SizedBox(height: defaultPadding),
               ProgressCS(),
               SizedBox(height: defaultPadding),

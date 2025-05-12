@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/main.dart';
 import 'package:trusin_app/ui/onboarding/components/onboarding_content.dart';
@@ -90,10 +91,7 @@ class _BodyState extends State<Body> {
                       // ketika currentpage nya = splash data, array itu mempresentasikan data. -1 karena dia index
                       if (currentPage == onboardingData.length - 1) {
                         // kode yang digunakan untuk berpindah antar halaman
-                        Navigator.pushNamed(
-                            //context: represent for our current page
-                            context,
-                            '/login');
+                        Get.toNamed('/login');
                       } else {
                         //ini untuk swipe ke slide berikutnya, jadi kalau belum sampe slide akhir, buttonnya itu bakal menggerakkan ke halaman berikutnya dengan animatetopage
                         _pageController.animateToPage(currentPage + 1,

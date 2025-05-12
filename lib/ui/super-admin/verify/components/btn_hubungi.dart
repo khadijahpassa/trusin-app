@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trusin_app/const.dart';
 
 class HubungiButton extends StatelessWidget {
@@ -28,8 +29,8 @@ class HubungiButton extends StatelessWidget {
             )
           ),
           SizedBox(width: defaultPadding),
-          Image.asset(
-            'assets/images/logos_whatsapp-icon.png',
+          SvgPicture.asset(
+            'assets/icons/whatsapp.svg',
             width: defaultPadding,
           )
         ],
