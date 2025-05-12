@@ -54,3 +54,4 @@ const double body= 14;
 const double caption = 12;
 
 const animationDuration = Duration(milliseconds: 200);
+
