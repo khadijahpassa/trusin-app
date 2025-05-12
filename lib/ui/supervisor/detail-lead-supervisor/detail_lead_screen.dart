@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/activity_list.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/app_bar.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/calendar.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/date.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/info_lead.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/profile_lead.dart';

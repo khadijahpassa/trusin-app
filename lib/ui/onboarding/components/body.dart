@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/main.dart';
 import 'package:trusin_app/ui/onboarding/components/onboarding_content.dart';
-import 'package:trusin_app/ui/onboarding/onboarding_screen.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
