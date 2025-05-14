@@ -13,7 +13,7 @@ class ProfileCs extends StatelessWidget implements PreferredSizeWidget {
       children: [
         CircleAvatar(
           radius: 25,
-          backgroundImage: AssetImage('/assets/images/role_cs.png'),
+          backgroundImage: AssetImage('assets/images/role_cs.png'),
         ),
         SizedBox(width: 10),
         Column(

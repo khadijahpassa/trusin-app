@@ -5,18 +5,23 @@ import 'package:trusin_app/const.dart';
 class TextFieldInput extends StatelessWidget {
   final String hintText;
   final bool isRequired;
+  final bool enabled;
   final String svgIconPath;
+  final TextEditingController? controller;
 
   const TextFieldInput({
     super.key,
     required this.hintText,
     required this.svgIconPath, // ← SVG icon path
     this.isRequired = false,
+    this.enabled = true,
+    this.controller, 
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       validator: isRequired
           ? (value) {
               if (value == null || value.isEmpty) {
@@ -25,6 +30,7 @@ class TextFieldInput extends StatelessWidget {
               return null;
             }
           : null,
+          
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,

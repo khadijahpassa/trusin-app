@@ -41,7 +41,7 @@ class ButtonAddCs extends StatelessWidget {
                     },
                     child: Text(
                       'Daftar',
-                      style: TextStyle(color: text100, fontSize: body),
+                      style: TextStyle(color: secondary100, fontSize: body),
                     ),
                   ),
                 ],

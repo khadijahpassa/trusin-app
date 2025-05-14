@@ -6,7 +6,6 @@ class RegisterCsController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Status umum
   var isLoading = false.obs;
 
   Future<void> registerCS({
@@ -19,26 +18,37 @@ class RegisterCsController extends GetxController {
     isLoading.value = true;
 
     try {
-      // 1. Buat akun di Firebase
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      // 1. Buat akun di Firebase Auth
+      UserCredential userCredential =
+        await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      // Ambil UID (User ID) unik dari akun Firebase Auth yang baru dibuat
+      final user = userCredential.user;
+      if (user == null) {
+        throw Exception("User tidak ditemukan setelah registrasi");
+      }
+      String uid = user.uid;
+
       // 2. Simpan data ke Firestore
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+      await _firestore.collection('users').doc(uid).set({
+        'id': uid,
         'name': name,
         'email': email,
         'phone': phone ?? '',
         'company': company,
-        'password': password,
-        'role': 'Customer Service',
-        'status': 'approved', // langsung approved karena dibuat spv
+        'username': '', // Kosong dulu, bisa diisi nanti oleh CS
+        'role': 'customer_service',
+        'displayRole': 'Customer Service',
+        'status': 'approved',
       });
 
       isLoading.value = false;
+      await _auth.signOut();
       Get.snackbar('Berhasil', 'Akun Customer Service berhasil dibuat');
-      Get.offAllNamed('/supervisor-home');//navigasi ke halaman lain
+      Get.offAllNamed('/supervisor-home');
     } catch (e) {
       isLoading.value = false;
       Get.snackbar('Gagal', 'Terjadi kesalahan: ${e.toString()}');

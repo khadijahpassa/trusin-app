@@ -5,6 +5,7 @@ import 'package:trusin_app/const.dart';
 class TextFieldInput extends StatelessWidget {
   final TextEditingController textEditingController;
   final bool isPass;
+  final bool readOnly;
   final String hintText;
   final String iconPath;
   final String? Function(String?)? validator;
@@ -16,6 +17,7 @@ class TextFieldInput extends StatelessWidget {
     super.key,
     required this.textEditingController,
     this.isPass = false,
+    this.readOnly = false,
     required this.hintText,
     required this.iconPath,
     this.validator,
@@ -36,6 +38,7 @@ class TextFieldInput extends StatelessWidget {
         builder: (context, obscureText, _) {
           return TextFormField(
             style: TextStyle(fontSize: body),
+            readOnly: readOnly,
             obscureText: isPass ? obscureText : false,
             controller: textEditingController,
             cursorColor: primary500,
