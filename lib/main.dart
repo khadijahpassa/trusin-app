@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
 import 'package:trusin_app/controllers/register_cs_controller.dart';
 import 'package:trusin_app/controllers/register_supervisor_controller.dart';
+import 'package:trusin_app/controllers/verify_controller.dart';
 import 'package:trusin_app/firebase_options.dart';
 import 'package:trusin_app/ui/general/auth/cs/register_screen_cs.dart';
 import 'package:trusin_app/ui/general/auth/forgot_password_screen.dart';
@@ -29,6 +30,7 @@ void main() async {
   Get.put(AuthController());
   Get.put(RegisterSupervisorController());
   Get.put(RegisterCsController());
+  Get.put(VerifyController());
   
   runApp(
     MultiProvider(

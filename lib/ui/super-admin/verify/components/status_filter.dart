@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
 
-class StatusBadge extends StatelessWidget {
-  const StatusBadge({super.key});
+class StatusFilter extends StatelessWidget {
+  const StatusFilter({super.key});
 
   @override
   Widget build(BuildContext context) {
