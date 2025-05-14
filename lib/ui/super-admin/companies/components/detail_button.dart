@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
+import 'package:trusin_app/model/company_request.dart';
 import 'package:trusin_app/ui/super-admin/companies-detail/companies_detail.dart';
 
 class DetailompanyCardButton extends StatelessWidget {
-  const DetailompanyCardButton({super.key});
+  final CompanyRequest data;
+  const DetailompanyCardButton({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class DetailompanyCardButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => CompanyDetailScreen())
+          MaterialPageRoute(builder: (context) => CompanyDetailScreen(data: data,))
         );
       },
       child: Text(

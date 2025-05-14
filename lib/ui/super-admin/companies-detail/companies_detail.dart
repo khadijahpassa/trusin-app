@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
+import 'package:trusin_app/model/company_request.dart';
 
 class CompanyDetailScreen extends StatelessWidget {
-  const CompanyDetailScreen({super.key});
+  final CompanyRequest data;
+  const CompanyDetailScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,8 @@ class CompanyDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'PT.Indotex',
+             Text(
+              data.companyName,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -42,11 +44,11 @@ class CompanyDetailScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Expanded(
                   child: _InfoColumn(
                     title: 'Nomor Telepon',
-                    value: '045678906789',
+                    value: data.phone,
                   ),
                 ),
                 SizedBox(width: 16),
@@ -61,14 +63,15 @@ class CompanyDetailScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Expanded(
                   child: _InfoColumn(
                     title: 'Alamat Email',
-                    value: 'yamaha@gacor.com',
+                    value: data.email,
                   ),
                 ),
                 SizedBox(width: 16),
+            // TODO: solve ini dong
                 Expanded(
                   child: _InfoColumn(
                     title: 'Dibuat Pada',
@@ -78,6 +81,7 @@ class CompanyDetailScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
+            // TODO: solve ini dong
             const _InfoColumn(
               title: 'Alamat',
               value: 'Jonggol, Bogor',

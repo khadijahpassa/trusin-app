@@ -3,30 +3,71 @@ import 'package:flutter_svg/svg.dart';
 import 'package:trusin_app/const.dart';
 
 class PendingStatus extends StatelessWidget {
-  const PendingStatus({super.key});
+  final String status;
+
+  const PendingStatus({required this.status, super.key});
 
   @override
   Widget build(BuildContext context) {
+    // biar statusnya lowercase semua
+    final lowerStatus = status.toLowerCase();
+
+    // Konfigurasi berdasarkan statusnya
+    late Color backgroundColor;
+    late Color textColor;
+    late String iconPath;
+    late String label;
+
+    switch (lowerStatus) {
+      case 'pending':
+        backgroundColor = warningLight100;
+        textColor = warningLight600;
+        iconPath = 'assets/icons/pending.svg';
+        label = 'Pending';
+        break;
+      case 'rejected':
+        backgroundColor = error100;
+        textColor = error500;
+        iconPath = 'assets/icons/close.svg'; 
+        label = 'Tolak';
+        break;
+      case 'approved':
+        backgroundColor = success100;
+        textColor = success600;
+        iconPath = 'assets/icons/check.svg';
+        label = 'Terima';
+        break;
+      default:
+        backgroundColor = Colors.grey[200]!;
+        textColor = Colors.grey[600]!;
+        iconPath = 'assets/icons/question.svg';
+        label = 'Tidak diketahui';
+    }
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: defaultPadding/2, vertical: defaultPadding/3),
+      padding: const EdgeInsets.symmetric(
+        horizontal: defaultPadding / 2,
+        vertical: defaultPadding / 3,
+      ),
       decoration: BoxDecoration(
-        color: warningLight100,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         children: [
           SvgPicture.asset(
-            'assets/icons/pending.svg',
+            iconPath,
             width: 18,
-            color: warningLight600,
+            color: textColor,
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Text(
-            'Pending',
+            label,
             style: TextStyle(
-                fontSize: descText,
-                color: warningLight600,
-                fontWeight: FontWeight.bold),
+              fontSize: descText,
+              color: textColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
