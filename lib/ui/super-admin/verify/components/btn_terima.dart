@@ -23,7 +23,7 @@ class _TerimaButtonState extends State<TerimaButton> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      String? rawStatus = controller.selectedStatuses[widget.requestId];
+      String? rawStatus = controller.selectedActionStatus[widget.requestId];
       String label = rawStatus != null
           ? statusLabelMap[rawStatus] ?? "Pilih"
           : "Pilih";
@@ -37,7 +37,7 @@ class _TerimaButtonState extends State<TerimaButton> {
             Expanded(
               child: GestureDetector(
                 onTap: () async {
-                  final selected = controller.selectedStatuses[widget.requestId];
+                  final selected = controller.selectedActionStatus[widget.requestId];
                   if (selected != null) {
                     await controller.submitStatusChange(widget.requestId, selected);
                   } else {
@@ -72,7 +72,7 @@ class _TerimaButtonState extends State<TerimaButton> {
                   'Terima': 'approved',
                   'Tolak': 'rejected',
                 };
-                controller.selectedStatuses[widget.requestId] = statusMap[value]!;
+                controller.selectedActionStatus[widget.requestId] = statusMap[value]!;
               },
               itemBuilder: (context) => const [
                 PopupMenuItem(value: 'Terima', child: Text('Terima')),

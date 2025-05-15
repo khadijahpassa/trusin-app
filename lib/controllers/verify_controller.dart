@@ -4,31 +4,39 @@ import 'package:trusin_app/model/company_request.dart';
 
 class VerifyController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
   var requestList = <CompanyRequest>[].obs; // status pending
   var selectedStatuses = <String, String>{}.obs;
   var approvedCompanies = <CompanyRequest>[].obs; // status approved
+  var selectedActionStatus = <String, String>{}.obs; // untuk simpan status yg dipilih per company
+
 
   @override
   void onInit() {
     super.onInit();
-    print('🔥 VerifyController ONINIT KEJALAN!');
     fetchRequests(); // buat pending
     fetchApprovedCompanies(); // buat approved
   }
 
   // DATA YANG MASIH PENDING
   void fetchRequests() {
-    _firestore
-        .collection('users')
-        .where('role', isEqualTo: 'supervisor')
-        .snapshots()
-        .listen((snapshot) {
-      final requests = snapshot.docs.map((doc) {
-        return CompanyRequest.fromMap(doc.data(), doc.id);
-      }).toList();
-      requestList.value = requests;
-    });
-  }
+  _firestore
+      .collection('users')
+      .where('role', isEqualTo: 'supervisor')
+      .snapshots()
+      .listen((snapshot) {
+    final requests = snapshot.docs
+        .where((doc) {
+          final status = (doc['status'] ?? '').toLowerCase();
+          return status == 'pending' || status == 'rejected';
+        })
+        .map((doc) => CompanyRequest.fromMap(doc.data(), doc.id))
+        .toList();
+
+    requestList.value = requests;
+    print('🌀 FETCHED REQUESTS: ${requests.length}');
+  });
+}
 
   // AMBIL DATA YANG UDAH DI APPROVED
   void fetchApprovedCompanies() {
@@ -69,6 +77,8 @@ class VerifyController extends GetxController {
   await _firestore.collection('users').doc(id).update({
     'status': newStatus,
   });
+
+   print('🔥 Status $id updated to $newStatus');
 
   // Refresh ulang semua list
   fetchRequests();            
