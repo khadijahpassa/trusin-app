@@ -47,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: 70),
                       TextFieldInput(
                         textEditingController: usernameController,
-                        hintText: "Nama Pengguna",
+                        hintText: "Username atau Email",
                         iconPath: "assets/icons/username.svg",
                       ),
                       TextFieldInput(
@@ -119,7 +119,8 @@ class LoginScreen extends StatelessWidget {
               // Navigasi setelah login berhasil
               Obx(() {
                 if (authController.authState.value == AuthState.authenticated) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) async {
+                    await authController.fetchCurrentUserData(); //untuk data itu diambil dan bisa ditampilkan di UI
                     final role = authController.currentRole.value;
                     if (role == 'superadmin') {
                       Get.offAllNamed('/superadmin-home');
