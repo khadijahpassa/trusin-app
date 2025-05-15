@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trusin_app/const.dart';
@@ -51,41 +52,51 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
 
   Future<void> _fetchCompanies() async {
     try {
-      final snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .where('role', isEqualTo: 'supervisor')
-          .where('status', isEqualTo: 'approved')
-          .get();
-
-      final companies = snapshot.docs
-          .map((doc) => doc['company'] as String)
-          .toSet()
-          .toList();
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      final userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final userCompany = userDoc['company'] as String;
 
       if (widget.isSupervisor) {
-        companies.insert(0, "Perusahaan Belum Terdaftar");
-      }
+        // Supervisor bisa lihat banyak perusahaan
+        final snapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('role', isEqualTo: 'supervisor')
+            .where('status', isEqualTo: 'approved')
+            .get();
 
-      companies.sort();
-      if (widget.isSupervisor && companies.first != "Perusahaan Belum Terdaftar") {
-        companies.insert(0, companies.removeAt(companies.indexOf("Perusahaan Belum Terdaftar")));
+        final companies = snapshot.docs
+            .map((doc) => doc['company'] as String)
+            .toSet()
+            .toList();
+
+        companies.insert(0, "Perusahaan Belum Terdaftar");
+        companies.sort();
+
+        setState(() {
+          companyList = companies;
+          filteredList = companies.take(3).toList();
+          isLoading = false;
+        });
+      } else {
+        // CS, hanya tampilkan company user login
+        setState(() {
+          companyList = [userCompany];
+          filteredList = [userCompany];
+          isLoading = false;
+        });
       }
-      
-      setState(() {
-        companyList = companies;
-        filteredList = companies.take(3).toList(); // ambil 3 awal
-        isLoading = false;
-      });
     } catch (e) {
       setState(() => isLoading = false);
-      print("Error fetching companies: $e");
+      print("Error: $e");
     }
   }
 
   void _filterCompanies(String input) {
     setState(() {
       filteredList = companyList
-          .where((company) => company.toLowerCase().contains(input.toLowerCase()))
+          .where(
+              (company) => company.toLowerCase().contains(input.toLowerCase()))
           .toList();
       isDropdownOpen = true;
     });
@@ -139,7 +150,8 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                 ),
                 onPressed: _toggleDropdown,
               ),
-              contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 14, horizontal: 10),
               filled: true,
               fillColor: secondary200,
               enabledBorder: OutlineInputBorder(
@@ -171,9 +183,8 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
                         company,
                         style: TextStyle(
                           fontSize: body,
-                          color: selectedCompany == company
-                              ? primary500
-                              : text400,
+                          color:
+                              selectedCompany == company ? primary500 : text400,
                         ),
                       ),
                       onTap: () => _onCompanySelected(company),

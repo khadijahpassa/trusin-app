@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
+import 'package:trusin_app/controllers/cs_list_controller.dart';
 import 'package:trusin_app/controllers/register_cs_controller.dart';
 import 'package:trusin_app/controllers/register_supervisor_controller.dart';
 import 'package:trusin_app/controllers/verify_controller.dart';
@@ -17,12 +18,11 @@ import 'package:trusin_app/ui/state-management/date_provider.dart';
 import 'package:trusin_app/ui/super-admin/dashboard-superadmin/components/bottom_navbar.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/dashboard_sv_screen.dart';
 import 'package:trusin_app/ui/supervisor/detail-cs-supervisor/detail_cs_screen.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/detail_lead_screen.dart';
 import 'package:trusin_app/ui/supervisor/notification-supervisor/notif_screen.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -30,8 +30,9 @@ void main() async {
   Get.put(AuthController());
   Get.put(RegisterSupervisorController());
   Get.put(RegisterCsController());
+  Get.put(CSListController());
   Get.put(VerifyController());
-  
+
   runApp(
     MultiProvider(
       providers: [
@@ -65,7 +66,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/superadmin-home', page: ()=> BottomNavbar()),
         GetPage(name: '/detail-cs', page: ()=> DetailCsScreen()),
         GetPage(name: '/notification', page: ()=> NotifScreen()),
-        GetPage(name: '/waiting-approval', page: ()=> DetailLeadScreen()),
         // '/role-selection': (context) => const RoleSelectionScreen(),
       ],
     );
