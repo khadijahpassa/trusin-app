@@ -12,13 +12,13 @@ class CompanyRequestCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final filteredList = controller.requestList
-    .where((e) => e.status == 'pending' || e.status == 'rejected')
+    .where((e) {
+      if (controller.selectedStatuses.isEmpty) return true;
+      return controller.selectedStatuses.containsKey(e.status.toLowerCase());
+    })
     .toList();
 
-      print('✅ Filtered list: ${filteredList.length}');
-      for (var item in filteredList) {
-        print('📋 ${item.companyName} | ${item.status}');
-      }
+    print('🔍 filteredList: ${filteredList.map((e) => '${e.companyName} (${e.status})').toList()}');
 
       if (filteredList.isEmpty) {
         return const Center(child: Text('Tidak ada data'));
@@ -26,8 +26,8 @@ class CompanyRequestCard extends StatelessWidget {
 
       return ListView.builder(
         itemCount: filteredList.length,
-        itemBuilder: (context, index) {
-          final item = filteredList[index];
+        itemBuilder: (_, i) {
+          final item = filteredList[i];
           return RequestCard(data: item);
         },
       );

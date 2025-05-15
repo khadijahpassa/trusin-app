@@ -20,7 +20,7 @@ class CompanyRequest {
   factory CompanyRequest.fromMap(Map<String, dynamic> data, String id) {
     return CompanyRequest(
       id: id,
-      companyName: data['company'] ?? '',        // ✅ ini bener
+      companyName: data['company'] ?? '',        
       supervisorName: data['name'] ?? '',  
       status: (data['status'] ?? '').toLowerCase() ?? '',
       email: data['email'] ?? '',

@@ -5,7 +5,7 @@ import 'package:trusin_app/const.dart';
 class PendingStatus extends StatelessWidget {
   final String status;
 
-  const PendingStatus({required this.status, super.key});
+  const  PendingStatus({required this.status, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,35 +15,21 @@ class PendingStatus extends StatelessWidget {
     // Konfigurasi berdasarkan statusnya
     late Color backgroundColor;
     late Color textColor;
-    late String iconPath;
+    late Widget iconWidget;
     late String label;
 
-    switch (lowerStatus) {
-      case 'pending':
-        backgroundColor = warningLight100;
-        textColor = warningLight600;
-        iconPath = 'assets/icons/pending.svg';
-        label = 'Pending';
-        break;
-      case 'rejected':
-        backgroundColor = error100;
-        textColor = error500;
-        iconPath = 'assets/icons/close.svg'; 
-        label = 'Tolak';
-        break;
-      case 'approved':
-        backgroundColor = success100;
-        textColor = success600;
-        iconPath = 'assets/icons/check.svg';
-        label = 'Terima';
-        break;
-      default:
-        backgroundColor = Colors.grey[200]!;
-        textColor = Colors.grey[600]!;
-        iconPath = 'assets/icons/question.svg';
-        label = 'Tidak diketahui';
+    if (lowerStatus == 'rejected') {
+      backgroundColor = error100;
+      textColor = error500;
+      iconWidget = const Icon(Icons.close_rounded, color: error500, size: descText);
+      label = 'Tolak';
+    } else {
+      backgroundColor = warningLight100;
+      textColor = warningLight600;
+      iconWidget = SvgPicture.asset('assets/icons/pending.svg', color: warningLight600, width: 24);
+      label = 'Pending';
     }
-
+    
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: defaultPadding / 2,
@@ -55,11 +41,7 @@ class PendingStatus extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SvgPicture.asset(
-            iconPath,
-            width: 18,
-            color: textColor,
-          ),
+          iconWidget,
           const SizedBox(width: 5),
           Text(
             label,
@@ -69,7 +51,7 @@ class PendingStatus extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ],
+        ]
       ),
     );
   }
