@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/verify_controller.dart';
 import 'package:trusin_app/ui/super-admin/verify/components/appbar.dart';
-import 'package:trusin_app/ui/super-admin/verify/components/company_request.dart';
+import 'package:trusin_app/ui/super-admin/verify/components/company_request_card.dart';
 import 'package:trusin_app/ui/super-admin/verify/components/status_filter.dart';
 
 class VerifySuperadmin extends StatelessWidget {
