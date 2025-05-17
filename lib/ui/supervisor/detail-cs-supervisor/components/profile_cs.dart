@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
+import 'package:trusin_app/model/cs_list_model.dart';
 
 class ProfileCs extends StatelessWidget implements PreferredSizeWidget {
-  const ProfileCs({super.key});
+  final CSModel cs;
+  const ProfileCs({super.key, required this.cs});
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
@@ -21,14 +23,14 @@ class ProfileCs extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Hajjah Mecca',
+              cs.name,
               style: TextStyle(
                 fontSize: heading3,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              'Customer Service', 
+              cs.displayRole, 
               style: TextStyle(
                 fontSize: body,
                 color: Colors.grey[700],

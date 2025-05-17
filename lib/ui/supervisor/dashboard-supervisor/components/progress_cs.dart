@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
 import 'package:trusin_app/controllers/cs_list_controller.dart';
+import 'package:trusin_app/model/cs_list_model.dart';
 
 class ProgressCS extends StatelessWidget {
   ProgressCS({super.key});
@@ -12,11 +13,11 @@ class ProgressCS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final company = authController.currentCompany.value;
+    // final company = authController.currentCompany.value;
 
     // Ini buat manggil sekali aja setelah widget muncul
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      csListController.listenToCS(company);
+      csListController;
     });
 
     return Column(
@@ -61,9 +62,9 @@ class ProgressCS extends StatelessWidget {
                       final cs = csListController.csList[index];
                       return _buildCSCard(
                         context,
-                        cs.name,
-                        cs.details,
-                        cs.avatar,
+                        cs,
+                        "ii detail",
+                        "ini avatar"
                       );
                     },
                   );
@@ -77,7 +78,7 @@ class ProgressCS extends StatelessWidget {
   }
 
   Widget _buildCSCard(
-      BuildContext context, String name, String details, String avatar) {
+      BuildContext context, CSModel cs, String detail, String avatar) {
     return Card(
       color: secondary100,
       child: ListTile(
@@ -86,15 +87,17 @@ class ProgressCS extends StatelessWidget {
               ? AssetImage(avatar) // Gunakan avatar jika ada
               : AssetImage('assets/images/role_cs.png'),
         ),
-        title: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(details),
+        title: Text(cs.name, style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(detail),
         trailing: ElevatedButton(
           style: ElevatedButton.styleFrom(
               backgroundColor: primary400,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6))),
           onPressed: () {
-            Get.toNamed('/detailcs');
+            final csController = Get.find<CSListController>();
+            csController.selectedCS.value = cs;
+            Get.toNamed('/detail-cs');
           },
           child: Text(
             'Detail',
