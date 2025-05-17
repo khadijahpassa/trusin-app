@@ -2,18 +2,31 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:trusin_app/controllers/auth_controller.dart';
 import 'package:trusin_app/model/cs_list_model.dart';
 
 class CSListController extends GetxController {
   // tampung data yang sudah di-stream
   var csList = <CSModel>[].obs;
+  Rx<CSModel?> selectedCS = Rx<CSModel?>(null);
   // _csStream = sumber data stream-nya, yang berasal dari Firebase Firestore.
   Stream<List<CSModel>>? _csStream;
 
   StreamSubscription? _subscription;
 
+  @override
+  void onInit() {
+    super.onInit();
+    final company = Get.find<AuthController>().currentCompany.value;
+    if (company.isNotEmpty) {
+      listenToCS(company);
+    }
+  }
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 // Untuk panggil stream saat dapat company
   void listenToCS(String company) {
+    _subscription?.cancel();
     _csStream = FirebaseFirestore.instance
         .collection('users')
         .where('role', isEqualTo: 'customer_service')
@@ -22,7 +35,8 @@ class CSListController extends GetxController {
         .map((snapshot) =>
             snapshot.docs.map((doc) => CSModel.fromMap(doc.data())).toList());
 
-    _csStream!.listen((data) {
+    _subscription = _csStream!.listen((data) {
+       print('🔄 Data CS masuk: ${data.length}');
       csList.value = data;
     });
   }

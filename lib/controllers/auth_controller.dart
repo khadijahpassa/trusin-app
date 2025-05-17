@@ -182,4 +182,41 @@ class AuthController extends GetxController {
           data['company']; // Ambil company dari data supervisor
     }
   }
+
+  Future<void> updateUser({
+    required String username,
+    required String email,
+    required String phone,
+    required String company,
+  }) async {
+    try {
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid == null) throw Exception('User belum login');
+
+      final updatedData = {
+        'username': username,
+        'email': email,
+        'phone': phone,
+        'company': company,
+      };
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update(updatedData);
+
+      // 🔥 Update juga currentUser biar UI langsung reflect
+      currentUser.value = currentUser.value!.copyWith(
+        username: username,
+        email: email,
+        phone: phone,
+        company: company,
+      );
+
+      Get.snackbar('Sukses', 'Data user berhasil diupdate');
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal update user: $e');
+      throw e;
+    }
+  }
 }
