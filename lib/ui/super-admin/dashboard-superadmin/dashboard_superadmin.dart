@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/super-admin/dashboard-superadmin/components/appbar.dart';
-import 'package:trusin_app/ui/super-admin/dashboard-superadmin/components/dashboard_card.dart';
+import 'package:trusin_app/ui/super-admin/dashboard-superadmin/components/statistik_components.dart';
 import 'package:trusin_app/ui/super-admin/dashboard-superadmin/components/ringkasan_statistik.dart';
 
 class DashboardSuperadmin extends StatelessWidget {

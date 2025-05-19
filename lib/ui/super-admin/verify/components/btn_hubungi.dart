@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trusin_app/const.dart';
+import 'package:trusin_app/model/company_request.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HubungiButton extends StatelessWidget {
-  const HubungiButton({super.key});
+  final CompanyRequest data;
+  const HubungiButton({super.key, required this.data});
+
+  // fuction private(_)
+  void _openWhatsApp(String phoneNumber) async {
+    final normalized = phoneNumber.replaceAll(RegExp(r'\D'), ''); // menghapus simbol aneh
+    final whatsAppUrl = Uri.parse('https://wa.me/$normalized');
+    if (await canLaunchUrl(whatsAppUrl)) {
+      await launchUrl(whatsAppUrl, mode: LaunchMode.externalApplication); // externalApplication whatsAppnya langsung
+    } else {
+      debugPrint('Gagal buka WhatsApp ke $normalized');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +32,7 @@ class HubungiButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onPressed: () {},
+      onPressed: () => _openWhatsApp(data.phone),
       child: Row(
         children: [
           Text(

@@ -53,9 +53,6 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
   Future<void> _fetchCompanies() async {
     try {
       final uid = FirebaseAuth.instance.currentUser?.uid;
-      final userDoc =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      final userCompany = userDoc['company'] as String;
 
       if (widget.isSupervisor) {
         // Supervisor bisa lihat banyak perusahaan
@@ -75,11 +72,20 @@ class _CompanyDropdownState extends State<CompanyDropdown> {
 
         setState(() {
           companyList = companies;
-          filteredList = companies.take(3).toList();
+          filteredList = companies.take(5).toList();
           isLoading = false;
         });
       } else {
         // CS, hanya tampilkan company user login
+        final userDoc =
+            await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+        if (!userDoc.exists || !userDoc.data()!.containsKey('company')) {
+          setState(() => isLoading = false);
+          return;
+        }
+
+        final userCompany = userDoc['company'] as String;
         setState(() {
           companyList = [userCompany];
           filteredList = [userCompany];
