@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
+import 'package:trusin_app/model/cs_list_model.dart';
 
 class InfoCs extends StatelessWidget implements PreferredSizeWidget {
-  const InfoCs({super.key});
+  final CSModel cs;
+  const InfoCs({super.key, required this.cs});
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
@@ -12,52 +14,29 @@ class InfoCs extends StatelessWidget implements PreferredSizeWidget {
     return Column(
       children: [
         Row(
-          children: const [
+          children: [
             Expanded(
               child: InfoItem(
                 label: "Nomor Telepon",
                 content: Text(
-                  "045678906789",
-                  style: TextStyle(
+                  cs.phone.isNotEmpty ? cs.phone : 'No Phone Available',
+                  style: const TextStyle(
                     fontSize: descText,
                     fontWeight: FontWeight.w600
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: InfoItem(
-                label: "Nama Pengguna",
-                content: Text(
-                  "@hajjahsukses",
-                  style: TextStyle(
-                    fontSize: descText,
-                    fontWeight: FontWeight.w600
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 15),
-        Row(
-          children: const [
             Expanded(
               child: InfoItem(
                 label: "Alamat Email",
                 content: Text(
-                  "yamaha@gacor.com",
-                  style: TextStyle(
+                  cs.email.isNotEmpty ? cs.email : 'No Phone Available',
+                  style: const TextStyle(
                     fontSize: descText,
                     fontWeight: FontWeight.w600
                   ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: InfoItem(
-                label: "Password",
-                content: PasswordView(password: "similikitiw"),
               ),
             ),
           ],

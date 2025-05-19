@@ -3,17 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trusin_app/const.dart';
 
 class TextFieldInput extends StatelessWidget {
-  final String hintText;
-  final bool isRequired;
   final bool enabled;
   final String svgIconPath;
   final TextEditingController? controller;
 
   const TextFieldInput({
     super.key,
-    required this.hintText,
     required this.svgIconPath, // ← SVG icon path
-    this.isRequired = false,
     this.enabled = true,
     this.controller, 
   });
@@ -22,17 +18,9 @@ class TextFieldInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       enabled: enabled,
-      validator: isRequired
-          ? (value) {
-              if (value == null || value.isEmpty) {
-                return 'Field ini tidak boleh kosong';
-              }
-              return null;
-            }
-          : null,
+      controller: controller,
           
       decoration: InputDecoration(
-        hintText: hintText,
         filled: true,
         fillColor: secondary100,
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -58,8 +46,7 @@ class TextFieldInput extends StatelessWidget {
           ),
         ),
 
-        // ➡️ Icon kanan (edit)
-        suffixIcon: Icon(Icons.edit, color: text300,),
+   
       ),
     );
   }

@@ -10,12 +10,15 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: secondary100,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back_ios , 
           color: Colors.black
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       title: Text(
         "Profile",

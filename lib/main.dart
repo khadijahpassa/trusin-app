@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
 import 'package:trusin_app/controllers/cs_list_controller.dart';
+import 'package:trusin_app/controllers/lead_list_controller.dart';
 import 'package:trusin_app/controllers/register_cs_controller.dart';
 import 'package:trusin_app/controllers/register_supervisor_controller.dart';
 import 'package:trusin_app/controllers/verify_controller.dart';
@@ -31,6 +32,7 @@ void main() async {
   Get.put(RegisterSupervisorController());
   Get.put(RegisterCsController());
   Get.put(CSListController());
+  Get.put(LeadListController());
   Get.put(VerifyController());
 
   runApp(
