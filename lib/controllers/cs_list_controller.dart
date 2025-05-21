@@ -9,6 +9,7 @@ class CSListController extends GetxController {
   // tampung data yang sudah di-stream
   var csList = <CSModel>[].obs;
   Rx<CSModel?> selectedCS = Rx<CSModel?>(null);
+  var searchQuery = ''.obs;
   // _csStream = sumber data stream-nya, yang berasal dari Firebase Firestore.
   Stream<List<CSModel>>? _csStream;
 
@@ -23,7 +24,7 @@ class CSListController extends GetxController {
     }
   }
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 // Untuk panggil stream saat dapat company
   void listenToCS(String company) {
     _subscription?.cancel();
@@ -47,37 +48,21 @@ class CSListController extends GetxController {
     super.onClose();
   }
 
-/*
-  // Memanggil fetchCS saat controller diinisialisasi
-  @override
-  void onInit() {
-    super.onInit();
-    // Pastikan company sudah ada saat fetch
-    fetchCS();
+  //PENCARIAN CASE-INSENSITIVE (BUAT SEARCH BAR NAMA CS)
+  void setSearchQuery(String value) {
+    searchQuery.value = value.toLowerCase();
   }
 
-  // Method untuk mengambil data CS berdasarkan company
-  void fetchCS([String? company]) async {
-    if (company == null || company.isEmpty) {
-      return; // Pastikan company tidak kosong
-    }
-
-    try {
-      // Mengambil snapshot dari koleksi 'users' di Firestore dengan filter berdasarkan field 'role' dan 'company'
-      final snapshot = await FirebaseFirestore.instance
-          .collection('users') 
-          .where('role', isEqualTo: 'customer_service')
-          .where('company', isEqualTo: company)  // Filter berdasarkan company
-          .get(); 
-
-      // Mengonversi data dokumen menjadi list objek CSModel
-      final data = snapshot.docs.map((doc) => CSModel.fromMap(doc.data())).toList();
-
-      // Mengupdate nilai csList dengan data yang sudah diambil dari Firestore
-      csList.value = data;
-    } catch (e) {
-      print('Error fetching CS data: $e');
+//GETTER UNTUK HASIL FILTER
+  List<CSModel> get filteredCsList {
+    if (searchQuery.isEmpty) {
+      return csList;
+    } else {
+      return csList
+          .where((cs) => cs.name.toLowerCase().contains(searchQuery.value))
+          .toList();
     }
   }
-  */
+
+
 }

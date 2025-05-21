@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:trusin_app/const.dart';
+import 'package:trusin_app/model/lead_list_model.dart';
 
 class InfoLead extends StatelessWidget implements PreferredSizeWidget {
-  const InfoLead({super.key});
+  final LeadModel lead;
+  const InfoLead({super.key, required this.lead});
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
@@ -16,41 +19,41 @@ class InfoLead extends StatelessWidget implements PreferredSizeWidget {
             Expanded(
               child: InfoItem(
                 label: "Nomor Telepon",
-                content: "0123456789"
+                content: lead.phone
               ),
             ),
             Expanded(
               child: InfoItem(
                 label: "Sumber",
-                content:  "WhatsApp"
+                content:  lead.source
               ),
             ),
           ],
         ),
         SizedBox(height: 15),
         Row(
-          children: const [
+          children: [
             Expanded(
               child: InfoItem(
                 label: "Alamat Email",
-                content: "yamaha@gacor.com"
+                content: lead.email
               ),
             ),
             Expanded(
               child: InfoItem(
                 label: "Dibuat Pada",
-                content: "23/06/25",
+                content: DateFormat('dd / MMM / yyyy').format(lead.createdOn),
               ),
             ),
           ],
         ),
         SizedBox(height: 15),
         Row(
-          children: const [
+          children: [
             Expanded(
               child: InfoItem(
                 label: "Alamat",
-                content: "Jonggol, Bogor"
+                content: lead.address
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
 import 'package:trusin_app/model/lead_list_model.dart';
@@ -127,7 +128,7 @@ class _CustomerList extends StatelessWidget {
                               size: 15, color: Colors.black54),
                           const SizedBox(width: 4),
                           Text(
-                            lead.reminderDate,
+                            DateFormat('dd MMM').format(lead.reminderDate),
                             style: const TextStyle(color: Colors.black54),
                           ),
                         ],
