@@ -9,6 +9,7 @@ class CSListController extends GetxController {
   // tampung data yang sudah di-stream
   var csList = <CSModel>[].obs;
   Rx<CSModel?> selectedCS = Rx<CSModel?>(null);
+  var searchQuery = ''.obs;
   // _csStream = sumber data stream-nya, yang berasal dari Firebase Firestore.
   Stream<List<CSModel>>? _csStream;
 
@@ -45,6 +46,22 @@ class CSListController extends GetxController {
   void onClose() {
     _subscription?.cancel(); // biar gak memory leak
     super.onClose();
+  }
+
+  //PENCARIAN CASE-INSENSITIVE (BUAT SEARCH BAR NAMA CS)
+  void setSearchQuery(String value) {
+    searchQuery.value = value.toLowerCase();
+  }
+
+//GETTER UNTUK HASIL FILTER
+  List<CSModel> get filteredCsList {
+    if (searchQuery.isEmpty) {
+      return csList;
+    } else {
+      return csList
+          .where((cs) => cs.name.toLowerCase().contains(searchQuery.value))
+          .toList();
+    }
   }
 
 /*

@@ -3,10 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
-import 'package:trusin_app/model/user_model.dart';
 import 'package:trusin_app/ui/supervisor/profile-supervisor/component/appbar.dart';
 import 'package:trusin_app/ui/supervisor/profile-supervisor/component/change_password_form.dart';
-import 'package:trusin_app/ui/supervisor/profile-supervisor/component/form_input.dart';
+import 'package:trusin_app/ui/supervisor/profile-supervisor/component/text_field_input.dart';
 
 class ProfileScreenSupervisor extends StatefulWidget {
   ProfileScreenSupervisor({super.key});
@@ -19,6 +18,7 @@ class ProfileScreenSupervisor extends StatefulWidget {
 class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
   bool isEditing = false;
   final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -26,24 +26,25 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
   final passwordController = TextEditingController();
 
   late final AuthController authController;
-  late final UserModel? user;
 
   @override
   void initState() {
     super.initState();
     authController = Get.find<AuthController>();
-    user = authController.currentUser.value;
+    final current = authController.currentUser.value;
 
-    if (user != null) {
-      usernameController.text = user?.username ?? '-tu';
-      emailController.text = user?.email ?? '';
-      phoneController.text = user?.phone ?? '';
-      companyController.text = user?.company ?? '';
+    if (current != null) {
+      nameController.text = current.name;
+      usernameController.text = current.username;
+      emailController.text = current.email;
+      phoneController.text = current.phone;
+      companyController.text = current.company;
     }
   }
 
   @override
   void dispose() {
+    nameController.dispose();
     usernameController.dispose();
     emailController.dispose();
     phoneController.dispose();
@@ -53,10 +54,13 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
   }
 
   void resetForm() {
-    usernameController.text = user?.username ?? '';
-    emailController.text = user?.email ?? '';
-    phoneController.text = user?.phone ?? '';
-    companyController.text = user?.company ?? '';
+    final current = authController.currentUser.value;
+
+    nameController.text = current?.name ?? '';
+    usernameController.text = current?.username ?? '';
+    emailController.text = current?.email ?? '';
+    phoneController.text = current?.phone ?? '';
+    companyController.text = current?.company ?? '';
   }
 
   @override
@@ -73,56 +77,47 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 key: _formKey,
                 child: ListView(
                   children: [
-                    // Header Avatar + Name + Role
-                    _buildHeader(),
+                    Obx(() => _buildHeader(
+                          value: authController.currentUser.value?.name ?? '',
+                          controller: nameController,
+                    )),
                     SizedBox(height: defaultPadding),
                     Text("Personal Information",
                         style: TextStyle(
                             fontSize: heading2, fontWeight: FontWeight.bold)),
                     SizedBox(height: 16),
-
-                    // Profile Fields
-                    Obx( () =>
-                      buildField(
-                        svgPath: "assets/icons/username.svg",
-                        value:authController.currentUser.value?.username ?? '',
-                        controller: usernameController,
-                      ),
-                    ),
+                    Obx(() => buildField(
+                          svgPath: "assets/icons/username.svg",
+                          value:
+                              authController.currentUser.value?.username ?? '',
+                          controller: usernameController,
+                        )),
                     SizedBox(height: 16),
-                    Obx( () =>
-                      buildField(
-                        svgPath: "assets/icons/email.svg",
-                        value:authController.currentUser.value?.email ?? '',
-                        controller: emailController,
-                      ),
-                    ),
+                    Obx(() => buildField(
+                          svgPath: "assets/icons/email.svg",
+                          value: authController.currentUser.value?.email ?? '',
+                          controller: emailController,
+                        )),
                     SizedBox(height: 16),
-                    Obx( () =>
-                      buildField(
-                        svgPath: "assets/icons/phone.svg",
-                        value:authController.currentUser.value?.phone ?? '',
-                        controller: phoneController,
-                      ),
-                    ),
+                    Obx(() => buildField(
+                          svgPath: "assets/icons/phone.svg",
+                          value: authController.currentUser.value?.phone ?? '',
+                          controller: phoneController,
+                        )),
                     SizedBox(height: 16),
-                    Obx( () =>
-                      buildField(
-                        svgPath: "assets/icons/building.svg",
-                        value:authController.currentUser.value?.company ?? '',
-                        controller: companyController,
-                      ),
-                    ),
+                    Obx(() => buildField(
+                          svgPath: "assets/icons/building.svg",
+                          value:
+                              authController.currentUser.value?.company ?? '',
+                          controller: companyController,
+                        )),
                     SizedBox(height: 16),
-                    // Password Change
                     _buildPasswordSection(context),
                     SizedBox(height: 32),
                   ],
                 ),
               ),
             ),
-
-            // Button Bawah
             isEditing ? _buildEditButtons() : _buildLogoutButton(),
           ],
         ),
@@ -130,7 +125,11 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader({
+    required String value,
+    required TextEditingController controller,
+  }) {
+    final current = authController.currentUser.value;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -145,26 +144,34 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(user?.name ?? '',
-                    style: TextStyle(
-                        fontSize: heading2, fontWeight: FontWeight.bold)),
-                Text(user?.role ?? '', style: TextStyle(fontSize: body)),
+                isEditing
+                    ? TextFieldInput(
+                        controller: controller,
+                        enabled: true,
+                      )
+                    : Text(value.isNotEmpty ? value : '-',
+                        style: TextStyle(
+                            fontSize: heading2, fontWeight: FontWeight.bold)),
+                SizedBox(height: 4),
+                Text(current?.role ?? '', style: TextStyle(fontSize: body)),
               ],
             ),
           ],
         ),
         IconButton(
-            icon: Icon(Icons.edit, color: isEditing ? primary400 : text300),
-            onPressed: () {
-              setState(() {
-                isEditing = !isEditing;
-                // reset controller.text ke data lama biar muncul di textfield
-                usernameController.text = user?.username ?? '';
-                emailController.text = user?.email ?? '';
-                phoneController.text = user?.phone ?? '';
-                companyController.text = user?.company ?? '';
-              });
-            })
+          icon: Icon(Icons.edit, color: isEditing ? primary400 : text300),
+          onPressed: () {
+            setState(() {
+              isEditing = !isEditing;
+              final current = authController.currentUser.value;
+              nameController.text = current?.name ?? '';
+              usernameController.text = current?.username ?? '';
+              emailController.text = current?.email ?? '';
+              phoneController.text = current?.phone ?? '';
+              companyController.text = current?.company ?? '';
+            });
+          },
+        )
       ],
     );
   }
@@ -287,14 +294,19 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
+              final current = authController.currentUser.value;
+
+              final nameChanged = nameController.text != (current?.name ?? '');
               final usernameChanged =
-                  usernameController.text != (user?.username ?? '');
-              final emailChanged = emailController.text != (user?.email ?? '');
-              final phoneChanged = phoneController.text != (user?.phone ?? '');
+                  usernameController.text != (current?.username ?? '');
+              final emailChanged =
+                  emailController.text != (current?.email ?? '');
+              final phoneChanged =
+                  phoneController.text != (current?.phone ?? '');
               final companyChanged =
-                  companyController.text != (user?.company ?? '');
-              // Kalau gak ada yang berubah, jangan simpan
-              if (!usernameChanged &&
+                  companyController.text != (current?.company ?? '');
+              if (!nameChanged &&
+                  !usernameChanged &&
                   !emailChanged &&
                   !phoneChanged &&
                   !companyChanged) {
@@ -303,8 +315,8 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 );
                 return;
               }
-              // Kalau ada yang berubah, tapi ada yang kosong (dan dia pengen diubah)
-              if ((usernameChanged && usernameController.text.isEmpty) ||
+              if ((nameChanged && nameController.text.isEmpty) ||
+                  (usernameChanged && usernameController.text.isEmpty) ||
                   (emailChanged && emailController.text.isEmpty) ||
                   (phoneChanged && phoneController.text.isEmpty) ||
                   (companyChanged && companyController.text.isEmpty)) {
@@ -315,8 +327,8 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 );
                 return;
               }
-              // Aman? Yaudah simpan
               authController.updateUser(
+                name: nameController.text,
                 username: usernameController.text,
                 email: emailController.text,
                 phone: phoneController.text,
@@ -330,7 +342,8 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),
-            child: Text("Simpan", style: TextStyle(fontSize: heading3, color: Colors.white)),
+            child: Text("Simpan",
+                style: TextStyle(fontSize: heading3, color: Colors.white)),
           ),
         ),
       ],
@@ -342,12 +355,8 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
       children: [
         Expanded(
           child: ElevatedButton(
-            // onPressed: () => authController.logout(),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => ProfileScreenSupervisor()),
-              );
+              authController.logout();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,

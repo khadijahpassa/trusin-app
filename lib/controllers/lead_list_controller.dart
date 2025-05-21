@@ -5,10 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trusin_app/model/lead_list_model.dart';
 
 class LeadListController extends GetxController {
+  final FirebaseFirestore _firestore =
+      FirebaseFirestore.instance; // untuk push ke firestore
+  var selectedLead = Rxn<LeadModel>();
   var leadList = <LeadModel>[].obs;
-  Stream<List<LeadModel>>? _csStream;
+  // Stream<List<LeadModel>>? _csStream;
 
-  StreamSubscription? _subscription;
+  // StreamSubscription? _subscription;
   // RxList<LeadModel> leadListStatus = <LeadModel>[].obs;
   var statusCount = <String, int>{
     'New Customer': 0,
@@ -18,25 +21,39 @@ class LeadListController extends GetxController {
     'Rejected': 0,
   }.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    fetchLeads();
+  }
 
+  Future<void> fetchLeads() async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance.collection('customers').get();
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   fetchLeads();
-  // }
+      leadList.value = snapshot.docs
+          .map((doc) => LeadModel.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
 
-  // //FETCH DATA DARI FIRESTORE
-  // Future<void> fetchLeads() async {
-  //   final snapshot = await FirebaseFirestore.instance
-  //       .collection('customers')
-  //       .get();
-  //   leadList.value = snapshot.docs
-  //       .map((doc) => LeadModel.fromMap(doc.data() as Map<String, dynamic>))
-  //       .toList();
+      print("DATA LEAD DITEMUKAN: ${leadList.value.length}");
+    } catch (e) {
+      print("🔥 ERROR DI FETCH LEADS: $e");
+    }
+  }
 
-  //   print("DATA LEAD DITEMUKAN: ${leadList.length}");
-  // }
+//buat etch lead secara reactive (tujuannya untuk nampilin date yang habis dipilih di caleder)
+  void streamLeadById(String id) {
+    FirebaseFirestore.instance
+        .collection('customers')
+        .doc(id)
+        .snapshots()
+        .listen((doc) {
+      if (doc.exists) {
+        selectedLead.value = LeadModel.fromMap(doc.data()!);
+      }
+    });
+  }
 
   // Buat widget Data: hitung status per CS
   Future<Map<String, int>> getStatusCountByCS(String csId) async {
@@ -75,5 +92,25 @@ class LeadListController extends GetxController {
     }
   }
 
-  
+  //buat push ke firestore untuk reminderDate
+  Future<void> updateReminder(
+      String leadId, DateTime reminderDate, String reminderCategory) async {
+    try {
+      await _firestore.collection('customers').doc(leadId).update({
+        'reminderDate': reminderDate,
+        'reminderCategory': reminderCategory,
+      });
+      print('Reminder updated!');
+    } catch (e) {
+      print('Error update reminder: $e');
+      throw e;
+    }
+  }
+
+  // Future<DocumentSnapshot> getLeadById(String leadId) async {
+  //   return await FirebaseFirestore.instance
+  //       .collection('customers')
+  //       .doc(leadId)
+  //       .get();
+  // }
 }

@@ -182,8 +182,19 @@ class AuthController extends GetxController {
           data['company']; // Ambil company dari data supervisor
     }
   }
+//buat logout dan diarahin ke login screen
+  void logout() async {
+  try {
+    await _auth.signOut(); 
+    currentUser.value = null;
+    Get.offAllNamed('/login');
+  } catch (e) {
+    Get.snackbar('Error', 'Gagal logout: $e');
+  }
+}
 
   Future<void> updateUser({
+    required String name,
     required String username,
     required String email,
     required String phone,
@@ -194,6 +205,7 @@ class AuthController extends GetxController {
       if (uid == null) throw Exception('User belum login');
 
       final updatedData = {
+        'name': name,
         'username': username,
         'email': email,
         'phone': phone,
@@ -207,6 +219,7 @@ class AuthController extends GetxController {
 
       // 🔥 Update juga currentUser biar UI langsung reflect
       currentUser.value = currentUser.value!.copyWith(
+        name: name,
         username: username,
         email: email,
         phone: phone,

@@ -84,17 +84,12 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
     }
   }
 
-  // void _showSnackbar(String message) {
-  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
-  // }
-
   void _showSnackbar(String title, String message) {
   Get.snackbar(
     title,
     message,
   );
 }
-
 
   @override
   Widget build(BuildContext context) {
