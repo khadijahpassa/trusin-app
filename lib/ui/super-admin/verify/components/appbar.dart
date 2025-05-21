@@ -18,7 +18,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
       backgroundColor: Colors.white,
       title: Center(
         child: Text(
-          'Verify Super Admin',
+          'Kelola Pendaftaran',
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,

@@ -45,7 +45,7 @@ class RequestCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Tombol Hubungi
-                Expanded(child: HubungiButton()),
+                Expanded(child: HubungiButton(data: data,)),
                 SizedBox(width: 10),
                 // Tombol Terima
                 Expanded(child: TerimaButton(requestId: data.id))

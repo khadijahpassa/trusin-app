@@ -5,10 +5,10 @@ import 'package:trusin_app/model/company_request.dart';
 class VerifyController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
-  var requestList = <CompanyRequest>[].obs; // status pending
-  var selectedStatuses = <String, String>{}.obs;
+  var requestList = <CompanyRequest>[].obs; // status pending/rejected
   var approvedCompanies = <CompanyRequest>[].obs; // status approved
-  var selectedActionStatus = <String, String>{}.obs; // untuk simpan status yg dipilih per company
+  var selectedStatuses = <String, String>{}.obs; // untuk dropdown filter
+  var selectedActionStatus = <String, String>{}.obs; // untuk simpan status company yg dipilih
 
 
   @override
@@ -34,7 +34,6 @@ class VerifyController extends GetxController {
         .toList();
 
     requestList.value = requests;
-    print('🌀 FETCHED REQUESTS: ${requests.length}');
   });
 }
 
@@ -74,14 +73,14 @@ class VerifyController extends GetxController {
 
   // NGEPUSH DI FIREBASE
   Future<void> submitStatusChange(String id, String newStatus) async {
-  await _firestore.collection('users').doc(id).update({
-    'status': newStatus,
-  });
+    await _firestore.collection('users').doc(id).update({
+      'status': newStatus,
+    });
 
-   print('🔥 Status $id updated to $newStatus');
+    print('🔥 Status $id updated to $newStatus');
 
-  // Refresh ulang semua list
-  fetchRequests();            
-  fetchApprovedCompanies();   
-}
+    // Refresh ulang semua list
+    fetchRequests();            
+    fetchApprovedCompanies();   
+  }
 }
