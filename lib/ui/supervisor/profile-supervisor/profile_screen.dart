@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
-import 'package:trusin_app/model/user_model.dart';
+import 'package:trusin_app/models/user_model.dart';
 import 'package:trusin_app/ui/supervisor/profile-supervisor/component/appbar.dart';
 import 'package:trusin_app/ui/supervisor/profile-supervisor/component/change_password_form.dart';
 import 'package:trusin_app/ui/supervisor/profile-supervisor/component/form_input.dart';

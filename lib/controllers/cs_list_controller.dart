@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
-import 'package:trusin_app/model/cs_list_model.dart';
+import 'package:trusin_app/models/cs_list_model.dart';
 
 class CSListController extends GetxController {
   // tampung data yang sudah di-stream

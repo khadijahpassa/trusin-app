@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/model/cs_list_model.dart';
+import 'package:trusin_app/models/cs_list_model.dart';
 
 class ProfileCs extends StatelessWidget implements PreferredSizeWidget {
   final CSModel cs;

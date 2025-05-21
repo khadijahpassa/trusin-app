@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/cs_list_controller.dart';
-import 'package:trusin_app/model/cs_list_model.dart';
+import 'package:trusin_app/models/cs_list_model.dart';
 import 'package:trusin_app/ui/supervisor/detail-cs-supervisor/components/app_bar.dart';
 import 'package:trusin_app/ui/supervisor/detail-cs-supervisor/components/data.dart';
 import 'package:trusin_app/ui/supervisor/detail-cs-supervisor/components/info_cs.dart';

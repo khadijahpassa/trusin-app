@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
 import 'package:trusin_app/controllers/cs_list_controller.dart';
-import 'package:trusin_app/model/cs_list_model.dart';
+import 'package:trusin_app/models/cs_list_model.dart';
 
 class ProgressCS extends StatelessWidget {
   ProgressCS({super.key});
@@ -13,7 +13,6 @@ class ProgressCS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final company = authController.currentCompany.value;
 
     // Ini buat manggil sekali aja setelah widget muncul
     WidgetsBinding.instance.addPostFrameCallback((_) {

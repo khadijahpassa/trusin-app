@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:trusin_app/model/lead_list_model.dart';
+import 'package:trusin_app/models/lead_list_model.dart';
 
 class LeadListController extends GetxController {
   var leadList = <LeadModel>[].obs;

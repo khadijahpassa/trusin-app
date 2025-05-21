@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/ui/super-admin/companies/companies_superadmin.dart';
-import 'package:trusin_app/ui/super-admin/dashboard-superadmin/dashboard_superadmin.dart';
-import 'package:trusin_app/ui/super-admin/notification-superadmin/notification_superadmin.dart';
-import 'package:trusin_app/ui/super-admin/verify/verify_superadmin.dart';
+import 'package:trusin_app/ui/customer-services/dashboard-cs/cs_screen.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
 
-class BottomNavbar extends StatefulWidget {
-  const BottomNavbar({super.key});
+class BottomNavbarCS extends StatefulWidget {
+  const BottomNavbarCS({super.key});
 
   @override
-  State<BottomNavbar> createState() => _BottomNavbarState();
+  State<BottomNavbarCS> createState() => _BottomNavbarCSState();
 }
 
-class _BottomNavbarState extends State<BottomNavbar> {
+class _BottomNavbarCSState extends State<BottomNavbarCS> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -24,19 +23,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
     switch (index) {
       case 0:
         Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => NotificationSuperadmin()));
+        (context) => DashboardCsScreen()));
         break;
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => VerifySuperadmin()));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => NotificationSuperadmin()));
-        break;
-      case 3:
-        Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => CompaniesSuperadmin()));
+        (context) => QuotationHomeScreen()));
         break;
     }
   } 
@@ -44,15 +35,13 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double itemWidth = screenWidth / 4; // Karena ada 4 item
+    double itemWidth = screenWidth / 2; // Karena ada 4 item
     return Scaffold(
       body: IndexedStack(
       index: _selectedIndex,
       children: [
-        DashboardSuperadmin(),
-        VerifySuperadmin(),
-        CompaniesSuperadmin(),
-        NotificationSuperadmin(),
+        DashboardCsScreen(),
+        QuotationHomeScreen(),
         // Tambahkan halaman lain sesuai kebutuhan
       ],
     ),
@@ -81,24 +70,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'assets/icons/check.svg',
+                  'assets/icons/quotation.svg',
                   colorFilter: ColorFilter.mode( _selectedIndex == 1 ? primary500 : Colors.grey, BlendMode.srcIn),
                 ),
-                label: 'Verify'
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/building.svg',
-                  colorFilter: ColorFilter.mode( _selectedIndex == 2 ? primary500 : Colors.grey, BlendMode.srcIn),
-                ),
-                label: 'Companies'
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/notification.svg',
-                  colorFilter: ColorFilter.mode( _selectedIndex == 3 ? primary500 : Colors.grey, BlendMode.srcIn),
-                ),
-                label: 'Notification'
+                label: 'Quotation'
               ),
             ]
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/model/company_request.dart';
+import 'package:trusin_app/models/company_request.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HubungiButton extends StatelessWidget {
