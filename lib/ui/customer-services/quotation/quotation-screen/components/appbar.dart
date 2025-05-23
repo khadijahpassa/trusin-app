@@ -21,12 +21,13 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
         },
       ),
       title: Text(
-        "Quotation",
+        "Buat Quotation",
         style: TextStyle(
           fontSize: heading3,
           fontWeight: FontWeight.w700
         ),
       ),
     );
+    
   }
 }

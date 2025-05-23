@@ -20,7 +20,7 @@ class ToInput extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Untuk (Opsional)",
+            "Untuk",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -29,7 +29,7 @@ class ToInput extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           buildTextField(
-            label: "Nama Perusahaan atau Website",
+            label: "Nama Perusahaan atau Website (Opsional)",
             controller: controller.toCompany,
             
           ),
