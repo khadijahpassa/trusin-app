@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:trusin_app/model/company_request.dart';
+import 'package:trusin_app/models/company_request.dart';
 
 class VerifyController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

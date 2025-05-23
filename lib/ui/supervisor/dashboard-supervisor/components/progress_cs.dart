@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/controllers/auth_controller.dart';
 import 'package:trusin_app/controllers/cs_list_controller.dart';
+import 'package:trusin_app/models/cs_list_model.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
-import 'package:trusin_app/model/cs_list_model.dart';
 
 class ProgressCS extends StatelessWidget {
   final csData = Get.find<CSListController>();
   final csListController = Get.find<CSListController>();
-  final authController = Get.find<AuthController>();
   final leadController = Get.find<LeadListController>();
 
   ProgressCS({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    // Ini buat manggil sekali aja setelah widget muncul
     WidgetsBinding.instance.addPostFrameCallback((_) {
       csListController;
     });
@@ -70,7 +70,7 @@ class ProgressCS extends StatelessWidget {
                             }
                             if (snapshot.hasError || !snapshot.hasData) {
                               return _buildCSCard(
-                                  context, cs, "Gagal load data", "ini avatar");
+                                  context, cs, "Gagal load data", 'assets/images/customer_service.png');
                             }
 
                             final data = snapshot.data!;
@@ -80,7 +80,7 @@ class ProgressCS extends StatelessWidget {
                                 "$newCount New Customer | $wonCount Won";
 
                             return _buildCSCard(
-                                context, cs, statusInfo, "ini avatar");
+                                context, cs, statusInfo, 'assets/images/customer_service.png');
                           },
                         );
                       },

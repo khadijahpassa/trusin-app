@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
-import 'package:trusin_app/model/lead_list_model.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/calendar.dart';
 
 class Date extends StatelessWidget {

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:trusin_app/const.dart';
+import 'package:trusin_app/controllers/cs_list_controller.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
-import 'package:trusin_app/model/lead_list_model.dart';
+import 'package:trusin_app/models/cs_list_model.dart';
+import 'package:trusin_app/models/lead_list_model.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/detail_lead_screen.dart';
 
 class ProgressLeads extends StatelessWidget {
@@ -20,13 +22,14 @@ class ProgressLeads extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CSModel? cs = Get.find<CSListController>().selectedCS.value;
     return DefaultTabController(
       length: statusList.length,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Progress CS Hajjah",
+          Text(
+            "Progress CS ${cs?.name ?? '-'}",
             style: TextStyle(fontSize: heading3, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
@@ -52,7 +55,6 @@ class ProgressLeads extends StatelessWidget {
     );
   }
 }
-
 
 class _CustomerList extends StatelessWidget {
   final String status;
@@ -85,7 +87,7 @@ class _CustomerList extends StatelessWidget {
           itemBuilder: (context, index) {
             final lead = leads[index];
             return GestureDetector(
-              onTap: () {
+              onTap: () async {
                 Get.to(() => DetailLeadScreen(), arguments: lead);
               },
               child: Container(

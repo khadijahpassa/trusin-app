@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:trusin_app/model/company_request.dart';
+import 'package:trusin_app/models/company_request.dart';
 
 class FirebaseService {
   final _collection = FirebaseFirestore.instance.collection('companyRequests');

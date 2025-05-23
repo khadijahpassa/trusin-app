@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/model/company_request.dart';
+import 'package:trusin_app/models/company_request.dart';
 
 class CompanyDetailScreen extends StatelessWidget {
   final CompanyRequest data;

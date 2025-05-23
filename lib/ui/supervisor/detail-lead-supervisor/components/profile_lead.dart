@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
-import 'package:trusin_app/model/lead_list_model.dart';
 
 class ProfileLead extends StatelessWidget implements PreferredSizeWidget {
   final String leadId;
@@ -28,9 +28,14 @@ class ProfileLead extends StatelessWidget implements PreferredSizeWidget {
 
       return Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 25,
-            backgroundImage: AssetImage('assets/images/role_cs.png'),
+            backgroundColor: lightBlue,
+            child: SvgPicture.asset(
+              'assets/icons/customer.svg',
+              width: 30,
+              height: 30,
+            ),
           ),
           const SizedBox(width: 10),
           Column(

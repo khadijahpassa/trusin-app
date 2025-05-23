@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/model/lead_list_model.dart';
+import 'package:trusin_app/models/lead_list_model.dart';
 
 class InfoLead extends StatelessWidget implements PreferredSizeWidget {
   final LeadModel lead;

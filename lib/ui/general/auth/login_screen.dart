@@ -86,7 +86,6 @@ class LoginScreen extends StatelessWidget {
                                   authController.login(
                                     usernameController.text,
                                     passwordController.text,
-                                    
                                   );
                                 },
                     ),
@@ -119,8 +118,8 @@ class LoginScreen extends StatelessWidget {
               // Navigasi setelah login berhasil
               Obx(() {
                 if (authController.authState.value == AuthState.authenticated) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) async {
-                    await authController.fetchCurrentUserData(); //untuk data itu diambil dan bisa ditampilkan di UI
+                  Future.microtask(() async {
+                    await authController.fetchCurrentUserData();
                     final role = authController.currentRole.value;
                     if (role == 'superadmin') {
                       Get.offAllNamed('/superadmin-home');
@@ -131,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                     }
                   });
                 }
-                return SizedBox.shrink(); // Menunggu navigasi
+                return SizedBox.shrink();
               }),
             ],
           ),

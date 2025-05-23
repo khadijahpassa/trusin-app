@@ -1,13 +1,9 @@
-// Tambahan import kalau mau pake icon dropdown (opsional)
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
-import 'package:trusin_app/ui/state-management/date_provider.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/time_picker.dart';
 
 class Calendar extends StatefulWidget {
