@@ -82,8 +82,8 @@ class _BodyState extends State<Body> {
                   const SizedBox(width: 10),
                   _buildButton(
                     label: currentPage == onboardingData.length - 1
-                        ? "Start"
-                        : "Next",
+                        ? "Mulai"
+                        : "Selanjutnya",
                     backgroundColor: primary400,
                     textColor: Colors.white,
                     onPressed: () {
