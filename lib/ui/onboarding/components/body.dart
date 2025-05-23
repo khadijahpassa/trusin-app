@@ -12,10 +12,9 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int currentPage = 0;
-
   final PageController _pageController = PageController();
 
-  List<Map<String, String>> onboardingData = [
+  static const List<Map<String, String>> onboardingData = [
     {
       "text": "Pantau & Atur Penjualan Tanpa Ribet!",
       "image": "assets/images/onboarding_1.png",
@@ -35,6 +34,7 @@ class _BodyState extends State<Body> {
           "Pantau setiap peluang dan tindak lanjuti dengan tepat waktu, biar penjualan makin lancar!"
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,83 +45,99 @@ class _BodyState extends State<Body> {
           children: [
             Expanded(
               flex: 3,
-              child: SizedBox(
-                  width: double.infinity,
-                  child: PageView.builder(
-                      controller: _pageController,
-                      onPageChanged: (value) {
-                        setState(() {
-                          currentPage = value;
-                        });
-                      },
-                      itemCount: onboardingData.length,
-                      // itembuilder: ngebuat jembatan (jembatan antara UI dan data)
-                      itemBuilder: (context, index) => OnboardingContent(
-                          text: onboardingData[index]["text"]!,
-                          image: onboardingData[index]["image"]!,
-                          description: onboardingData[index]["description"]!))),
-
-              // safearea: biar gak nutupin sama sistem
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: onboardingData.length,
+                onPageChanged: (value) {
+                  setState(() {
+                    currentPage = value;
+                  });
+                },
+                itemBuilder: (context, index) => OnboardingContent(
+                  text: onboardingData[index]["text"]!,
+                  image: onboardingData[index]["image"]!,
+                  description: onboardingData[index]["description"]!,
+                ),
+              ),
             ),
-            // buat bikin dots indicator
-            // biar gaada blank space,untuk jadiin widget kita bisa memanfaatkan ruang kosong yg ada
             Expanded(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // list.generate : buat ngehasilin sejumlah widet dots sesuai dengan panjang splashdata
-              children: List.generate(
-                  // bikin method extraction, kita pake index lagi, biar dimulai dari 0 lagi
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
                   onboardingData.length,
-                  (index) => _dotsIndicator(index: index)),
-            )),
+                  (index) => _dotsIndicator(index: index),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: SizedBox(
-                width: double.infinity,
-                // elevatedbutton: paling normal, belum ada styling jadi bisa dikasih styling
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primary400,
-                    ),
-                    //representasi dari function kosongan (jadi kita mau isi nanti)
-                    //onPressed: action waktu user mau click button
+              child: Row(
+                children: [
+                  _buildButton(
+                    label: "Lewati",
+                    backgroundColor: secondary300,
+                    textColor: text500,
+                    onPressed: () => Get.toNamed('/login'),
+                  ),
+                  const SizedBox(width: 10),
+                  _buildButton(
+                    label: currentPage == onboardingData.length - 1
+                        ? "Start"
+                        : "Next",
+                    backgroundColor: primary400,
+                    textColor: Colors.white,
                     onPressed: () {
-                      // ketika currentpage nya = splash data, array itu mempresentasikan data. -1 karena dia index
                       if (currentPage == onboardingData.length - 1) {
-                        // kode yang digunakan untuk berpindah antar halaman
                         Get.toNamed('/login');
                       } else {
-                        //ini untuk swipe ke slide berikutnya, jadi kalau belum sampe slide akhir, buttonnya itu bakal menggerakkan ke halaman berikutnya dengan animatetopage
-                        _pageController.animateToPage(currentPage + 1,
-                            duration: animationDuration, curve: Curves.ease);
+                        _pageController.nextPage(
+                          duration: animationDuration,
+                          curve: Curves.ease,
+                        );
                       }
                     },
-                    child: Text(
-                      currentPage == onboardingData.length - 1 ? "Start" : "Next",
-                      style: const TextStyle(color: Colors.white),
-                    )),
+                  ),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
-AnimatedContainer _dotsIndicator({required int index}) {
-    
-    return AnimatedContainer(
-      margin: const EdgeInsets.only(right: 10),
-      // decor dots indicator
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        // ini if else untuk perubahan warna dots indicatornya
-        color: currentPage == index ? primary400 : lightBlue,
+
+  Widget _buildButton({
+    required String label,
+    required VoidCallback onPressed,
+    required Color backgroundColor,
+    required Color textColor,
+  }) {
+    return Expanded(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(8), 
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(label, style: TextStyle(color: textColor)),
       ),
-      // kalau di halaman yg aktif, widthnya bakal 20 sama warnanya bakal primary, kalau gak aktif widthnya 10 sama colornya abuabu
-      width: currentPage == index ? 20 : 10,
-      height: 10,
-      duration: animationDuration,
     );
   }
 
+  AnimatedContainer _dotsIndicator({required int index}) {
+    return AnimatedContainer(
+      margin: const EdgeInsets.only(right: 10),
+      width: currentPage == index ? 20 : 10,
+      height: 10,
+      duration: animationDuration,
+      decoration: BoxDecoration(
+        color: currentPage == index ? primary400 : lightBlue,
+        borderRadius: BorderRadius.circular(5),
+      ),
+    );
+  }
 }

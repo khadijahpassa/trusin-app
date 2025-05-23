@@ -13,7 +13,6 @@ import 'package:trusin_app/controllers/register_supervisor_controller.dart';
 import 'package:trusin_app/controllers/verify_controller.dart';
 import 'package:trusin_app/firebase_options.dart';
 import 'package:trusin_app/ui/customer-services/dashboard-cs/components/bottom_navbar_cs.dart';
-import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
 import 'package:trusin_app/ui/general/auth/cs/register_screen_cs.dart';
 import 'package:trusin_app/ui/general/auth/forgot_password_screen.dart';
 import 'package:trusin_app/ui/general/auth/login_screen.dart';
@@ -69,6 +68,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',  // Route pertama yang dibuka
       getPages: [
+     
         GetPage(name: '/', page: ()=> OnboardingScreen()),
         GetPage(name: '/login', page: ()=> LoginScreen()),
         GetPage(name: '/forgot-password', page: ()=> ForgotPasswordScreen()),
