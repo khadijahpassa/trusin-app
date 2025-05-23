@@ -8,7 +8,6 @@ import 'package:trusin_app/const.dart';
 
 class ProductList extends StatelessWidget {
   final String quotationId;
-   // tambahkan ini
 
   ProductList({Key? key, required this.quotationId}) : super(key: key);
 

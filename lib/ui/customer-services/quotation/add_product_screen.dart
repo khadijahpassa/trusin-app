@@ -65,7 +65,7 @@ class AddProductScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.symmetric(
-                    vertical: 20, horizontal: 32), // Padding
+                    vertical: 10, horizontal: 22),
               ),
               child: Text(
                 "Tambah Produk",

@@ -20,7 +20,7 @@ class ToInput extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Untuk",
+            "Untuk (Opsional)",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -31,31 +31,18 @@ class ToInput extends StatelessWidget {
           buildTextField(
             label: "Nama Perusahaan atau Website",
             controller: controller.toCompany,
-            validator: (value) {
-              if (value == null || value.isEmpty)
-                return 'Nama Perusahaan gak boleh kosong';
-              return null;
-            },
+            
           ),
           buildTextField(
             label: "Nama Pembeli",
             controller: controller.toSeller,
-            validator: (value) {
-              if (value == null || value.isEmpty)
-                return 'Alamat gak boleh kosong';
-              return null;
-            },
+            
           ),
           buildTextField(
             label: "Nomor Telepon",
             controller: controller.toNumber,
             keyboardType: TextInputType.phone,
-            validator: (value) {
-              if (value == null || value.isEmpty)
-                return 'Nomor Telepon gak boleh kosong';
-              if (!RegExp(r'^[0-9]+$').hasMatch(value)) return 'Isi dengan angka';
-              return null;
-            },
+            
           ),
         ],
       ),

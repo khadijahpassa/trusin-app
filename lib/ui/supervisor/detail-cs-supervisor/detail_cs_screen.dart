@@ -20,13 +20,11 @@ class _DetailCsScreenState extends State<DetailCsScreen> {
   @override
   Widget build(BuildContext context) {
     final CSModel? cs = Get.find<CSListController>().selectedCS.value;
-    // final cs = Get.arguments;
     if (cs == null) {
       return Scaffold(
         body: Center(child: Text('Data CS tidak ditemukan')),
       );
     }
-    final CSModel csModel = cs as CSModel;
     return Scaffold(
       appBar: Appbar(),
       backgroundColor: secondary100,
@@ -50,10 +48,9 @@ class _DetailCsScreenState extends State<DetailCsScreen> {
             SizedBox(height: 25),
             Data(csId: cs.id),
             SizedBox(height: 30),
-            Expanded(
-                child: ProgressLeads(
-              csId: cs.id,
-            ))
+            Flexible(
+                child: ProgressLeads(csId: cs.id)
+            )
           ],
         ),
       ),

@@ -4,14 +4,14 @@ import 'package:trusin_app/const.dart';
 
 class TextFieldInput extends StatelessWidget {
   final bool enabled;
-  final String svgIconPath;
+  final String? svgIconPath;
   final TextEditingController? controller;
 
   const TextFieldInput({
     super.key,
-    required this.svgIconPath, // ← SVG icon path
+    this.svgIconPath,
     this.enabled = true,
-    this.controller, 
+    required this.controller,
   });
 
   @override
@@ -19,7 +19,6 @@ class TextFieldInput extends StatelessWidget {
     return TextFormField(
       enabled: enabled,
       controller: controller,
-          
       decoration: InputDecoration(
         filled: true,
         fillColor: secondary100,
@@ -35,18 +34,18 @@ class TextFieldInput extends StatelessWidget {
         ),
 
         // ⬅️ Icon kiri (SVG)
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: SvgPicture.asset(
-            svgIconPath,
-            width: 24,
-            height: 24,
-            fit: BoxFit.contain,
-            color: primary500,
-          ),
-        ),
-
-   
+        prefixIcon: svgIconPath != null
+            ? Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: SvgPicture.asset(
+                  svgIconPath!, // pake tanda seru karena kita udah yakin di atas dia gak null
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.contain,
+                  color: primary500,
+                ),
+              )
+            : SizedBox.shrink(), // kalau null, tampilkan widget kosong
       ),
     );
   }

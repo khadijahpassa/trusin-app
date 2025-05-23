@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/ui/customer-services/add-lead-cs/components/dropdown_lead.dart';
+import 'package:trusin_app/ui/customer-services/add-lead-cs/components/date.dart';
 import 'package:trusin_app/ui/customer-services/add-lead-cs/components/dropdown_status.dart';
 import 'package:trusin_app/ui/customer-services/add-lead-cs/components/input_lead.dart';
 import 'package:trusin_app/ui/customer-services/add-lead-cs/components/label.dart';
+import 'package:intl/intl.dart';
 
 class AddNewLead extends StatefulWidget {
   const AddNewLead({super.key});
@@ -25,8 +27,8 @@ class _AddNewLeadState extends State<AddNewLead> {
   final TextEditingController _reminderDateController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
 
-  String? selectedCs;
   String? selectedStatus;
+  final String? currentUid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   void dispose() {
@@ -40,17 +42,46 @@ class _AddNewLeadState extends State<AddNewLead> {
     super.dispose();
   }
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      controller.text = picked.toIso8601String().split('T')[0];
+  DateTime? _parseDateTime(String input) {
+    try {
+      return DateFormat('dd-MM-yyyy HH:mm').parseStrict(input);
+    } catch (e) {
+      return null;
     }
   }
+
+  Future<void> _showDateDialog(
+    TextEditingController controller, String label) async {
+  final result = await showDialog(
+    context: context,
+    builder: (context) => const Date(),
+  );
+
+  if (result != null) {
+    final selectedDate = result['selectedDate'] as DateTime;
+    final selectedTime = result['selectedTime'] as TimeOfDay;
+    final selectedCategory = result['selectedCategory'] as String;
+
+    // Konversi TimeOfDay ke DateTime
+    final fullDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+
+    // Format jadi 'dd-MM-yyyy HH:mm'
+    final formatted = DateFormat('dd-MM-yyyy HH:mm').format(fullDateTime);
+
+    setState(() {
+      controller.text = formatted;
+    });
+
+    print('Kategori $label: $selectedCategory');
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,35 +106,26 @@ class _AddNewLeadState extends State<AddNewLead> {
                   LabelForm(label: 'Title'),
                   LeadTextField(
                     controller: _titleController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Nama product wajib diisi';
-                      }
-                      return null;
-                    },
+                    validator: (value) =>
+                        value == null || value.isEmpty ? 'Nama product wajib diisi' : null,
                   ),
                   LabelForm(label: 'Customer'),
                   LeadTextField(
                     controller: _customerController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Nama customer wajib diisi';
-                      }
-                      return null;
-                    },
+                    validator: (value) =>
+                        value == null || value.isEmpty ? 'Nama customer wajib diisi' : null,
                   ),
                   LabelForm(label: 'No Telepon'),
                   LeadTextField(
                     controller: _phoneController,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'No Telepon wajib diisi';
-                      }
-                      if (!RegExp(r'^\d+$').hasMatch(value)) {
-                        return 'Nomor telepon hanya boleh angka';
-                      }
-                      if (value.length < 10 || value.length > 15) {
-                        return 'Nomor telepon harus 10-15 digit';
+                      if (value != null && value.isNotEmpty) {
+                        if (!RegExp(r'^\d+$').hasMatch(value)) {
+                          return 'Nomor telepon hanya boleh angka';
+                        }
+                        if (value.length < 10 || value.length > 15) {
+                          return 'Nomor telepon harus 10-15 digit';
+                        }
                       }
                       return null;
                     },
@@ -112,12 +134,11 @@ class _AddNewLeadState extends State<AddNewLead> {
                   LeadTextField(
                     controller: _emailController,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email wajib diisi';
-                      }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                          .hasMatch(value)) {
-                        return 'Format email salah';
+                      if (value != null && value.isNotEmpty) {
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Format email salah';
+                        }
                       }
                       return null;
                     },
@@ -126,40 +147,32 @@ class _AddNewLeadState extends State<AddNewLead> {
                   LeadTextField(controller: _addressController),
                   LabelForm(label: 'Sumber'),
                   LeadTextField(controller: _sourceController),
+
                   LabelForm(label: 'Dibuat Pada'),
                   const SizedBox(height: 5),
                   GestureDetector(
-                    onTap: () => _selectDate(context, _createdOnController),
+                    onTap: () => _showDateDialog(_createdOnController, 'dibuat'),
                     child: AbsorbPointer(
                       child: LeadTextField(
                         controller: _createdOnController,
+                        validator: (value) =>
+                            value == null || value.isEmpty ? 'Tanggal wajib diisi' : null,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  LabelForm(label: 'Nama CS'),
-                  const SizedBox(height: 5),
-                  CustomDropdownField(
-                    label: 'Nama CS',
-                    items: ['Hajjah Mecca', 'Ustad Burhan', 'Kang Dadang'],
-                    value: selectedCs,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedCs = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 5),
+
                   LabelForm(label: 'Jadwalkan Pengingat'),
                   const SizedBox(height: 5),
                   GestureDetector(
-                    onTap: () => _selectDate(context, _reminderDateController),
+                    onTap: () => _showDateDialog(_reminderDateController, 'pengingat'),
                     child: AbsorbPointer(
                       child: LeadTextField(
                         controller: _reminderDateController,
+                        validator: (value) => null,
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 5),
                   LabelForm(label: 'Status'),
                   StatusDropdown(
@@ -179,21 +192,31 @@ class _AddNewLeadState extends State<AddNewLead> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 try {
+                  final csDoc = await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(currentUid)
+                      .get();
+
+                  final companyName = csDoc.data()?['company'] ?? 'Unknown';
+
+                  final createdOn = _parseDateTime(_createdOnController.text.trim());
+                  final reminderDate = _parseDateTime(_reminderDateController.text.trim());
+
+                  if (createdOn == null) {
+                    throw Exception('Format tanggal "Dibuat Pada" tidak valid');
+                  }
+
                   await FirebaseFirestore.instance.collection('customers').add({
                     'name': _customerController.text.trim(),
                     'phone': _phoneController.text.trim(),
                     'address': _addressController.text.trim(),
                     'email': _emailController.text.trim(),
                     'source': _sourceController.text.trim(),
-                    'createdOn': _createdOnController.text.isNotEmpty
-                        ? Timestamp.fromDate(
-                            DateTime.parse(_createdOnController.text.trim()))
-                        : Timestamp.now(),
-                    'reminderDate': _reminderDateController.text.isNotEmpty
-                        ? Timestamp.fromDate(
-                            DateTime.parse(_reminderDateController.text.trim()))
-                        : null,
-                    'createdBy': selectedCs ?? 'Unknown',
+                    'createdOn': Timestamp.fromDate(createdOn),
+                    'reminderDate':
+                        reminderDate != null ? Timestamp.fromDate(reminderDate) : null,
+                    'createdBy': currentUid ?? 'Unknown',
+                    'companyName': companyName,
                     'status': selectedStatus ?? 'New Customer',
                     'title': _titleController.text.trim(),
                   });
@@ -202,7 +225,6 @@ class _AddNewLeadState extends State<AddNewLead> {
                     const SnackBar(content: Text('Lead berhasil ditambahkan!')),
                   );
 
-                  // Reset form
                   _customerController.clear();
                   _phoneController.clear();
                   _emailController.clear();
@@ -212,19 +234,11 @@ class _AddNewLeadState extends State<AddNewLead> {
                   _reminderDateController.clear();
                   _titleController.clear();
                   setState(() {
-                    selectedCs = null;
                     selectedStatus = null;
                   });
                 } catch (e) {
-                  String errorMessage = 'Gagal menambahkan lead.';
-                  if (e is FirebaseException) {
-                    errorMessage = e.message ?? errorMessage;
-                  } else {
-                    errorMessage = e.toString();
-                  }
-
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(errorMessage)),
+                    SnackBar(content: Text(e.toString())),
                   );
                 }
               }

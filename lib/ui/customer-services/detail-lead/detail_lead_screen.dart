@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/models/lead_model.dart';
+import 'package:get/get.dart';
+import 'package:trusin_app/models/lead_list_model.dart';
 import 'package:trusin_app/ui/customer-services/detail-lead/components/activity_list.dart';
 import 'package:trusin_app/ui/customer-services/detail-lead/components/date.dart';
 import 'package:trusin_app/ui/customer-services/detail-lead/components/info_lead.dart';
@@ -14,6 +15,7 @@ class DetailLeadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LeadModel lead = Get.arguments as LeadModel;
     return Scaffold(
       appBar: AppBar(title: Text(lead.name)),
       backgroundColor: secondary100,
@@ -43,7 +45,7 @@ class DetailLeadScreen extends StatelessWidget {
                   SizedBox(width: 5),
                   SizedBox(
                     width: 170,
-                    child: Date(),
+                    child: Date(leadId: lead.id),
                   )
                 ],
               ),

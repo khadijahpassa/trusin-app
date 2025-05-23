@@ -19,13 +19,11 @@ class LogoPicker extends StatelessWidget {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      controller.logoImage.value = File(image.path); // <-- ini sudah benar
+      controller.logoImage.value = File(image.path);
     }
   }
 
-  // Hapus baris ini, karena tidak boleh di luar method atau constructor:
-  // controller.logoImage.value = pickedImage;
-
+  
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -48,10 +46,11 @@ class LogoPicker extends StatelessWidget {
                       'assets/icons/input-img.svg',
                       fit: BoxFit.contain,
                       height: 30,
+                     
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "Upload Gambar Logo",
+                      "Upload Gambar Logo Perusahaan",
                       style: TextStyle(
                         color: primary200,
                         fontSize: body,

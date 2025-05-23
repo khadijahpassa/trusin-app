@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/ui/customer-services/dashboard-cs/cs_screen.dart';
-import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
+import 'package:trusin_app/ui/supervisor/rank-supervisor/rank_screen.dart';
 
 class BottomNavbarCS extends StatefulWidget {
   const BottomNavbarCS({super.key});
@@ -29,20 +29,24 @@ class _BottomNavbarCSState extends State<BottomNavbarCS> {
         Navigator.push(context, MaterialPageRoute(builder: 
         (context) => QuotationHomeScreen()));
         break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: 
+        (context) => CSRankScreen()));
+        break;
     }
   } 
   
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double itemWidth = screenWidth / 2; // Karena ada 4 item
+    double itemWidth = screenWidth / 3; // Karena ada 4 item
     return Scaffold(
       body: IndexedStack(
       index: _selectedIndex,
       children: [
         DashboardCsScreen(),
         QuotationHomeScreen(),
-        // Tambahkan halaman lain sesuai kebutuhan
+        CSRankScreen(),
       ],
     ),
       bottomNavigationBar: Stack(
@@ -74,6 +78,13 @@ class _BottomNavbarCSState extends State<BottomNavbarCS> {
                   colorFilter: ColorFilter.mode( _selectedIndex == 1 ? primary500 : Colors.grey, BlendMode.srcIn),
                 ),
                 label: 'Quotation'
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/icons/rank.svg',
+                  colorFilter: ColorFilter.mode( _selectedIndex == 1 ? primary500 : Colors.grey, BlendMode.srcIn),
+                ),
+                label: 'Rank'
               ),
             ]
           ),

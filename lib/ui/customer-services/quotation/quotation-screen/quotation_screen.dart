@@ -17,6 +17,7 @@ import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/compo
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/payment_instruction.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/date_field.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/result_screen.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
 
 class QuotationScreen extends StatefulWidget {
   final QuotationModel? quotationData;
@@ -45,7 +46,18 @@ class _QuotationScreenState extends State<QuotationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Buat Quotation")),
+      appBar: AppBar(
+        title: const Text("Quotation Preview"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => QuotationHomeScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -72,42 +84,33 @@ class _QuotationScreenState extends State<QuotationScreen> {
                         padding: const EdgeInsets.only(top: 6, left: 4),
                         child: Text(
                           logoErrorText.value!,
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 12),
+                          style: const TextStyle(color: error500, fontSize: 12),
                         ),
                       );
                     } else {
-                      return const SizedBox
-                          .shrink();
+                      return const SizedBox.shrink();
                     }
                   })
                 ],
               ),
-              // Logo Picker Section
-              // LogoPicker(),
+
               const SizedBox(height: 20),
 
-              // From Input Section
               FromInput(),
               const SizedBox(height: 16),
 
-              // To Input Section
               ToInput(),
               const SizedBox(height: 16),
 
-              // Canban Product Section
               ProductList(quotationId: controller.currentQuotationId.value),
               const SizedBox(height: 16),
 
-              // Terms Input Section
               TermsInput(),
               const SizedBox(height: 16),
 
-              // Payment Instruction Section
               PaymentInstruction(),
               const SizedBox(height: 16),
 
-              // Display total quantity and price
               ProductSummary(),
               const SizedBox(height: 16),
 
@@ -119,7 +122,8 @@ class _QuotationScreenState extends State<QuotationScreen> {
                         logoErrorText.value = null;
                         final isFormValid = _formKey.currentState!.validate();
                         final isLogoValid = controller.logoImage.value != null;
-                        final isproductValid = controller.logoImage.value != null;
+                        final isproductValid =
+                            controller.logoImage.value != null;
 
                         if (!isLogoValid) {
                           logoErrorText.value = 'Logo harus dipilih';

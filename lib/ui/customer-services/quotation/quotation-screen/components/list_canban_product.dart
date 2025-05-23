@@ -69,7 +69,7 @@ class ProductCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
+                    color: error400,
                     shape: BoxShape.circle,
                   ),
                   child: SvgPicture.asset(

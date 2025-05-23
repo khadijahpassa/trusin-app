@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/models/lead_model.dart';
+import 'package:trusin_app/models/lead_list_model.dart';
 
 class InfoLead extends StatelessWidget implements PreferredSizeWidget {
   final LeadModel lead;
@@ -13,7 +13,7 @@ class InfoLead extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final formattedDate = lead.createdOn != null
-        ? "${lead.createdOn!.day}/${lead.createdOn!.month}/${lead.createdOn!.year}"
+        ? "${lead.createdOn.day}/${lead.createdOn.month}/${lead.createdOn.year}"
         : 'Tanggal Tidak Tersedia';
 
     return Column(

@@ -20,7 +20,7 @@ class TermsInput extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Syarat dan Ketentuan",
+            "Syarat Pembayaran",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -28,18 +28,20 @@ class TermsInput extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text("Syarat dan Ketentuan",
+          Text("Syarat Pembayaran",
               style: const TextStyle(fontSize: caption)),
           const SizedBox(height: 6),
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty)
-                return 'Syarat dan ketentuan gak boleh kosong';
+                return 'Syarat pembayaran gak boleh kosong';
               return null;
             },
             controller: controller.terms,
             style: const TextStyle(fontSize: body),
             decoration: InputDecoration(
+              hintText: "Cash Before Delivery",
+              hintStyle: TextStyle(color: text300),
               filled: true,
               fillColor: Colors.white,
               contentPadding: const EdgeInsets.symmetric(

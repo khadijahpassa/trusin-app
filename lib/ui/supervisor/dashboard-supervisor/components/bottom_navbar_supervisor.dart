@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/ui/super-admin/verify/verify_superadmin.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
+import 'package:trusin_app/ui/supervisor/customer-supervisor/customer_card_screen.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/dashboard_sv_screen.dart';
+import 'package:trusin_app/ui/supervisor/rank-supervisor/rank_screen.dart';
 
 class BottomNavbarSupervisor extends StatefulWidget {
   const BottomNavbarSupervisor({super.key});
@@ -26,7 +28,15 @@ class _BottomNavbarSupervisorState extends State<BottomNavbarSupervisor> {
         break;
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => VerifySuperadmin()));
+        (context) => QuotationHomeScreen()));
+        break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: 
+        (context) => CustomerrCardGridScreen()));
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: 
+        (context) => CSRankScreen()));
         break;
     }
   } 
@@ -34,13 +44,15 @@ class _BottomNavbarSupervisorState extends State<BottomNavbarSupervisor> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double itemWidth = screenWidth / 2; // Karena ada 4 item
+    double itemWidth = screenWidth / 4; // Karena ada 4 item
     return Scaffold(
       body: IndexedStack(
       index: _selectedIndex,
       children: [
         DashboardSvScreen(),
-        VerifySuperadmin(),
+        QuotationHomeScreen(),
+        CustomerrCardGridScreen(),
+        CSRankScreen(),
         // Tambahkan halaman lain sesuai kebutuhan
       ],
     ),
@@ -73,6 +85,20 @@ class _BottomNavbarSupervisorState extends State<BottomNavbarSupervisor> {
                   colorFilter: ColorFilter.mode( _selectedIndex == 1 ? primary500 : Colors.grey, BlendMode.srcIn),
                 ),
                 label: 'Quotation'
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/icons/customer.svg',
+                  colorFilter: ColorFilter.mode( _selectedIndex == 1 ? primary500 : Colors.grey, BlendMode.srcIn),
+                ),
+                label: 'Customers'
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/icons/rank.svg',
+                  colorFilter: ColorFilter.mode( _selectedIndex == 1 ? primary500 : Colors.grey, BlendMode.srcIn),
+                ),
+                label: 'Rank'
               ),
             ]
           ),

@@ -1,23 +1,46 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/controllers/lead_controller.dart';
+import 'package:trusin_app/controllers/lead_list_controller.dart';
 
-class Data extends StatelessWidget {
+class Data extends StatelessWidget implements PreferredSizeWidget {
   const Data({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final LeadController controller = Get.find();
+  Size get preferredSize => const Size.fromHeight(170);
 
-    return Obx(() => Column(
+  @override
+  Widget build(BuildContext context) {
+    final leadController = Get.find<LeadListController>();
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      return const Center(child: Text("User belum login"));
+    }
+
+    final csId = currentUser.uid;
+
+    return FutureBuilder<Map<String, int>>(
+      future: leadController.getStatusCountByCS(csId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError || !snapshot.hasData) {
+          return const Text('Error load data');
+        }
+
+        final data = snapshot.data!;
+        return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
                 Expanded(
                   child: _buildBox(
-                    count: controller.statusCount['New Customer'] ?? 0,
+                    count: '${data['New Customer'] ?? 0}',
                     label: 'New Customer',
                     color: lightBlue,
                   ),
@@ -25,7 +48,7 @@ class Data extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: _buildBox(
-                    count: controller.statusCount['Follow Up'] ?? 0,
+                    count: '${data['Follow Up'] ?? 0}',
                     label: 'Follow Up',
                     color: warningLight100,
                   ),
@@ -37,7 +60,7 @@ class Data extends StatelessWidget {
               children: [
                 Expanded(
                   child: _buildBox(
-                    count: controller.statusCount['Send Quotation'] ?? 0,
+                    count: '${data['Send Quotation'] ?? 0}',
                     label: 'Send Quotation',
                     color: secondary600,
                   ),
@@ -45,7 +68,7 @@ class Data extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: _buildBox(
-                    count: controller.statusCount['Won'] ?? 0,
+                    count: '${data['Won'] ?? 0}',
                     label: 'Won',
                     color: success100,
                   ),
@@ -53,7 +76,7 @@ class Data extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: _buildBox(
-                    count: controller.statusCount['Rejected'] ?? 0,
+                    count: '${data['Rejected'] ?? 0}',
                     label: 'Rejected',
                     color: error100,
                   ),
@@ -61,11 +84,13 @@ class Data extends StatelessWidget {
               ],
             ),
           ],
-        ));
+        );
+      },
+    );
   }
 
   Widget _buildBox({
-    required int count,
+    required String count,
     required String label,
     required Color color,
   }) {
@@ -78,22 +103,14 @@ class Data extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            count.toString(),
-            style: const TextStyle(
-              fontSize: heading1,
-              fontWeight: FontWeight.bold,
-              color: text400,
-            ),
-          ),
+          Text(count,
+              style: const TextStyle(
+                  fontSize: heading1,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
           const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: body,
-              color: text400,
-            ),
-          ),
+          Text(label,
+              style: const TextStyle(fontSize: body, color: Colors.black87)),
         ],
       ),
     );

@@ -1,14 +1,15 @@
 // Tambahan import kalau mau pake icon dropdown (opsional)
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/ui/state-management/date_provider.dart';
+import 'package:trusin_app/controllers/lead_list_controller.dart';
 import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/time_picker.dart';
 
 class Calendar extends StatefulWidget {
-  const Calendar({super.key});
+  final String leadId;
+  const Calendar({super.key, required this.leadId});
 
   @override
   State<Calendar> createState() => _CalendarState();
@@ -54,8 +55,7 @@ class _CalendarState extends State<Calendar> {
                   firstDay: DateTime(2000),
                   lastDay: DateTime(2100),
                   focusedDay: SelectedDate,
-                  selectedDayPredicate: (day) =>
-                      isSameDay(day, SelectedDate),
+                  selectedDayPredicate: (day) => isSameDay(day, SelectedDate),
                   onDaySelected: (selectedDay, focusedDay) {
                     setState(() {
                       SelectedDate = DateTime(
@@ -132,8 +132,8 @@ class _CalendarState extends State<Calendar> {
                     SizedBox(width: 5),
                     GestureDetector(
                       onTap: () async {
-                        final pickedTime = await showCustomTimePicker(
-                            context, SelectedTime);
+                        final pickedTime =
+                            await showCustomTimePicker(context, SelectedTime);
                         if (pickedTime != null) {
                           setState(() {
                             SelectedTime = pickedTime;
@@ -218,11 +218,25 @@ class _CalendarState extends State<Calendar> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      context.read<DateProvider>().setSelectedDate(SelectedDate);
-                      context.read<DateProvider>().setSelectedTime(SelectedTime);
-                      context.read<DateProvider>().setSelectedCategory(SelectedCategory);
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      final controller = Get.find<LeadListController>();
+                      try {
+                        DateTime combinedDateTime = DateTime(
+                          SelectedDate.year,
+                          SelectedDate.month,
+                          SelectedDate.day,
+                          SelectedTime.hour,
+                          SelectedTime.minute,
+                        );
+                        await controller.updateReminder(
+                            widget.leadId,
+                            combinedDateTime, 
+                            SelectedCategory 
+                            );
+                      } catch (e) {
+                        print('❌ Gagal update reminder: $e');
+                      }
+                      Get.back(); // atau Navigator.pop(context); // atau Get.back(); kalau lo make GetX route
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: primary400,

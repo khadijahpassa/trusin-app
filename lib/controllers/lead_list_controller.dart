@@ -1,15 +1,18 @@
 import 'dart:async';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trusin_app/models/lead_list_model.dart';
 
 class LeadListController extends GetxController {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String? currentUid;
+  var selectedLead = Rxn<LeadModel>();
   var leadList = <LeadModel>[].obs;
-  Stream<List<LeadModel>>? _csStream;
+  final isLoading = true.obs;
 
-  StreamSubscription? _subscription;
-  // RxList<LeadModel> leadListStatus = <LeadModel>[].obs;
+  StreamSubscription? _leadStreamSubscription;
+
   var statusCount = <String, int>{
     'New Customer': 0,
     'Follow Up': 0,
@@ -18,30 +21,99 @@ class LeadListController extends GetxController {
     'Rejected': 0,
   }.obs;
 
+void init() async {
+  isLoading.value = true;
+  print("🔥 INIT Controller.");
 
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    print("⚠️ UID NULL. Delay 500ms...");
+    await Future.delayed(const Duration(milliseconds: 500));
+    final retryUser = FirebaseAuth.instance.currentUser;
+    if (retryUser == null) {
+      print("⛔ UID tetap null setelah delay.");
+      isLoading.value = false; // biar gak loading selamanya
+      return;
+    } else {
+      currentUid = retryUser.uid;
+    }
+  } else {
+    currentUid = user.uid;
+  }
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   fetchLeads();
-  // }
+  print("✅ UID Ready: $currentUid");
 
-  // //FETCH DATA DARI FIRESTORE
-  // Future<void> fetchLeads() async {
-  //   final snapshot = await FirebaseFirestore.instance
-  //       .collection('customers')
-  //       .get();
-  //   leadList.value = snapshot.docs
-  //       .map((doc) => LeadModel.fromMap(doc.data() as Map<String, dynamic>))
-  //       .toList();
+  _startLeadStream(); // ⬅️ Mulai stream setelah UID ready
+  isLoading.value = false;
 
-  //   print("DATA LEAD DITEMUKAN: ${leadList.length}");
-  // }
+}
+  @override
+  void onInit() {
+    super.onInit();
+     // Jangan fetch data dulu
+    // print("🧪 onInit called. Waiting for manual init() from UI.");
+    // currentUid = FirebaseAuth.instance.currentUser?.uid;
+    // print("🔥 INIT Controller. UID: $currentUid");
+    // if (currentUid != null) {
+    //   _startLeadStream();
+    // } else {
+    //   print("⚠️ UID NULL. Delay atau tangani dengan login listener.");
+    // }
+    // _startLeadStream(); 
+    // print("CURRENT UID: $currentUid");
+  }
 
-  // Buat widget Data: hitung status per CS
+  void _startLeadStream() {
+    _leadStreamSubscription = _firestore
+        .collection('customers')
+        .where('createdBy', isEqualTo: currentUid)
+        .snapshots()
+        .listen((snapshot) {
+      leadList.value = snapshot.docs
+          .map((doc) => LeadModel.fromMap(doc.data()))
+          .toList();
+
+      print("📡 DATA LEAD STREAMED: ${leadList.length}");
+    }, onError: (e) {
+      print("🔥 ERROR DI STREAM LEADS: $e");
+    });
+  }
+
+  @override
+  void onClose() {
+    _leadStreamSubscription?.cancel(); // penting buat cleanup
+    super.onClose();
+  }
+
+    /// ✅ Stream yang reactive dan otomatis update UI
+  Stream<List<LeadModel>> get leadStream {
+    if (currentUid == null) {
+      // Jangan return stream kosong, lebih baik throw atau wait.
+      return const Stream.empty();
+    }
+
+    return _firestore
+        .collection('customers')
+        .where('createdBy', isEqualTo: currentUid)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => LeadModel.fromMap(doc.data())).toList());
+  }
+
+  // Stream lead berdasarkan ID (misalnya dipakai di detail view)
+  //buat fetch lead secara reactive (tujuannya untuk nampilin date yang habis dipilih di caleder)
+  void streamLeadById(String id) {
+    _firestore.collection('customers').doc(id).snapshots().listen((doc) {
+      if (doc.exists) {
+        selectedLead.value = LeadModel.fromMap(doc.data()!);
+      }
+    });
+  }
+
+  // Buat widget Data: hitung status per CS (sekali ambil aja)
   Future<Map<String, int>> getStatusCountByCS(String csId) async {
     try {
-      final snapshot = await FirebaseFirestore.instance
+      final snapshot = await _firestore
           .collection('customers')
           .where('createdBy', isEqualTo: csId)
           .get();
@@ -60,9 +132,9 @@ class LeadListController extends GetxController {
 
   // Buat widget ProgressLeads: filter berdasarkan status & CS
   Future<List<LeadModel>> getLeadsByStatusAndCS(
-      String status, String csId) async {
+    String status, String csId) async {
     try {
-      final snapshot = await FirebaseFirestore.instance
+      final snapshot = await _firestore
           .collection('customers')
           .where('status', isEqualTo: status)
           .where('createdBy', isEqualTo: csId)
@@ -75,5 +147,33 @@ class LeadListController extends GetxController {
     }
   }
 
-  
+  // Stream<List<LeadModel>> getLeadsByStatusStream(String status, String csId) {
+  //   return FirebaseFirestore.instance
+  //     .collection('customers')
+  //     .where('status', isEqualTo: status)
+  //     .where('createdBy', isEqualTo: csId)
+  //     .snapshots()
+  //     .map(mapSnapshotToLeads);
+  // }
+
+  //   static List<LeadModel> mapSnapshotToLeads(QuerySnapshot snapshot) {
+  //   return snapshot.docs
+  //     .map((doc) => LeadModel.fromMap(doc.data()! as Map<String, dynamic>))
+  //     .toList();
+  // }
+
+    //buat push ke firestore untuk reminderDate
+  Future<void> updateReminder(
+      String leadId, DateTime reminderDate, String reminderCategory) async {
+    try {
+      await _firestore.collection('customers').doc(leadId).update({
+        'reminderDate': reminderDate,
+        'reminderCategory': reminderCategory,
+      });
+      print('Reminder updated!');
+    } catch (e) {
+      print('Error update reminder: $e');
+      throw e;
+    }
+  }
 }
