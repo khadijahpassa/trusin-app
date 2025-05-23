@@ -12,8 +12,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: secondary100,
-      title: Padding(
-        padding: const EdgeInsets.only(left: 120),
+      title: Center(
         child: Text(
           "Semua Customers",
           style: TextStyle(

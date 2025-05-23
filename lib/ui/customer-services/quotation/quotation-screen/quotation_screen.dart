@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
@@ -8,7 +6,6 @@ import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/controllers/product_controller.dart'; // Import the product controller
 import 'package:trusin_app/models/product_model.dart';
 import 'package:trusin_app/models/quotation_model.dart';
-import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/appbar.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/canban_product.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/logo_picker.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/from_input.dart';
@@ -47,7 +44,20 @@ class _QuotationScreenState extends State<QuotationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
+        title: const Text("Quotation Preview"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => QuotationHomeScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -112,8 +122,6 @@ class _QuotationScreenState extends State<QuotationScreen> {
                         logoErrorText.value = null;
                         final isFormValid = _formKey.currentState!.validate();
                         final isLogoValid = controller.logoImage.value != null;
-                        final isproductValid =
-                            controller.logoImage.value != null;
 
                         if (!isLogoValid) {
                           logoErrorText.value = 'Logo harus dipilih';

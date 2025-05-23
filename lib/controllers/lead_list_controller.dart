@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trusin_app/models/lead_list_model.dart';
+import 'package:trusin_app/service/notification_service.dart';
 
 class LeadListController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -50,17 +51,6 @@ void init() async {
   @override
   void onInit() {
     super.onInit();
-     // Jangan fetch data dulu
-    // print("🧪 onInit called. Waiting for manual init() from UI.");
-    // currentUid = FirebaseAuth.instance.currentUser?.uid;
-    // print("🔥 INIT Controller. UID: $currentUid");
-    // if (currentUid != null) {
-    //   _startLeadStream();
-    // } else {
-    //   print("⚠️ UID NULL. Delay atau tangani dengan login listener.");
-    // }
-    // _startLeadStream(); 
-    // print("CURRENT UID: $currentUid");
   }
 
   void _startLeadStream() {
@@ -111,6 +101,21 @@ void init() async {
   }
 
   // Buat widget Data: hitung status per CS (sekali ambil aja)
+
+  Future<void> fetchLeadById(String leadId) async {
+  try {
+    final doc = await _firestore.collection('customers').doc(leadId).get();
+    if (doc.exists) {
+      selectedLead.value = LeadModel.fromMap(doc.data()!);
+      print("✅ selectedLead refreshed setelah update.");
+    }
+  } catch (e) {
+    print("❌ Gagal fetch lead by ID: $e");
+  }
+}
+
+  // Buat widget Data: hitung status per CS
+
   Future<Map<String, int>> getStatusCountByCS(String csId) async {
     try {
       final snapshot = await _firestore
@@ -176,4 +181,40 @@ void init() async {
       throw e;
     }
   }
+
+  // Future<DocumentSnapshot> getLeadById(String leadId) async {
+  //   return await FirebaseFirestore.instance
+  //       .collection('customers')
+  //       .doc(leadId)
+  //       .get();
+  // }
+
+  void scheduleRemindersForCS(String csId) async {
+  final leadsSnapshot = await FirebaseFirestore.instance
+      .collection('customers')
+      .where('createdBy', isEqualTo: csId)
+      .get();
+
+  for (var doc in leadsSnapshot.docs) {
+    final lead = LeadModel.fromMap(doc.data());
+
+    // Pastikan reminderDate tidak null dan masih di masa depan
+    if (lead.reminderDate.isAfter(DateTime.now())) {
+      final reminderDate = (lead.reminderDate as Timestamp).toDate();
+
+      await NotificationService.scheduleNotification(
+        id: lead.id.hashCode,
+        title: "Reminder Lead",
+        body: "Reminder: ${lead.reminderCategory ?? 'Follow up'} - ${lead.name ?? 'Customer'}",
+        scheduledDate: lead.reminderDate,
+      );
+      print('Scheduling notification at $reminderDate for ${lead.name}');
+    }
+    
+  }
+}
+
+
+
+  
 }

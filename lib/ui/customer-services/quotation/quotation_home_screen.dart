@@ -5,7 +5,6 @@ import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/product_controller.dart';
 import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/models/quotation_model.dart';
-import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/appbar.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
 
 class QuotationHomeScreen extends StatelessWidget {
@@ -18,10 +17,11 @@ class QuotationHomeScreen extends StatelessWidget {
 
     return Scaffold(
   appBar: AppBar(
-    backgroundColor: secondary100,
+    backgroundColor: Colors.white,
+    scrolledUnderElevation: 0,
     automaticallyImplyLeading: false,
     title: Text(
-      "Quotation",
+      "Daftar Quotation",
       style: TextStyle(
         fontSize: heading3,
         fontWeight: FontWeight.w700,

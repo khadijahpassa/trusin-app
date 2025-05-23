@@ -228,10 +228,12 @@ class _CalendarState extends State<Calendar> {
                           SelectedTime.minute,
                         );
                         await controller.updateReminder(
-                            widget.leadId,
+                            widget.leadId, 
                             combinedDateTime, 
-                            SelectedCategory 
-                            );
+                            SelectedCategory
+                        );
+                            
+                        await controller.fetchLeadById(widget.leadId);
                       } catch (e) {
                         print('❌ Gagal update reminder: $e');
                       }
@@ -262,7 +264,7 @@ class _CalendarState extends State<Calendar> {
                       padding: EdgeInsets.symmetric(vertical: 14),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
                     child: Text(
                       'Batal',

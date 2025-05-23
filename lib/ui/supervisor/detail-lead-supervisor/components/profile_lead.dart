@@ -45,7 +45,7 @@ class ProfileLead extends StatelessWidget implements PreferredSizeWidget {
               Text(
                 lead.name,
                 style: TextStyle(
-                  fontSize: heading3,
+                  fontSize: body,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -54,7 +54,7 @@ class ProfileLead extends StatelessWidget implements PreferredSizeWidget {
                   Text(
                     '\u2022 ',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: body,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey[700],
                     ),
@@ -62,7 +62,7 @@ class ProfileLead extends StatelessWidget implements PreferredSizeWidget {
                   Text(
                     selectedCategory,
                     style: TextStyle(
-                      fontSize: body,
+                      fontSize: caption,
                       color: Colors.grey[700],
                     ),
                   ),

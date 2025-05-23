@@ -18,23 +18,8 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       color: secondary100,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Container(
-            margin: EdgeInsets.only(left: 5),
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: secondary200,
-              borderRadius: BorderRadius.circular(10)
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.notifications, color: Colors.black),
-              onPressed: () {
-                Get.toNamed('/notification');
-              },
-            ),
-          ),
           // User Info
           Obx(() {
             return Row(

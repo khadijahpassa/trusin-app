@@ -38,8 +38,8 @@ class _ChartPipelineLeadsState extends State<ChartPipelineLeads> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: 200,
-              height: 200,
+              width: 150,
+              height: 150,
               child: SfCircularChart(
                 tooltipBehavior: TooltipBehavior(enable: true),
                 series: <CircularSeries>[
@@ -63,15 +63,15 @@ class _ChartPipelineLeadsState extends State<ChartPipelineLeads> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 12,
-                      height: 12,
+                      width: 8,
+                      height: 8,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: chartColors[index],
                       ),
                     ),
                     const SizedBox(width: 6),
-                    Text('${data[index].label}: ${data[index].value}'),
+                    Text('${data[index].label}: ${data[index].value}', style: TextStyle(fontSize: caption)),
                   ],
                 );
               }),
