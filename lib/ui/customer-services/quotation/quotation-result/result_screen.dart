@@ -1,14 +1,15 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/models/product_model.dart';
 import 'package:trusin_app/models/quotation_model.dart';
-import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_bottom_nav.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_footer.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_header.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_table.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String quotationId;
@@ -29,7 +30,7 @@ class ResultScreen extends StatefulWidget {
 
   const ResultScreen({
     super.key,
-     required this.quotationId, 
+    required this.quotationId,
     required this.fromCompany,
     required this.fromPhone,
     required this.fromSocialMedia,
@@ -56,18 +57,21 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[200], // Background abu-abu muda
+      color: Colors.grey[200],
       child: Scaffold(
-        backgroundColor: Colors.transparent, // Biar abu-nya kelihatan
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Text("Quotation Preview"),
+          title: Text(
+            "Detail Lead",
+            style: TextStyle(fontSize: heading3, fontWeight: FontWeight.w700),
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => QuotationHomeScreen()),
                 (Route<dynamic> route) =>
-                    false, // remove semua route sebelumnya
+                    false, 
               );
             },
           ),
@@ -112,7 +116,7 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             ResultBottomNav(
               quotation: QuotationModel(
-              id: widget.quotationId,
+                id: widget.quotationId,
                 fromCompany: widget.fromCompany,
                 fromPhone: widget.fromPhone,
                 fromSocialMedia: widget.fromSocialMedia,

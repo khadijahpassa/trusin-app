@@ -5,6 +5,7 @@ import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/product_controller.dart';
 import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/models/quotation_model.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/appbar.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
 
 class QuotationHomeScreen extends StatelessWidget {
@@ -16,7 +17,17 @@ class QuotationHomeScreen extends StatelessWidget {
     final productController = Get.find<ProductController>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Daftar Quotation')),
+  appBar: AppBar(
+    backgroundColor: secondary100,
+    automaticallyImplyLeading: false,
+    title: Text(
+      "Quotation",
+      style: TextStyle(
+        fontSize: heading3,
+        fontWeight: FontWeight.w700,
+      ),
+    ),
+  ), 
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('quotation').snapshots(),
         builder: (context, snapshot) {
@@ -28,10 +39,9 @@ class QuotationHomeScreen extends StatelessWidget {
           }
 
           final quotations = snapshot.data!.docs.map((doc) {
-  final data = doc.data() as Map<String, dynamic>;
-  return QuotationModel.fromMap(data); // ✅ Gak usah pakai copyWith
-}).toList();
-
+            final data = doc.data() as Map<String, dynamic>;
+            return QuotationModel.fromMap(data);
+          }).toList();
 
           return ListView.builder(
             itemCount: quotations.length,
@@ -81,9 +91,7 @@ class QuotationHomeScreen extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     onTap: () {
-                      // Bisa load data quotation dan produk sesuai quotation jika dibutuhkan
-                       // kamu bisa buat method ini
-                      productController.fetchProducts(); // atau fetch produk terkait quotation
+                      productController.fetchProducts();
                       Get.to(() => QuotationScreen());
                     },
                   ),
@@ -110,5 +118,3 @@ class QuotationHomeScreen extends StatelessWidget {
     );
   }
 }
-
-

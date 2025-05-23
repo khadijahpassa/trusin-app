@@ -8,6 +8,7 @@ import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/controllers/product_controller.dart'; // Import the product controller
 import 'package:trusin_app/models/product_model.dart';
 import 'package:trusin_app/models/quotation_model.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/appbar.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/canban_product.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/logo_picker.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/from_input.dart';
@@ -46,18 +47,7 @@ class _QuotationScreenState extends State<QuotationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Quotation Preview"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => QuotationHomeScreen()),
-              (Route<dynamic> route) => false,
-            );
-          },
-        ),
-      ),
+      appBar: Appbar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -65,7 +55,7 @@ class _QuotationScreenState extends State<QuotationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Date Picker Section
+              
               Obx(() => DateFieldWithStatus(
                     combinedDateTime: controller.selectedDateTime.value,
                     selectedCategory: controller.selectedCategory.value,
