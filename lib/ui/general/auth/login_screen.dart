@@ -11,8 +11,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController authController =
-        Get.find<AuthController>(); // Registrasi controller
+    final AuthController authController =Get.find<AuthController>(); // Registrasi controller
 
     return Scaffold(
       backgroundColor: Colors.white,

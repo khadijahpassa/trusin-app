@@ -14,12 +14,12 @@ class _ChartRevenueState extends State<ChartRevenue> {
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> data = [
-      ChartData('Jan', 30),
-      ChartData('Feb', 42),
-      ChartData('Mar', 54),
-      ChartData('Apr', 20),
-      ChartData('Mei', 76),
+    final List<ChartDataRevenue> data = [
+      ChartDataRevenue('Jan', 30),
+      ChartDataRevenue('Feb', 42),
+      ChartDataRevenue('Mar', 54),
+      ChartDataRevenue('Apr', 20),
+      ChartDataRevenue('Mei', 76),
     ];
 
     return Column(
@@ -66,10 +66,10 @@ class _ChartRevenueState extends State<ChartRevenue> {
           primaryXAxis: CategoryAxis(), //ini ngasih tau bahwa si sumbu x (horizontal)pake kategori, bukan angka (ex. jan, feb)
           tooltipBehavior: TooltipBehavior(enable: true), //tooltip aktif biar klo di hover/tap  chart nya bakal muncul info
           series: <CartesianSeries>[ //ini data disimpen disini, 
-            ColumnSeries<ChartData, String>( //ColumnSeries itu type chart nya, ada bar, line, pie, dll
+            ColumnSeries<ChartDataRevenue, String>( //ColumnSeries itu type chart nya, ada bar, line, pie, dll
               dataSource: data,
-              xValueMapper: (ChartData data, _) => data.label,
-              yValueMapper: (ChartData data, _) => data.value,
+              xValueMapper: (ChartDataRevenue data, _) => data.label,
+              yValueMapper: (ChartDataRevenue data, _) => data.value,
               dataLabelSettings: const DataLabelSettings(isVisible: true),
               color: primary400,
             )
@@ -80,9 +80,9 @@ class _ChartRevenueState extends State<ChartRevenue> {
   }
 }
 
-class ChartData {
+class ChartDataRevenue {
   final String label;
   final int value;
 
-  ChartData(this.label, this.value);
+  ChartDataRevenue(this.label, this.value);
 }

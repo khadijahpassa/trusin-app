@@ -16,6 +16,7 @@ class TabTable extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: TabBar(
+              isScrollable: true,
               tabs: const [
                 Tab(text: "Lead Age Audit"),
                 Tab(text: "Product for Quotation"),
@@ -133,6 +134,7 @@ class TableRowItem extends StatelessWidget {
                 child: Text(
                   value,
                   style: TextStyle(
+                    fontSize: caption,
                     color: text400,
                     fontWeight: FontWeight.w500,
                   ),

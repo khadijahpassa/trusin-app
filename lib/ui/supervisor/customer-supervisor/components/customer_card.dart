@@ -36,7 +36,7 @@ class CustomerCard extends StatelessWidget {
             customer.name,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: body,
             ),
             textAlign: TextAlign.center,
           ),
@@ -52,7 +52,7 @@ class CustomerCard extends StatelessWidget {
               Text(
                 customer.status,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: caption,
                   color: isWon ? Colors.green : Colors.amber,
                   fontWeight: FontWeight.w400,
                 ),

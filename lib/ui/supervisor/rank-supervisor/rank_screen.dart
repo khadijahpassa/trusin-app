@@ -24,7 +24,7 @@ class CSRankScreen extends StatelessWidget {
                   child: builPodium(context)
                 ),
                 Positioned.fill(
-                  top: 300, // ini supaya podium keliatan setengah
+                  top: 280, // ini supaya podium keliatan setengah
                   child: RankCard()
                 ),
               ],

@@ -76,11 +76,13 @@ class AuthController extends GetxController {
       final status = (userData['status'] ?? '').toString().toLowerCase();
       // Setelah login berhasil dan data user diambil
       final company = userData['company'] ?? ''; // Ambil dari Firestore
-
+      
       currentRole.value = role;
 
       // Panggil fetchCS dengan parameter company
       Get.find<CSListController>().listenToCS(company);
+
+      
 
       // Login ke Firebase Auth
       await _auth.signInWithEmailAndPassword(
@@ -156,7 +158,7 @@ class AuthController extends GetxController {
     final doc = await _firestore.collection('users').doc(user.uid).get();
     final data = doc.data();
     if (data != null) {
-      currentUser.value = UserModel.fromMap(data);
+      currentUser.value = UserModel.fromMap(data, id: doc.id);
     }
   }
 

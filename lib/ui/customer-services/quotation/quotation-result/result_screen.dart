@@ -61,10 +61,12 @@ class _ResultScreenState extends State<ResultScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: Text(
-            "Detail Lead",
+            "Quotation Preview",
             style: TextStyle(fontSize: heading3, fontWeight: FontWeight.w700),
           ),
+          backgroundColor: Colors.white,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

@@ -18,6 +18,7 @@ class DetailLeadScreen extends StatefulWidget {
   State<DetailLeadScreen> createState() => _DetailLeadScreenState();
 }
 
+
 class _DetailLeadScreenState extends State<DetailLeadScreen> {
 
   @override
@@ -51,7 +52,7 @@ class _DetailLeadScreenState extends State<DetailLeadScreen> {
                   ProfileLead(leadId: lead.id),
                   SizedBox(width: 5),
                   SizedBox(
-                    width: 170,
+                    width: 150,
                     child: Date(leadId: lead.id),
                   )
                 ],

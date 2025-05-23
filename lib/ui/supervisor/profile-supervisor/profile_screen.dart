@@ -203,7 +203,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 ),
                 SizedBox(width: 12),
                 Text(value.isNotEmpty ? value : '-',
-                    style: TextStyle(fontSize: 16)),
+                    style: TextStyle(fontSize: caption)),
               ],
             ),
           );
@@ -280,14 +280,14 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: defaultPadding/2),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(color: text300),
               ),
             ),
             child: Text("Batal",
-                style: TextStyle(fontSize: heading3, color: Colors.black)),
+                style: TextStyle(fontSize: body, color: Colors.black)),
           ),
         ),
         SizedBox(width: 12),
@@ -311,7 +311,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                   !phoneChanged &&
                   !companyChanged) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Gak ada data yang berubah, bor.')),
+                  SnackBar(content: Text('Tidak ada data yang berubah')),
                 );
                 return;
               }
@@ -323,7 +323,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                       content:
-                          Text('Form yang diubah harus diisi semua, bor!')),
+                          Text('Form yang diubah harus diisi semua!')),
                 );
                 return;
               }
@@ -338,12 +338,12 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: primary500,
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: defaultPadding/2),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),
             child: Text("Simpan",
-                style: TextStyle(fontSize: heading3, color: Colors.white)),
+                style: TextStyle(fontSize: body, color: Colors.white)),
           ),
         ),
       ],
@@ -360,12 +360,12 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: defaultPadding/2),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),
             child: Text("Logout",
-                style: TextStyle(fontSize: heading3, color: Colors.white)),
+                style: TextStyle(fontSize: descText, color: Colors.white)),
           ),
         ),
       ],
