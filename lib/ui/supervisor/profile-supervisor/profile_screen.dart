@@ -203,7 +203,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 ),
                 SizedBox(width: 12),
                 Text(value.isNotEmpty ? value : '-',
-                    style: TextStyle(fontSize: caption)),
+                    style: TextStyle(fontSize: body)),
               ],
             ),
           );
@@ -360,7 +360,7 @@ SizedBox(width: 12),
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,
-              padding: EdgeInsets.symmetric(vertical: defaultPadding/2),
+              padding: EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),

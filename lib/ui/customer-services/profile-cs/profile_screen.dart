@@ -136,7 +136,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
           children: [
             CircleAvatar(
               backgroundImage:
-                  AssetImage('assets/images/supervisor_avatar.png'),
+                  AssetImage('assets/images/role_cs.png'),
               radius: 40,
             ),
             SizedBox(width: 16),
@@ -202,7 +202,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 ),
                 SizedBox(width: 12),
                 Text(value.isNotEmpty ? value : '-',
-                    style: TextStyle(fontSize: 16)),
+                    style: TextStyle(fontSize: body)),
               ],
             ),
           );
@@ -310,7 +310,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                   !phoneChanged &&
                   !companyChanged) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Gak ada data yang berubah, bor.')),
+                  SnackBar(content: Text('Gak ada data yang berubah nih.')),
                 );
                 return;
               }
@@ -322,7 +322,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                       content:
-                          Text('Form yang diubah harus diisi semua, bor!')),
+                          Text('Form yang diubah harus diisi semua!')),
                 );
                 return;
               }
@@ -359,7 +359,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),

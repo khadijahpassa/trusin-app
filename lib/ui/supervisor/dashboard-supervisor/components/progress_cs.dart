@@ -87,74 +87,50 @@ class ProgressCS extends StatelessWidget {
   ) {
     return Card(
         color: secondary100,
-        child: ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage(
-                avatar.isNotEmpty ? avatar : 'assets/images/role_cs.png',
-              ),
-            ),
-            title: Text(cs.name, style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(status, style: TextStyle(fontSize: caption)),
-            trailing: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primary400,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
+        child: Padding(
+                padding: const EdgeInsets.all(12.0), // padding luar card
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage(
+                        avatar.isNotEmpty ? avatar : 'assets/images/role_cs.png',
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(cs.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(height: 4),
+                          Text(status, style: TextStyle(fontSize: caption)),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0), // padding khusus tombol
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primary400,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8), // padding dalam tombol
+                        ),
+                        onPressed: () {
+                          final csController = Get.find<CSListController>();
+                          csController.selectedCS.value = cs;
+                          Get.toNamed('/detail-cs');
+                        },
+                        child: Text(
+                          'Detail',
+                          style: TextStyle(color: secondary100, fontSize: caption),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              onPressed: () {
-                final csController = Get.find<CSListController>();
-                csController.selectedCS.value = cs;
-                Get.toNamed('/detail-cs');
-              },
-              child: Text(
-                'Detail',
-                style: TextStyle(color: secondary100, fontSize: body),
-              ),
-              // child: Padding(
-              //   padding: const EdgeInsets.all(12.0), // padding luar card
-              //   child: Row(
-              //     children: [
-              //       CircleAvatar(
-              //         backgroundImage: AssetImage(
-              //           avatar.isNotEmpty ? avatar : 'assets/images/role_cs.png',
-              //         ),
-              //       ),
-              //       SizedBox(width: 12),
-              //       Expanded(
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Text(cs.name, style: TextStyle(fontWeight: FontWeight.bold)),
-              //             SizedBox(height: 4),
-              //             Text(status, style: TextStyle(fontSize: caption)),
-              //           ],
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.only(left: 8.0), // padding khusus tombol
-              //         child: ElevatedButton(
-              //           style: ElevatedButton.styleFrom(
-              //             backgroundColor: primary400,
-              //             shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(6),
-              //             ),
-              //             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8), // padding dalam tombol
-              //           ),
-              //           onPressed: () {
-              //             final csController = Get.find<CSListController>();
-              //             csController.selectedCS.value = cs;
-              //             Get.toNamed('/detail-cs');
-              //           },
-              //           child: Text(
-              //             'Detail',
-              //             style: TextStyle(color: secondary100, fontSize: caption),
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-            )));
+            );
   }
 }

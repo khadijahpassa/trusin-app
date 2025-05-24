@@ -15,9 +15,9 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  DateTime SelectedDate = DateTime.now();
-  TimeOfDay SelectedTime = TimeOfDay.now();
-  String SelectedCategory = 'Follow Up';
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  String selectedCategory = 'Follow Up';
 
   final List<String> categories = [
     'Follow Up',
@@ -30,34 +30,26 @@ class _CalendarState extends State<Calendar> {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
-        height: 700,
+        height: 550,
         decoration: BoxDecoration(
           color: secondary100,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  DateFormat('MMMM yyyy').format(SelectedDate),
-                  style: TextStyle(
-                    fontSize: body,
-                    fontWeight: FontWeight.bold,
-                    color: text400,
-                  ),
-                ),
                 const SizedBox(height: 8),
                 TableCalendar(
                   firstDay: DateTime(2000),
                   lastDay: DateTime(2100),
-                  focusedDay: SelectedDate,
-                  selectedDayPredicate: (day) => isSameDay(day, SelectedDate),
+                  focusedDay: selectedDate,
+                  selectedDayPredicate: (day) => isSameDay(day, selectedDate),
                   onDaySelected: (selectedDay, focusedDay) {
                     setState(() {
-                      SelectedDate = DateTime(
+                      selectedDate = DateTime(
                         selectedDay.year,
                         selectedDay.month,
                         selectedDay.day,
@@ -65,6 +57,22 @@ class _CalendarState extends State<Calendar> {
                     });
                   },
                   calendarFormat: CalendarFormat.month,
+                  headerStyle: HeaderStyle(
+                      titleCentered: true,
+                      formatButtonVisible: false,
+                      leftChevronPadding: EdgeInsets.zero,
+                      rightChevronPadding: EdgeInsets.zero,
+                      headerPadding: const EdgeInsets.symmetric( horizontal: 0),
+                      titleTextStyle: TextStyle(
+                        fontSize: body,
+                        fontWeight: FontWeight.bold,
+                        color: text400,
+                      ),
+                      leftChevronIcon:
+                          Icon(Icons.chevron_left, color: primary400),
+                      rightChevronIcon:
+                          Icon(Icons.chevron_right, color: primary400),
+                    ),
                   calendarStyle: CalendarStyle(
                     defaultDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
@@ -107,50 +115,52 @@ class _CalendarState extends State<Calendar> {
                         TextStyle(fontSize: body, fontWeight: FontWeight.w600),
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: secondary300,
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: Colors.grey.shade400),
-                      ),
-                      child: Text(
-                        DateFormat('dd MMMM yyyy').format(SelectedDate),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    GestureDetector(
-                      onTap: () async {
-                        final pickedTime =
-                            await showCustomTimePicker(context, SelectedTime);
-                        if (pickedTime != null) {
-                          setState(() {
-                            SelectedTime = pickedTime;
-                          });
-                        }
-                      },
+                    Expanded(
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
                           color: secondary300,
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(color: Colors.grey.shade400),
                         ),
                         child: Text(
-                          'Jam : ${SelectedTime.format(context)}',
+                          DateFormat('dd MMMM yyyy').format(selectedDate),
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () async {
+                        final pickedTime =
+                            await showCustomTimePicker(context, selectedTime);
+                        if (pickedTime != null) {
+                          setState(() {
+                            selectedTime = pickedTime;
+                          });
+                        }
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: secondary300,
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.grey.shade400),
+                        ),
+                        child: Text(
+                          'Jam : ${selectedTime.format(context)}',
+                          style: TextStyle(
+                            fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
                           ),
@@ -159,7 +169,7 @@ class _CalendarState extends State<Calendar> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 14),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -171,7 +181,7 @@ class _CalendarState extends State<Calendar> {
                 const SizedBox(height: 8),
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.indigo[50],
                     borderRadius: BorderRadius.circular(4),
@@ -179,7 +189,7 @@ class _CalendarState extends State<Calendar> {
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
-                      value: SelectedCategory,
+                      value: selectedCategory,
                       isExpanded: true,
                       items: categories
                           .map((item) => DropdownMenuItem(
@@ -187,7 +197,7 @@ class _CalendarState extends State<Calendar> {
                                 child: Text(
                                   item,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: primary400,
                                   ),
@@ -196,13 +206,13 @@ class _CalendarState extends State<Calendar> {
                           .toList(),
                       onChanged: (value) {
                         setState(() {
-                          SelectedCategory = value!;
+                          selectedCategory = value!;
                         });
                       },
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -213,7 +223,7 @@ class _CalendarState extends State<Calendar> {
                         fontWeight: FontWeight.w400),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 14),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -221,16 +231,16 @@ class _CalendarState extends State<Calendar> {
                       final controller = Get.find<LeadListController>();
                       try {
                         DateTime combinedDateTime = DateTime(
-                          SelectedDate.year,
-                          SelectedDate.month,
-                          SelectedDate.day,
-                          SelectedTime.hour,
-                          SelectedTime.minute,
+                          selectedDate.year,
+                          selectedDate.month,
+                          selectedDate.day,
+                          selectedTime.hour,
+                          selectedTime.minute,
                         );
                         await controller.updateReminder(
                             widget.leadId, 
                             combinedDateTime, 
-                            SelectedCategory
+                            selectedCategory
                         );
                             
                         await controller.fetchLeadById(widget.leadId);

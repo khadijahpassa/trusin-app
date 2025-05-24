@@ -6,10 +6,10 @@ class NotificationService {
   static final _notifications = FlutterLocalNotificationsPlugin();
 
   static Future init() async {
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    // const settings = InitializationSettings(android: android);
+    const android = AndroidInitializationSettings('@mipmap/logo_app');
+    const settings = InitializationSettings(android: android);
 
-    // await _notifications.initialize(settings);
+    await _notifications.initialize(settings);
     await _notifications
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()

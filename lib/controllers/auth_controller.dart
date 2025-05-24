@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/controllers/cs_list_controller.dart';
 import 'package:trusin_app/models/user_model.dart';
-import 'package:trusin_app/ui/general/auth/login_screen.dart';
 
 enum UsernameCheckState {
   idle,
@@ -36,7 +35,7 @@ class AuthController extends GetxController {
   bool get isUsernameTaken =>
       usernameCheckState.value == UsernameCheckState.taken;
 
-  //LOGIN
+  // LOGIN
   Future<void> login(String usernameOrEmail, String password) async {
     authState.value = AuthState.loading;
 
@@ -77,7 +76,7 @@ class AuthController extends GetxController {
       final status = (userData['status'] ?? '').toString().toLowerCase();
       // Setelah login berhasil dan data user diambil
       final company = userData['company'] ?? ''; // Ambil dari Firestore
-      
+
       currentRole.value = role;
 
       // Panggil fetchCS dengan parameter company
@@ -161,64 +160,6 @@ class AuthController extends GetxController {
     }
   }
 
-//   Future<void> login(String usernameOrEmail, String password) async {
-//   authState.value = AuthState.loading;
-
-//   try {
-//     QuerySnapshot snapshot;
-
-//     if (usernameOrEmail.contains('@')) {
-//       snapshot = await _firestore
-//           .collection('users')
-//           .where('email', isEqualTo: usernameOrEmail)
-//           .limit(1)
-//           .get();
-//     } else {
-//       snapshot = await _firestore
-//           .collection('users')
-//           .where('username', isEqualTo: usernameOrEmail)
-//           .limit(1)
-//           .get();
-//     }
-
-//     if (snapshot.docs.isEmpty) {
-//       authState.value = AuthState.failure;
-//       Get.snackbar("Gagal Login", "Akun tidak ditemukan.");
-//       return;
-//     }
-
-//     final doc = snapshot.docs.first;
-//     final userData = doc.data() as Map<String, dynamic>;
-//     final email = userData['email'];
-//     final role = (userData['role'] ?? '').toString().toLowerCase();
-//     final status = (userData['status'] ?? '').toString().toLowerCase();
-//     final company = userData['company'] ?? '';
-
-//     currentRole.value = role;
-//     Get.find<CSListController>().listenToCS(company);
-
-//     await _auth.signInWithEmailAndPassword(
-//       email: email,
-//       password: password,
-//     );
-
-//     if (role != 'superadmin' && status != 'approved') {
-//       authState.value = AuthState.pendingApproval;
-//       Get.snackbar("Login Error", "Akunmu belum diverifikasi oleh admin");
-//       return;
-//     }
-
-//     // 🔥 Tambahkan baris ini supaya currentUser keisi:
-//     await fetchCurrentUserData();
-
-//     authState.value = AuthState.authenticated;
-//   } catch (e) {
-//     authState.value = AuthState.failure;
-//     Get.snackbar("Login Error", "Terjadi kesalahan saat login.");
-//   }
-// }
-
-
   // GET DATA COMPANY SUPERVISOR (untuk diinsert ke field company register CS)
   var currentCompany = ''.obs; // Menyimpan company supervisor yang sedang login
 
@@ -240,37 +181,16 @@ class AuthController extends GetxController {
     }
   }
 //buat logout dan diarahin ke login screen
-//   void logout() async {
-//   try {
-//     await _auth.signOut(); 
-//     currentUser.value = null;
-//     Get.offAllNamed('/login');
-//   } catch (e) {
-//     Get.snackbar('Error', 'Gagal logout: $e');
-//   }
-// }
-
-// void logout() async {
-//   try {
-//     print("Logging out...");
-//     await _auth.signOut();
-//     // Gak perlu Get.off kalau routing via stream
-//   } catch (e) {
-//     Get.snackbar('Error', 'Gagal logout: $e');
-//   }
-// }
-
-void logout() async {
+  void logout() async {
   try {
-    print("Logout dimulai...");
-    await _auth.signOut();
-    print("Logout selesai, redirect...");
-    Get.offAll(() => LoginScreen());
+    await _auth.signOut(); 
+    currentUser.value = null;
+    Get.offAllNamed('/login');
   } catch (e) {
-    print("Logout error: $e");
     Get.snackbar('Error', 'Gagal logout: $e');
   }
 }
+
   Future<void> updateUser({
     required String name,
     required String username,

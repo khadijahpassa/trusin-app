@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/models/product_model.dart';
 import 'package:trusin_app/models/quotation_model.dart';
+import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
 
 class ResultBottomNav extends StatefulWidget {
   final QuotationModel quotation;
@@ -89,7 +90,7 @@ class _ResultBottomNavState extends State<ResultBottomNav> {
             onTap: () {
               controller.editQuotation(widget.quotation, widget.products);
               Future.delayed(const Duration(milliseconds: 300), () {
-                Get.offNamed('/quotation');
+                Get.off(QuotationScreen());
               });
             },
           ),

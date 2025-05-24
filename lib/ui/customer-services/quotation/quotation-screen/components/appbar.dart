@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trusin_app/const.dart';
 
-class Appbar extends StatelessWidget implements PreferredSizeWidget {
+class Appbar extends StatelessWidget {
   const Appbar({super.key});
 
-  @override
-  Size get preferredSize => const Size.fromHeight(70);
 
   @override
   Widget build(BuildContext context) {

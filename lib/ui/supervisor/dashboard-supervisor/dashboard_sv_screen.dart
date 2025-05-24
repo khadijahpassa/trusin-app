@@ -23,8 +23,6 @@ class _DashboardSvScreenState extends State<DashboardSvScreen> {
     super.initState();
     authController = Get.find<AuthController>();
     authController.fetchCurrentUserData();
-    final company = Get.find<AuthController>().currentCompany.value;
-  
   }
 
   @override

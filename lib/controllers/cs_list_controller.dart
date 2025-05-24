@@ -36,7 +36,6 @@ class CSListController extends GetxController {
             snapshot.docs.map((doc) => CSModel.fromMap(doc.data())).toList());
 
     _subscription = _csStream!.listen((data) {
-       print('🔄 Data CS masuk: ${data.length}');
       csList.value = data;
     });
   }

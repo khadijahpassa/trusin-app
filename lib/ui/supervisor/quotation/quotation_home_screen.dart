@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/product_controller.dart';
-import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/models/quotation_model.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
 
@@ -12,7 +11,6 @@ class QuotationSvHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final quotationController = Get.find<QuotationController>();
     final productController = Get.find<ProductController>();
 
     return Scaffold(
@@ -100,20 +98,6 @@ class QuotationSvHomeScreen extends StatelessWidget {
             },
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primary100,
-        elevation: 0,
-        onPressed: () {
-          quotationController.reset();
-          productController.reset();
-          Get.to(() => QuotationScreen());
-        },
-        child: const Icon(
-          Icons.add,
-          color: primary500,
-          size: heading1,
-        ),
       ),
     );
   }

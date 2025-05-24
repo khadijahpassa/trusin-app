@@ -16,6 +16,7 @@ import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/compo
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/payment_instruction.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/components/date_field.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/result_screen.dart';
+import 'package:trusin_app/ui/supervisor/quotation/quotation-screen/components/appbar.dart';
 
 class QuotationScreen extends StatefulWidget {
   final QuotationModel? quotationData;
@@ -44,20 +45,7 @@ class _QuotationScreenState extends State<QuotationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        scrolledUnderElevation: 0,
-        title: const Text("Quotation Preview"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => BottomNavbarCS()),
-              (Route<dynamic> route) => false,
-            );
-          },
-        ),
-      ),
+      appBar: Appbar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(

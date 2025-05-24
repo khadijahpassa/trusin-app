@@ -77,8 +77,6 @@ class VerifyController extends GetxController {
       'status': newStatus,
     });
 
-    print('🔥 Status $id updated to $newStatus');
-
     // Refresh ulang semua list
     fetchRequests();            
     fetchApprovedCompanies();   

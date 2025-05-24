@@ -19,9 +19,9 @@ class InfoCs extends StatelessWidget implements PreferredSizeWidget {
               child: InfoItem(
                 label: "Nomor Telepon",
                 content: Text(
-                  cs.phone.isNotEmpty ? cs.phone : 'No Phone Available',
+                  cs.phone.isNotEmpty ? cs.phone : '-',
                   style: const TextStyle(
-                    fontSize: descText,
+                    fontSize: body,
                     fontWeight: FontWeight.w600
                   ),
                 ),
@@ -31,9 +31,9 @@ class InfoCs extends StatelessWidget implements PreferredSizeWidget {
               child: InfoItem(
                 label: "Alamat Email",
                 content: Text(
-                  cs.email.isNotEmpty ? cs.email : 'No Phone Available',
+                  cs.email.isNotEmpty ? cs.email : '-',
                   style: const TextStyle(
-                    fontSize: descText,
+                    fontSize: body,
                     fontWeight: FontWeight.w600
                   ),
                 ),

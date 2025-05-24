@@ -1,5 +1,5 @@
 class UserModel {
-  final String id;  // tambah ini
+  final String id; 
   final String name;
   final String username;
   final String email;
@@ -8,7 +8,7 @@ class UserModel {
   final String company;
 
   UserModel({
-    required this.id,  // wajib dimasukin di konstruktor
+    required this.id, 
     required this.name,
     required this.username,
     required this.email,
@@ -38,7 +38,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> data, {required String id}) {
     return UserModel(
-      id: id,  // tambahin ini juga
+      id: id,  
       name: data['name'] ?? '',
       username: data['username'] ?? '',
       email: data['email'] ?? '',

@@ -52,7 +52,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
                   },
                   child: const CircleAvatar(
                     radius: 20,
-                    backgroundImage: AssetImage('assets/images/role_cs.png'),
+                    backgroundImage: AssetImage('assets/images/supervisor_avatar.png'),
                   ),
                 ),
               ],
