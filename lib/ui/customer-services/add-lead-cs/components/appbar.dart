@@ -26,7 +26,7 @@ class AppbarCs extends StatelessWidget implements PreferredSizeWidget {
           },
         ),
         title: Container(
-          margin: EdgeInsets.only(left: 40),
+          margin: EdgeInsets.only(left: defaultPadding),
           child: Text(
             "Tambah Lead Baru",
             style: TextStyle(

@@ -23,7 +23,7 @@ class _StatistikComponentsState extends State<StatistikComponents> {
         crossAxisCount: 2, // jumblah column
         crossAxisSpacing: 12, // jarak antar kotak
         mainAxisSpacing: 12, 
-        childAspectRatio: 1.2, // mengatur lebar/tinggi
+        childAspectRatio: 2, // mengatur lebar/tinggi
         children: [
           StreamBuilder<int>(
             stream: perusahaanStream('approved'),

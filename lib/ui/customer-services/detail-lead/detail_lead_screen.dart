@@ -12,7 +12,6 @@ class DetailLeadScreen extends StatelessWidget {
   final LeadModel lead;
 
   DetailLeadScreen({super.key, required this.lead});
-
   @override
   Widget build(BuildContext context) {
     final LeadModel lead = Get.arguments as LeadModel;

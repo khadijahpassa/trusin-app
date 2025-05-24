@@ -30,7 +30,7 @@ class _TerimaButtonState extends State<TerimaButton> {
 
       return SizedBox(
         width: 139,
-        height: 48,
+        height: 47,
         child: Row(
           children: [
             // Tombol untuk SUBMIT status

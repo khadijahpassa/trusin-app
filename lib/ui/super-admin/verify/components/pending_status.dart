@@ -21,18 +21,18 @@ class PendingStatus extends StatelessWidget {
     if (lowerStatus == 'rejected') {
       backgroundColor = error100;
       textColor = error500;
-      iconWidget = const Icon(Icons.close_rounded, color: error500, size: descText);
+      iconWidget = const Icon(Icons.close_rounded, color: error500, size: body);
       label = 'Tolak';
     } else {
       backgroundColor = warningLight100;
       textColor = warningLight600;
-      iconWidget = SvgPicture.asset('assets/icons/pending.svg', color: warningLight600, width: 24);
+      iconWidget = SvgPicture.asset('assets/icons/pending.svg', color: warningLight600, width: 18);
       label = 'Pending';
     }
     
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: defaultPadding / 2,
+        horizontal: defaultPadding / 3,
         vertical: defaultPadding / 3,
       ),
       decoration: BoxDecoration(
@@ -46,7 +46,7 @@ class PendingStatus extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              fontSize: descText,
+              fontSize: caption,
               color: textColor,
               fontWeight: FontWeight.bold,
             ),

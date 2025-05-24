@@ -7,8 +7,8 @@ import 'package:trusin_app/controllers/quotation_controller.dart';
 import 'package:trusin_app/models/quotation_model.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-screen/quotation_screen.dart';
 
-class QuotationCSHomeScreen extends StatelessWidget {
-  const QuotationCSHomeScreen({super.key});
+class QuotationSvHomeScreen extends StatelessWidget {
+  const QuotationSvHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
