@@ -44,7 +44,7 @@ class _DetailCsScreenState extends State<DetailCsScreen> {
               SizedBox(height: 25),
               InfoCs(cs: cs),
               SizedBox(height: 25),
-              Data(csId: cs.id),
+              Data(),
               SizedBox(height: 30),
               SizedBox(height: 500, child: ProgressLeads(csId: cs.id, cs: cs)) // Hapus Flexible
             ],

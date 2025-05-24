@@ -3,23 +3,22 @@ import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
 import 'package:trusin_app/models/lead_list_model.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/activity_list.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/app_bar.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/date.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/info_lead.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/profile_lead.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/tab_table.dart';
+import 'package:trusin_app/ui/general/components/detail-lead/activity_list.dart';
+import 'package:trusin_app/ui/general/components/detail-lead/app_bar.dart';
+import 'package:trusin_app/ui/general/components/detail-lead/date.dart';
+import 'package:trusin_app/ui/general/components/detail-lead/info_lead.dart';
+import 'package:trusin_app/ui/general/components/detail-lead/profile_lead.dart';
+import 'package:trusin_app/ui/general/components/detail-lead/tab_table.dart';
 
-class DetailLeadScreen extends StatefulWidget {
+class DetailLeadSvScreen extends StatefulWidget {
   final LeadListController leadListController = Get.find();
-   DetailLeadScreen({super.key});
+   DetailLeadSvScreen({super.key});
 
   @override
-  State<DetailLeadScreen> createState() => _DetailLeadScreenState();
+  State<DetailLeadSvScreen> createState() => _DetailLeadSvScreenState();
 }
 
-
-class _DetailLeadScreenState extends State<DetailLeadScreen> {
+class _DetailLeadSvScreenState extends State<DetailLeadSvScreen> {
 
   @override
   Widget build(BuildContext context) {

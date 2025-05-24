@@ -31,23 +31,44 @@ class LeadModel {
     required this.reminderCategory,
   });
 
-  factory LeadModel.fromMap(Map<String, dynamic> map) {
-    return LeadModel(
-      id: map['id'] ?? '-',
-      name: map['name'] ?? '-',
-      phone: map['phone'] ?? '-',
-      email: map['email'] ?? '-',
-      source: map['source'] ?? '-',
-      createdOn: (map['createdOn'] as Timestamp).toDate(),
-      createdBy: map['createdBy'] ?? '-',
-      companyName: map['companyName'] ?? '-',
-      status: map['status'] ?? '-',
-      title: map['title'] ?? '-',
-      address: map['address'] ?? '-',
-      reminderDate: (map['reminderDate'] as Timestamp).toDate(),
-      reminderCategory: map['reminderCategory'] ?? '-' ,
-    );
-  }
+  factory LeadModel.fromDocument(DocumentSnapshot doc) {
+  final map = doc.data() as Map<String, dynamic>;
+
+  return LeadModel(
+    id: doc.id,
+    name: map['name'] ?? '-',
+    phone: map['phone'] ?? '-',
+    email: map['email'] ?? '-',
+    source: map['source'] ?? '-',
+    createdOn: (map['createdOn'] as Timestamp).toDate(),
+    createdBy: map['createdBy'] ?? '-',
+    companyName: map['companyName'] ?? '-',
+    status: map['status'] ?? '-',
+    title: map['title'] ?? '-',
+    address: map['address'] ?? '-',
+    reminderDate: (map['reminderDate'] as Timestamp).toDate(),
+    reminderCategory: map['reminderCategory'] ?? '-',
+  );
+}
+
+
+  // factory LeadModel.fromMap(Map<String, dynamic> map) {
+  //   return LeadModel(
+  //     id: map['id'] ?? '-',
+  //     name: map['name'] ?? '-',
+  //     phone: map['phone'] ?? '-',
+  //     email: map['email'] ?? '-',
+  //     source: map['source'] ?? '-',
+  //     createdOn: (map['createdOn'] as Timestamp).toDate(),
+  //     createdBy: map['createdBy'] ?? '-',
+  //     companyName: map['companyName'] ?? '-',
+  //     status: map['status'] ?? '-',
+  //     title: map['title'] ?? '-',
+  //     address: map['address'] ?? '-',
+  //     reminderDate: (map['reminderDate'] as Timestamp).toDate(),
+  //     reminderCategory: map['reminderCategory'] ?? '-' ,
+  //   );
+  // }
 
   Map<String, dynamic> toMap() {
     return {

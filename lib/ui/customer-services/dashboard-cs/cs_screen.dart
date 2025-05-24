@@ -42,25 +42,31 @@ class _DashboardCsScreenState extends State<DashboardCsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: secondary100,
-      body: Padding(
-        padding: EdgeInsets.all(defaultPadding),
-        child: Column(
-          children: [
-            Header(),
-            Row(
-              children: [
-                Text(
-                  "Beranda",
-                  style: TextStyle(
-                      fontSize: heading1, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            SizedBox(height: 20),
-            Data(),
-            SizedBox(height: 35),
-            Expanded(child: ProgressCustomerService())
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(defaultPadding),
+          child: Column(
+            children: [
+              Header(),
+              Row(
+                children: [
+                  Text(
+                    "Beranda",
+                    style: TextStyle(
+                      fontSize: heading1,
+                      fontWeight: FontWeight.bold
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 20),
+              Data(),
+              SizedBox(height: 35),
+              Expanded(
+                child: ProgressCustomerService()
+              )
+            ],
+          ),
         ),
       ),
     );

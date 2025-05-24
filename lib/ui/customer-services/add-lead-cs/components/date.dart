@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/components/time_picker.dart';
+import 'package:trusin_app/ui/general/components/detail-lead/time_picker.dart';
 
 class Date extends StatefulWidget {
   const Date({super.key});

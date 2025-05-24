@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
 
 class Data extends StatelessWidget implements PreferredSizeWidget {
-  final String csId;
-  const Data({super.key, required this.csId});
+  const Data({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(170);
@@ -13,73 +13,70 @@ class Data extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final leadController = Get.find<LeadListController>();
+    final currentUser = FirebaseAuth.instance.currentUser;
 
-    return FutureBuilder<Map<String, int>>(
-      future: leadController.getStatusCountByCS(csId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    if (currentUser == null) {
+      return const Center(child: Text("User belum login"));
+    }
 
-        if (snapshot.hasError || !snapshot.hasData) {
-          return const Text('Error load data');
-        }
+    // ❌ Dulu pakai FutureBuilder
+    // ✅ Sekarang pakai Obx langsung karena leadList sudah reactive
+    return Obx(() {
+      final data = leadController.calculateStatusCount();
 
-        final data = snapshot.data!;
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: _buildBox(
-                    count: '${data['New Customer'] ?? 0}',
-                    label: 'New Customer',
-                    color: lightBlue,
-                  ),
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: _buildBox(
+                  count: '${data['New Customer'] ?? 0}',
+                  label: 'New Customer',
+                  color: lightBlue,
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _buildBox(
-                    count: '${data['Follow Up'] ?? 0}',
-                    label: 'Follow Up',
-                    color: warningLight100,
-                  ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildBox(
+                  count: '${data['Follow Up'] ?? 0}',
+                  label: 'Follow Up',
+                  color: warningLight100,
                 ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildBox(
-                    count: '${data['Send Quotation'] ?? 0}',
-                    label: 'Send Quotation',
-                    color: secondary600,
-                  ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: _buildBox(
+                  count: '${data['Send Quotation'] ?? 0}',
+                  label: 'Send Quotation',
+                  color: secondary600,
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _buildBox(
-                    count: '${data['Won'] ?? 0}',
-                    label: 'Won',
-                    color: success100,
-                  ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildBox(
+                  count: '${data['Won'] ?? 0}',
+                  label: 'Won',
+                  color: success100,
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _buildBox(
-                    count: '${data['Rejected'] ?? 0}',
-                    label: 'Rejected',
-                    color: error100,
-                  ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildBox(
+                  count: '${data['Rejected'] ?? 0}',
+                  label: 'Rejected',
+                  color: error100,
                 ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
+              ),
+            ],
+          ),
+        ],
+      );
+    });
   }
 
   Widget _buildBox({

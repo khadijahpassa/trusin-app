@@ -8,6 +8,7 @@ import 'package:trusin_app/service/notification_service.dart';
 class LeadListController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? currentUid;
+
   var selectedLead = Rxn<LeadModel>();
   var leadList = <LeadModel>[].obs;
   final isLoading = true.obs;
@@ -22,32 +23,32 @@ class LeadListController extends GetxController {
     'Rejected': 0,
   }.obs;
 
-void init() async {
-  isLoading.value = true;
-  print("🔥 INIT Controller.");
+  void init() async {
+    isLoading.value = true;
+    print("🔥 INIT Controller.");
 
-  final user = FirebaseAuth.instance.currentUser;
-  if (user == null) {
-    print("⚠️ UID NULL. Delay 500ms...");
-    await Future.delayed(const Duration(milliseconds: 500));
-    final retryUser = FirebaseAuth.instance.currentUser;
-    if (retryUser == null) {
-      print("⛔ UID tetap null setelah delay.");
-      isLoading.value = false; // biar gak loading selamanya
-      return;
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("⚠️ UID NULL. Delay 500ms...");
+      await Future.delayed(const Duration(milliseconds: 500));
+      final retryUser = FirebaseAuth.instance.currentUser;
+      if (retryUser == null) {
+        print("⛔ UID tetap null setelah delay.");
+        isLoading.value = false;
+        return;
+      } else {
+        currentUid = retryUser.uid;
+      }
     } else {
-      currentUid = retryUser.uid;
+      currentUid = user.uid;
     }
-  } else {
-    currentUid = user.uid;
+
+    print("✅ UID Ready: $currentUid");
+
+    _startLeadStream();
+    isLoading.value = false;
   }
 
-  print("✅ UID Ready: $currentUid");
-
-  _startLeadStream(); // ⬅️ Mulai stream setelah UID ready
-  isLoading.value = false;
-
-}
   @override
   void onInit() {
     super.onInit();
@@ -59,9 +60,8 @@ void init() async {
         .where('createdBy', isEqualTo: currentUid)
         .snapshots()
         .listen((snapshot) {
-      leadList.value = snapshot.docs
-          .map((doc) => LeadModel.fromMap(doc.data()))
-          .toList();
+      leadList.value =
+          snapshot.docs.map((doc) => LeadModel.fromDocument(doc)).toList();
 
       print("📡 DATA LEAD STREAMED: ${leadList.length}");
     }, onError: (e) {
@@ -71,14 +71,12 @@ void init() async {
 
   @override
   void onClose() {
-    _leadStreamSubscription?.cancel(); // penting buat cleanup
+    _leadStreamSubscription?.cancel();
     super.onClose();
   }
 
-    /// ✅ Stream yang reactive dan otomatis update UI
   Stream<List<LeadModel>> get leadStream {
     if (currentUid == null) {
-      // Jangan return stream kosong, lebih baik throw atau wait.
       return const Stream.empty();
     }
 
@@ -87,26 +85,40 @@ void init() async {
         .where('createdBy', isEqualTo: currentUid)
         .snapshots()
         .map((snapshot) =>
-            snapshot.docs.map((doc) => LeadModel.fromMap(doc.data())).toList());
+            snapshot.docs.map((doc) => LeadModel.fromDocument(doc)).toList());
   }
 
-  // Stream lead berdasarkan ID (misalnya dipakai di detail view)
-  //buat fetch lead secara reactive (tujuannya untuk nampilin date yang habis dipilih di caleder)
   void streamLeadById(String id) {
     _firestore.collection('customers').doc(id).snapshots().listen((doc) {
       if (doc.exists) {
-        selectedLead.value = LeadModel.fromMap(doc.data()!);
+        selectedLead.value = LeadModel.fromDocument(doc);
       }
     });
   }
 
-  // Buat widget Data: hitung status per CS (sekali ambil aja)
+  Map<String, int> calculateStatusCount() {
+    final Map<String, int> result = {
+      'New Customer': 0,
+      'Follow Up': 0,
+      'Send Quotation': 0,
+      'Won': 0,
+      'Rejected': 0,
+    };
+
+    for (var lead in leadList) {
+      final status = lead.status ?? 'Unknown';
+      result[status] = (result[status] ?? 0) + 1;
+    }
+
+    return result;
+  }
+
 
   Future<void> fetchLeadById(String leadId) async {
   try {
     final doc = await _firestore.collection('customers').doc(leadId).get();
     if (doc.exists) {
-      selectedLead.value = LeadModel.fromMap(doc.data()!);
+      selectedLead.value = LeadModel.fromDocument(doc);
       print("✅ selectedLead refreshed setelah update.");
     }
   } catch (e) {
@@ -116,28 +128,24 @@ void init() async {
 
   // Buat widget Data: hitung status per CS
 
-  Future<Map<String, int>> getStatusCountByCS(String csId) async {
-    try {
-      final snapshot = await _firestore
-          .collection('customers')
-          .where('createdBy', isEqualTo: csId)
-          .get();
+  // Future<Map<String, int>> getStatusCountByCS(String csId) async {
+  //   try {
+  //     final snapshot = await _firestore
+  //         .collection('customers')
+  //         .where('createdBy', isEqualTo: csId)
+  //         .get();
 
-      final Map<String, int> result = {};
-      for (var doc in snapshot.docs) {
-        final status = doc['status'] ?? 'Unknown';
-        result[status] = (result[status] ?? 0) + 1;
-      }
-      return result;
-    } catch (e) {
-      print('Error getStatusCountByCS: $e');
-      return {};
-    }
-  }
+  //   for (var lead in leadList) {
+  //     final status = lead.status ?? 'Unknown';
+  //     result[status] = (result[status] ?? 0) + 1;
+  //   }
 
-  // Buat widget ProgressLeads: filter berdasarkan status & CS
+  //   return result;
+  // }
+  // }
+
   Future<List<LeadModel>> getLeadsByStatusAndCS(
-    String status, String csId) async {
+      String status, String csId) async {
     try {
       final snapshot = await _firestore
           .collection('customers')
@@ -145,29 +153,13 @@ void init() async {
           .where('createdBy', isEqualTo: csId)
           .get();
 
-      return snapshot.docs.map((doc) => LeadModel.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => LeadModel.fromDocument(doc)).toList();
     } catch (e) {
       print("Error getLeadsByStatusAndCS: $e");
       return [];
     }
   }
 
-  // Stream<List<LeadModel>> getLeadsByStatusStream(String status, String csId) {
-  //   return FirebaseFirestore.instance
-  //     .collection('customers')
-  //     .where('status', isEqualTo: status)
-  //     .where('createdBy', isEqualTo: csId)
-  //     .snapshots()
-  //     .map(mapSnapshotToLeads);
-  // }
-
-  //   static List<LeadModel> mapSnapshotToLeads(QuerySnapshot snapshot) {
-  //   return snapshot.docs
-  //     .map((doc) => LeadModel.fromMap(doc.data()! as Map<String, dynamic>))
-  //     .toList();
-  // }
-
-    //buat push ke firestore untuk reminderDate
   Future<void> updateReminder(
       String leadId, DateTime reminderDate, String reminderCategory) async {
     try {
@@ -182,6 +174,20 @@ void init() async {
     }
   }
 
+  Future<void> updateStatus(String leadId, String newStatus) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('customers')
+          .doc(leadId)
+          .update({'status': newStatus});
+
+      final controller = Get.find<LeadListController>();
+      controller.init();
+      print('Lead ID: ${leadId} | Status Baru: $newStatus');
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal memperbarui status $e');
+    }
+  }
   // Future<DocumentSnapshot> getLeadById(String leadId) async {
   //   return await FirebaseFirestore.instance
   //       .collection('customers')
@@ -190,31 +196,27 @@ void init() async {
   // }
 
   void scheduleRemindersForCS(String csId) async {
-  final leadsSnapshot = await FirebaseFirestore.instance
-      .collection('customers')
-      .where('createdBy', isEqualTo: csId)
-      .get();
+    final leadsSnapshot = await FirebaseFirestore.instance
+        .collection('customers')
+        .where('createdBy', isEqualTo: csId)
+        .get();
 
-  for (var doc in leadsSnapshot.docs) {
-    final lead = LeadModel.fromMap(doc.data());
+    for (var doc in leadsSnapshot.docs) {
+      final lead = LeadModel.fromDocument(doc);
 
-    // Pastikan reminderDate tidak null dan masih di masa depan
-    if (lead.reminderDate.isAfter(DateTime.now())) {
-      final reminderDate = (lead.reminderDate as Timestamp).toDate();
+      // Pastikan reminderDate tidak null dan masih di masa depan
+      if (lead.reminderDate.isAfter(DateTime.now())) {
+        final reminderDate = (lead.reminderDate as Timestamp).toDate();
 
-      await NotificationService.scheduleNotification(
-        id: lead.id.hashCode,
-        title: "Reminder Lead",
-        body: "Reminder: ${lead.reminderCategory ?? 'Follow up'} - ${lead.name ?? 'Customer'}",
-        scheduledDate: lead.reminderDate,
-      );
-      print('Scheduling notification at $reminderDate for ${lead.name}');
+        await NotificationService.scheduleNotification(
+          id: lead.id.hashCode,
+          title: "Reminder Lead",
+          body:
+              "Reminder: ${lead.reminderCategory ?? 'Follow up'} - ${lead.name ?? 'Customer'}",
+          scheduledDate: lead.reminderDate,
+        );
+        print('Scheduling notification at $reminderDate for ${lead.name}');
+      }
     }
-    
   }
-}
-
-
-
-  
 }
