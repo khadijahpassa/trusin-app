@@ -14,12 +14,6 @@ class ProgressCS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // Ini buat manggil sekali aja setelah widget muncul
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      csListController;
-    });
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -60,34 +54,24 @@ class ProgressCS extends StatelessWidget {
                       itemCount: csData.filteredCsList.length,
                       itemBuilder: (context, index) {
                         final cs = csData.filteredCsList[index];
-                        return FutureBuilder<Map<String, int>>(
-                          future: leadController.getStatusCountByCS(cs.id),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                  child: CircularProgressIndicator());
-                            }
-                            if (snapshot.hasError || !snapshot.hasData) {
-                              return _buildCSCard(
-                                  context, cs, "Gagal load data", 'assets/images/customer_service.png');
-                            }
 
-                            final data = snapshot.data!;
-                            final newCount = data['New Customer'] ?? 0;
-                            final wonCount = data['Won'] ?? 0;
-                            final statusInfo =
-                                "$newCount New Customer | $wonCount Won";
+                        // Hitung status dari list reactive leadController
+                        final data = leadController.calculateStatusCount();
+                        final newCount = data['New Customer'] ?? 0;
+                        final wonCount = data['Won'] ?? 0;
+                        final statusInfo = "$newCount New Customer | $wonCount Won";
 
-                            return _buildCSCard(
-                                context, cs, statusInfo, 'assets/images/customer_service.png');
-                          },
+                        return _buildCSCard(
+                          context,
+                          cs,
+                          statusInfo,
+                          'assets/images/customer_service.png',
                         );
                       },
                     );
                   }
                 }),
-              )
+              ),
             ],
           ),
         ),
@@ -96,21 +80,28 @@ class ProgressCS extends StatelessWidget {
   }
 
   Widget _buildCSCard(
-      BuildContext context, CSModel cs, String status, String avatar) {
+    BuildContext context,
+    CSModel cs,
+    String status,
+    String avatar,
+  ) {
     return Card(
       color: secondary100,
       child: ListTile(
         leading: CircleAvatar(
           backgroundImage: AssetImage(
-              avatar.isNotEmpty ? avatar : 'assets/images/role_cs.png'),
+            avatar.isNotEmpty ? avatar : 'assets/images/role_cs.png',
+          ),
         ),
         title: Text(cs.name, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(status, style: TextStyle(fontSize: caption),),
+        subtitle: Text(status, style: TextStyle(fontSize: caption)),
         trailing: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: primary400,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6))),
+            backgroundColor: primary400,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
           onPressed: () {
             final csController = Get.find<CSListController>();
             csController.selectedCS.value = cs;

@@ -24,6 +24,7 @@ import 'package:trusin_app/ui/super-admin/dashboard-superadmin/components/bottom
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/bottom_navbar_supervisor.dart';
 import 'package:trusin_app/ui/supervisor/detail-cs-supervisor/detail_cs_screen.dart';
 import 'package:trusin_app/ui/supervisor/notification-supervisor/notif_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,25 +63,48 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Trusin',
       theme: ThemeData(
-        fontFamily: 'PlusJakartaSans', 
+        fontFamily: 'PlusJakartaSans',
         scaffoldBackgroundColor: Colors.white,
-        primarySwatch: Colors.blue
+        primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',  // Route pertama yang dibuka
+      home: AuthWrapper(), // 👈 ganti initialRoute jadi home wrapper
       getPages: [
-     
-        GetPage(name: '/', page: ()=> OnboardingScreen()),
-        GetPage(name: '/login', page: ()=> LoginScreen()),
-        GetPage(name: '/forgot-password', page: ()=> ForgotPasswordScreen()),
-        GetPage(name: '/register-cs', page: ()=> RegisterCSScreen()),
-        GetPage(name: '/register-supervisor', page: ()=> RegisterSupervisorScreen()),
-        GetPage(name: '/waiting-approval', page: ()=> WaitingApprovalScreen()),
-        GetPage(name: '/supervisor-home', page: ()=> BottomNavbarSupervisor()),
-        GetPage(name: '/superadmin-home', page: ()=> BottomNavbarSuperadmin()),
-        GetPage(name: '/cs-home', page: ()=> BottomNavbarCS()),
-        GetPage(name: '/detail-cs', page: ()=> DetailCsScreen()),
-        GetPage(name: '/notification', page: ()=> NotifScreen()),
+        GetPage(name: '/', page: () => OnboardingScreen()),
+        GetPage(name: '/login', page: () => LoginScreen()),
+        GetPage(name: '/forgot-password', page: () => ForgotPasswordScreen()),
+        GetPage(name: '/register-cs', page: () => RegisterCSScreen()),
+        GetPage(name: '/register-supervisor', page: () => RegisterSupervisorScreen()),
+        GetPage(name: '/waiting-approval', page: () => WaitingApprovalScreen()),
+        GetPage(name: '/supervisor-home', page: () => BottomNavbarSupervisor()),
+        GetPage(name: '/superadmin-home', page: () => BottomNavbarSuperadmin()),
+        GetPage(name: '/cs-home', page: () => BottomNavbarCS()),
+        GetPage(name: '/detail-cs', page: () => DetailCsScreen()),
+        GetPage(name: '/notification', page: () => NotifScreen()),
       ],
     );
   }
 }
+
+class AuthWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(), // pantau login/logout
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (snapshot.hasData) {
+          // User sudah login → arahkan ke bottom navbar sesuai role
+          // Untuk sementara bisa diarahkan ke CS
+          return BottomNavbarCS();
+        } else {
+          // Belum login → arahkan ke login
+          return LoginScreen();
+        }
+      },
+    );
+  }
+}
+

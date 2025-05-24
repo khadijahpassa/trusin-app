@@ -3,9 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
-import 'package:trusin_app/ui/supervisor/profile-supervisor/component/appbar.dart';
-import 'package:trusin_app/ui/supervisor/profile-supervisor/component/change_password_form.dart';
-import 'package:trusin_app/ui/supervisor/profile-supervisor/component/text_field_input.dart';
+import 'package:trusin_app/ui/general/components/profile/change_password_form.dart';
+import 'package:trusin_app/ui/general/components/profile/text_field_input.dart';
 
 class ProfileScreenSupervisor extends StatefulWidget {
   ProfileScreenSupervisor({super.key});
@@ -66,7 +65,7 @@ class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbar(),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: defaultPadding, vertical: 24),

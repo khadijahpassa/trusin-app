@@ -88,7 +88,7 @@ class _CustomerList extends StatelessWidget {
             final lead = leads[index];
             return GestureDetector(
               onTap: () async {
-                Get.to(() => DetailLeadScreen(), arguments: lead);
+                Get.to(() => DetailLeadSvScreen(), arguments: lead);
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

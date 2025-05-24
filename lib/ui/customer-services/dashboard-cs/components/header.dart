@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/auth_controller.dart';
+import 'package:trusin_app/ui/customer-services/profile-cs/profile_screen.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
   Header({super.key});
@@ -47,7 +48,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
-                    // Get.to(ProfileScreenSupervisor());
+                    Get.to(ProfileScreenCs());
                   },
                   child: const CircleAvatar(
                     radius: 20,

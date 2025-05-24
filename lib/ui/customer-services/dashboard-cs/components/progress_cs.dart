@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:trusin_app/const.dart';
 import 'package:trusin_app/controllers/lead_list_controller.dart';
 import 'package:trusin_app/ui/customer-services/add-lead-cs/add_lead_screen.dart';
-import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/detail_lead_screen.dart';
+import 'package:trusin_app/ui/customer-services/detail-lead-cs/detail_lead_screen.dart';
 
 class ProgressCustomerService extends StatefulWidget {
   const ProgressCustomerService({super.key});
@@ -70,6 +70,25 @@ class _ProgressCustomerServiceState extends State<ProgressCustomerService>
   }
 }
 
+Widget _buildStatusOption(BuildContext context, lead, String newStatus) {
+  return Container(
+  decoration: BoxDecoration(
+    color: secondary200,
+    borderRadius: BorderRadius.vertical(
+      top: Radius.circular(20), // ini yang bikin radius di atas doang
+    ),
+  ),
+  child: ListTile(
+    title: Text('Pindahkan ke "$newStatus"'),
+    onTap: () async {
+      Navigator.pop(context);
+      final controller = Get.find<LeadListController>();
+      await controller.updateStatus(lead.id, newStatus);
+    },
+  ),
+);
+}
+
 class _CustomerList extends StatelessWidget {
   final String status;
   const _CustomerList({required this.status});
@@ -108,7 +127,35 @@ class _CustomerList extends StatelessWidget {
 
                       return GestureDetector(
                         onTap: () {
-                          Get.to(() => DetailLeadScreen(), arguments: lead);
+                          Get.to(() => DetailLeadCsScreen(), arguments: lead);
+                        },
+                        onLongPress: () {
+                          final allStatuses = [
+                            'New Customer',
+                            'Follow Up',
+                            'Send Quotation',
+                            'Won',
+                            'Rejected',
+                          ];
+
+                          final availableStatuses = allStatuses
+                              .where((s) => s != lead.status)
+                              .toList();
+
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return SafeArea(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: availableStatuses
+                                      .map((status) => _buildStatusOption(
+                                          context, lead, status))
+                                      .toList(),
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Container(
                           margin: const EdgeInsets.only(
@@ -198,7 +245,7 @@ class _CustomerList extends StatelessWidget {
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          minimumSize: Size .zero, 
+                          minimumSize: Size.zero,
                         ),
                         child: Row(
                           children: [

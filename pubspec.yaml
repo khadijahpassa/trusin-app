@@ -59,6 +59,7 @@ dependencies:
   open_file: ^3.5.10
   file_picker: ^10.1.9
   path_provider: ^2.1.5
+  drag_and_drop_lists: ^0.4.2
 
 
 dev_dependencies:
