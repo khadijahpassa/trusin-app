@@ -28,30 +28,27 @@ class _DetailCsScreenState extends State<DetailCsScreen> {
     return Scaffold(
       appBar: Appbar(),
       backgroundColor: secondary100,
-      body: Padding(
-        padding: EdgeInsets.all(defaultPadding),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  "CS Performance",
-                  style: TextStyle(
-                      fontSize: heading1, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            SizedBox(height: 20),
-            ProfileCs(cs: cs),
-            SizedBox(height: 25),
-            InfoCs(cs: cs),
-            SizedBox(height: 25),
-            Data(),
-            SizedBox(height: 30),
-            Flexible(
-                child: ProgressLeads(csId: cs.id)
-            )
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(defaultPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "CS Performance",
+                style: TextStyle(
+                    fontSize: heading1, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              ProfileCs(cs: cs),
+              SizedBox(height: 25),
+              InfoCs(cs: cs),
+              SizedBox(height: 25),
+              Data(),
+              SizedBox(height: 30),
+              SizedBox(height: 500, child: ProgressLeads(csId: cs.id, cs: cs)) // Hapus Flexible
+            ],
+          ),
         ),
       ),
     );

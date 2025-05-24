@@ -16,21 +16,29 @@ class DashboardSvScreen extends StatefulWidget {
 }
 
 class _DashboardSvScreenState extends State<DashboardSvScreen> {
+  late final AuthController authController;
+
   @override
   void initState() {
     super.initState();
-    final authController = Get.find<AuthController>();
+    authController = Get.find<AuthController>();
     authController.fetchCurrentUserData();
+    final company = Get.find<AuthController>().currentCompany.value;
+  
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // final csId = authController.currentUser.value?.uid ?? '';
+
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
-              padding: EdgeInsets.all(defaultPadding),
-              child: Column(children: [
+            padding: EdgeInsets.all(defaultPadding),
+            child: Column(
+              children: [
                 Header(),
                 SizedBox(height: defaultPadding),
                 ButtonAddCs(),
@@ -39,8 +47,12 @@ class _DashboardSvScreenState extends State<DashboardSvScreen> {
                 SizedBox(height: defaultPadding),
                 ChartRevenue(),
                 SizedBox(height: defaultPadding),
-                ChartPipelineLeads()
-              ])),
-        ));
+                ChartPipelineLeads(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -20,7 +20,7 @@ class RingkasanStatistik extends StatelessWidget {
         Text(
           "Pantau perkembangan perusahaan & user yang sudah terdaftar.",
           style: TextStyle(
-            fontSize: heading3,
+            fontSize: descText,
             fontWeight: FontWeight.w300
           ),
         ),

@@ -99,6 +99,7 @@ class Data extends StatelessWidget implements PreferredSizeWidget {
                   color: Colors.black)),
           const SizedBox(height: 4),
           Text(label,
+          textAlign: TextAlign.center,
               style: const TextStyle(fontSize: body, color: Colors.black87)),
         ],
       ),

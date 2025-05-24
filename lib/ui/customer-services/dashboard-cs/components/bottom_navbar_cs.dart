@@ -27,7 +27,7 @@ class _BottomNavbarCSState extends State<BottomNavbarCS> {
         break;
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => QuotationHomeScreen()));
+        (context) => QuotationCSHomeScreen()));
         break;
       case 2:
         Navigator.push(context, MaterialPageRoute(builder: 
@@ -45,7 +45,7 @@ class _BottomNavbarCSState extends State<BottomNavbarCS> {
       index: _selectedIndex,
       children: [
         DashboardCsScreen(),
-        QuotationHomeScreen(),
+        QuotationCSHomeScreen(),
         CSRankScreen(),
       ],
     ),

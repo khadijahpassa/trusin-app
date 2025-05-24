@@ -10,7 +10,8 @@ import 'package:trusin_app/ui/supervisor/detail-lead-supervisor/detail_lead_scre
 
 class ProgressLeads extends StatelessWidget {
   final String csId;
-  ProgressLeads({super.key, required this.csId});
+  final CSModel cs;
+  ProgressLeads({super.key, required this.csId, required this.cs});
 
   final List<String> statusList = [
     'New Customer',
@@ -107,7 +108,7 @@ class _CustomerList extends StatelessWidget {
                         fontSize: descText,
                       ),
                     ),
-                    const SizedBox(height: 7),
+                    const SizedBox(height: 5),
                     Text(
                       lead.name,
                       style: const TextStyle(

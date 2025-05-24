@@ -4,13 +4,26 @@ import 'package:trusin_app/ui/supervisor/rank-supervisor/components/podium_widge
 
 Widget builPodium(BuildContext context) {
   return SizedBox(
-    height: 310, // tinggi area podium
+    height: 305, // tinggi area podium
     child: Stack(
       alignment: Alignment.bottomCenter,
       children: [
+        // Podium 3 - kanan
+        Positioned(
+          right: 38,
+          bottom: 0,
+          child: PodiumWidget(
+            image: 'assets/images/customer_service.png',
+            name: 'Setiawan',
+            wonText: '8 Won',
+            rank: '3',
+            podiumHeight: 119, 
+            podiumColor: primary300,
+          ),
+        ),
         // Podium 2 - kiri
         Positioned(
-          left: MediaQuery.of(context).size.width * 0.1,
+          left: 28,
           bottom: 0,
           child: PodiumWidget(
             image: 'assets/images/customer_service.png',
@@ -31,19 +44,6 @@ Widget builPodium(BuildContext context) {
             rank: '1',
             podiumHeight: 184, 
             podiumColor: primary500,
-          ),
-        ),
-        // Podium 3 - kanan
-        Positioned(
-          right: MediaQuery.of(context).size.width * 0.1,
-          bottom: 0,
-          child: PodiumWidget(
-            image: 'assets/images/customer_service.png',
-            name: 'Setiawan',
-            wonText: '8 Won',
-            rank: '3',
-            podiumHeight: 119, 
-            podiumColor: primary300,
           ),
         ),
       ],

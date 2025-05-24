@@ -19,7 +19,6 @@ class DetailLeadCsScreen extends StatefulWidget {
 }
 
 class _DetailLeadCsScreenState extends State<DetailLeadCsScreen> {
-
   @override
   Widget build(BuildContext context) {
     final LeadModel lead = Get.arguments as LeadModel;

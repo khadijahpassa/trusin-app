@@ -51,7 +51,7 @@ class _DetailLeadSvScreenState extends State<DetailLeadSvScreen> {
                   ProfileLead(leadId: lead.id),
                   SizedBox(width: 5),
                   SizedBox(
-                    width: 170,
+                    width: 150,
                     child: Date(leadId: lead.id),
                   )
                 ],

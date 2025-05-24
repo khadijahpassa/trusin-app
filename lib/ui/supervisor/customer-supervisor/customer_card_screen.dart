@@ -50,7 +50,7 @@ class CustomerrCardGridScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 4 / 4,
+                  childAspectRatio: 4 / 5,
                 ),
                 itemCount: customers.length,
                 itemBuilder: (context, index) {

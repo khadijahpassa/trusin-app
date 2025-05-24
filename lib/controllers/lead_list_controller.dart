@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trusin_app/models/lead_list_model.dart';
+import 'package:trusin_app/service/notification_service.dart';
 
 class LeadListController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -51,7 +52,6 @@ class LeadListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // komentar-komentarmu tetap aman disini
   }
 
   void _startLeadStream() {
@@ -60,9 +60,8 @@ class LeadListController extends GetxController {
         .where('createdBy', isEqualTo: currentUid)
         .snapshots()
         .listen((snapshot) {
-      leadList.value = snapshot.docs
-          .map((doc) => LeadModel.fromDocument(doc))
-          .toList();
+      leadList.value =
+          snapshot.docs.map((doc) => LeadModel.fromDocument(doc)).toList();
 
       print("📡 DATA LEAD STREAMED: ${leadList.length}");
     }, onError: (e) {
@@ -114,6 +113,37 @@ class LeadListController extends GetxController {
     return result;
   }
 
+
+  Future<void> fetchLeadById(String leadId) async {
+  try {
+    final doc = await _firestore.collection('customers').doc(leadId).get();
+    if (doc.exists) {
+      selectedLead.value = LeadModel.fromDocument(doc);
+      print("✅ selectedLead refreshed setelah update.");
+    }
+  } catch (e) {
+    print("❌ Gagal fetch lead by ID: $e");
+  }
+}
+
+  // Buat widget Data: hitung status per CS
+
+  // Future<Map<String, int>> getStatusCountByCS(String csId) async {
+  //   try {
+  //     final snapshot = await _firestore
+  //         .collection('customers')
+  //         .where('createdBy', isEqualTo: csId)
+  //         .get();
+
+  //   for (var lead in leadList) {
+  //     final status = lead.status ?? 'Unknown';
+  //     result[status] = (result[status] ?? 0) + 1;
+  //   }
+
+  //   return result;
+  // }
+  // }
+
   Future<List<LeadModel>> getLeadsByStatusAndCS(
       String status, String csId) async {
     try {
@@ -156,6 +186,37 @@ class LeadListController extends GetxController {
       print('Lead ID: ${leadId} | Status Baru: $newStatus');
     } catch (e) {
       Get.snackbar('Error', 'Gagal memperbarui status $e');
+    }
+  }
+  // Future<DocumentSnapshot> getLeadById(String leadId) async {
+  //   return await FirebaseFirestore.instance
+  //       .collection('customers')
+  //       .doc(leadId)
+  //       .get();
+  // }
+
+  void scheduleRemindersForCS(String csId) async {
+    final leadsSnapshot = await FirebaseFirestore.instance
+        .collection('customers')
+        .where('createdBy', isEqualTo: csId)
+        .get();
+
+    for (var doc in leadsSnapshot.docs) {
+      final lead = LeadModel.fromDocument(doc);
+
+      // Pastikan reminderDate tidak null dan masih di masa depan
+      if (lead.reminderDate.isAfter(DateTime.now())) {
+        final reminderDate = (lead.reminderDate as Timestamp).toDate();
+
+        await NotificationService.scheduleNotification(
+          id: lead.id.hashCode,
+          title: "Reminder Lead",
+          body:
+              "Reminder: ${lead.reminderCategory ?? 'Follow up'} - ${lead.name ?? 'Customer'}",
+          scheduledDate: lead.reminderDate,
+        );
+        print('Scheduling notification at $reminderDate for ${lead.name}');
+      }
     }
   }
 }

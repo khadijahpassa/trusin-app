@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trusin_app/const.dart';
 import 'package:trusin_app/models/company_request.dart';
+import 'package:trusin_app/ui/supervisor/detail-cs-supervisor/components/app_bar.dart';
 
 class CompanyDetailScreen extends StatelessWidget {
   final CompanyRequest data;
@@ -9,26 +9,7 @@ class CompanyDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: secondary100,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios , 
-            color: Colors.black
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-         title: Text(
-          "Detail",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700
-          ),
-        ),
-        elevation: 0,
-      ),
+      appBar: Appbar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Column(
@@ -44,48 +25,30 @@ class CompanyDetailScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Expanded(
+                  child: _InfoColumn(
+                    title: 'Name',
+                    value: data.supervisorName,
+                  ),
+                ),
+                SizedBox(width: 16),
                 Expanded(
                   child: _InfoColumn(
                     title: 'Nomor Telepon',
                     value: data.phone,
                   ),
                 ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: _InfoColumn(
-                    title: 'Sumber',
-                    value: 'WhatsApp',
-                  ),
-                ),
               ],
             ),
             const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
+            Expanded(
                   child: _InfoColumn(
                     title: 'Alamat Email',
                     value: data.email,
                   ),
                 ),
-                SizedBox(width: 16),
-            // TODO: solve ini dong
-                Expanded(
-                  child: _InfoColumn(
-                    title: 'Dibuat Pada',
-                    value: '17/02/25',
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // TODO: solve ini dong
-            const _InfoColumn(
-              title: 'Alamat',
-              value: 'Jonggol, Bogor',
-            ),
           ],
         ),
       ),
@@ -109,7 +72,7 @@ class _InfoColumn extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 12, color: Colors.black87),
+          style: const TextStyle(fontSize: 12, color: Colors.black87,fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         Text(

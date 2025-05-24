@@ -27,7 +27,7 @@ class RequestCard extends StatelessWidget {
                 Text(
                   data.companyName,
                     style: TextStyle(
-                    fontSize: heading2,
+                    fontSize: descText,
                     color: primary500,
                     fontWeight: FontWeight.bold
                   )
@@ -38,9 +38,9 @@ class RequestCard extends StatelessWidget {
             ),
             Text(
               data.supervisorName,
-              style: TextStyle(fontSize: descText, color: text400),
+              style: TextStyle(fontSize: body, color: text400),
             ),
-            SizedBox(height: defaultPadding),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

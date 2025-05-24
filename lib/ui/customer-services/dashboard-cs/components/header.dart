@@ -48,7 +48,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
-                    Get.to(ProfileScreenCs());
+                    Get.to(ProfileScreenSupervisor());
                   },
                   child: const CircleAvatar(
                     radius: 20,

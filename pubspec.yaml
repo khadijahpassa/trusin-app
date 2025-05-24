@@ -33,33 +33,41 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
   cupertino_icons: ^1.0.8
+
+  #FIREBASE
   firebase_core: ^3.12.1
   firebase_auth: ^5.5.1
   cloud_firestore: ^5.6.5
+  flutter_local_notifications: ^19.2.1
+  firebase_messaging: ^15.2.6
+  firebase_storage: ^12.4.6
+
   flutter_svg: ^2.0.17
-  curved_navigation_bar: ^1.0.6
   syncfusion_flutter_charts: ^29.1.40
   table_calendar: ^3.2.0
   provider: ^6.1.5
   get: ^4.7.2
-  bloc: ^9.0.0
   intl: ^0.20.2
+  #LAUNCH WHATSAPP
   url_launcher: ^6.3.1
-  uuid: ^4.5.1
-  image_picker: ^1.1.2
+
+  #QUOTATION LIBRARY
   flutter_pdfview: ^1.4.0+1
   dotted_border: ^2.1.0
-  share_plus: ^11.0.0
-  path: ^1.9.1
-  firebase_storage: ^12.4.6
-  permission_handler: ^12.0.0+1
+  permission_handler: ^12.0.0+1 #bisa akses galeri/folder
   pdf: ^3.11.3
-  printing: ^5.14.2
-  open_file: ^3.5.10
-  file_picker: ^10.1.9
-  path_provider: ^2.1.5
-  drag_and_drop_lists: ^0.4.2
+  printing: ^5.14.2 #cetak dari konten ke dokumen pdf
+  share_plus: ^11.0.0 #buat share di luar apk nya
+  open_file: ^3.5.10 #buka hasil result pdf 
+  path_provider: ^2.1.5 #ambil path gambar, nyari lokasi file
+  path: ^1.9.1 #sepaket ama provider, buat manipulasi string
+  image_picker: ^1.1.2 #biar bisa pilih gambar, mirip file picker (lebih berat), bedanya biar spesifik aja
+
+  #BUAT NOTIFICATION
+  timezone: ^0.10.1
+ 
 
 
 dev_dependencies:

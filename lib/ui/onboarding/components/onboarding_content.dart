@@ -6,37 +6,42 @@ class OnboardingContent extends StatelessWidget {
   final String text, image, description;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Spacer(),
-        Image.asset(
+Widget build(BuildContext context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Flexible(
+        flex: 3,
+        child: Image.asset(
           image,
-          height: 350,
-          width: 350,
           fit: BoxFit.contain,
         ),
-        Text(
+      ),
+      SizedBox(
+        width: 270,
+        child: Text(
           text,
           style: TextStyle(
             color: primary600,
-            fontSize: heading1
-            ),
-            textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 10,),
-        SizedBox(
-          width: 300, // Sesuaikan dengan lebar maksimal yang diinginkan
-          child: Text(
-            description,
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: descText,
-            ),
-            textAlign: TextAlign.center,
+            fontSize: heading2,
           ),
+          textAlign: TextAlign.center,
         ),
-      ],
-    );
-  }
+      ),
+      const SizedBox(height: 30),
+      SizedBox(
+        width: 300,
+        child: Text(
+          description,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: descText,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    ],
+  );
+}
+
 }

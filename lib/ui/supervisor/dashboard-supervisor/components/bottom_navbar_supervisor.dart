@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:trusin_app/const.dart';
-import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
 import 'package:trusin_app/ui/supervisor/customer-supervisor/customer_card_screen.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/dashboard_sv_screen.dart';
+import 'package:trusin_app/ui/supervisor/quotation/quotation_home_screen.dart';
 import 'package:trusin_app/ui/supervisor/rank-supervisor/rank_screen.dart';
 
 class BottomNavbarSupervisor extends StatefulWidget {
@@ -28,7 +28,7 @@ class _BottomNavbarSupervisorState extends State<BottomNavbarSupervisor> {
         break;
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => QuotationHomeScreen()));
+        (context) => QuotationSvHomeScreen()));
         break;
       case 2:
         Navigator.push(context, MaterialPageRoute(builder: 
@@ -50,7 +50,7 @@ class _BottomNavbarSupervisorState extends State<BottomNavbarSupervisor> {
       index: _selectedIndex,
       children: [
         DashboardSvScreen(),
-        QuotationHomeScreen(),
+        QuotationSvHomeScreen(),
         CustomerrCardGridScreen(),
         CSRankScreen(),
         // Tambahkan halaman lain sesuai kebutuhan

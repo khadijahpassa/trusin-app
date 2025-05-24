@@ -19,7 +19,7 @@ class StatistikCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 183,
-      height: 149,
+      height: 500,
       padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: lightBlue,
@@ -48,14 +48,14 @@ class StatistikCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 10),
           Expanded(
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
                 title,
                 style: TextStyle(
-                  fontSize: heading3,
+                  fontSize: descText,
                   fontWeight: FontWeight.w600,
                   color: primary500, 
                 ),

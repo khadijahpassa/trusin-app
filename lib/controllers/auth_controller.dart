@@ -36,72 +36,72 @@ class AuthController extends GetxController {
   bool get isUsernameTaken =>
       usernameCheckState.value == UsernameCheckState.taken;
 
-  // LOGIN
-  // Future<void> login(String usernameOrEmail, String password) async {
-  //   authState.value = AuthState.loading;
+  //LOGIN
+  Future<void> login(String usernameOrEmail, String password) async {
+    authState.value = AuthState.loading;
 
-  //   try {
-  //     QuerySnapshot snapshot;
+    try {
+      QuerySnapshot snapshot;
 
-  //     // Cek apakah input usernameOrEmail berupa email atau username
-  //     if (usernameOrEmail.contains('@')) {
-  //       // Jika berupa email, cari berdasarkan email
-  //       snapshot = await _firestore
-  //           .collection('users')
-  //           .where('email', isEqualTo: usernameOrEmail)
-  //           .limit(1)
-  //           .get();
-  //     } else {
-  //       // Jika berupa username, cari berdasarkan username
-  //       snapshot = await _firestore
-  //           .collection('users')
-  //           .where('username', isEqualTo: usernameOrEmail)
-  //           .limit(1)
-  //           .get();
-  //     }
+      // Cek apakah input usernameOrEmail berupa email atau username
+      if (usernameOrEmail.contains('@')) {
+        // Jika berupa email, cari berdasarkan email
+        snapshot = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: usernameOrEmail)
+            .limit(1)
+            .get();
+      } else {
+        // Jika berupa username, cari berdasarkan username
+        snapshot = await _firestore
+            .collection('users')
+            .where('username', isEqualTo: usernameOrEmail)
+            .limit(1)
+            .get();
+      }
 
-  //     // Cek apakah dokumen ditemukan
-  //     if (snapshot.docs.isEmpty) {
-  //       authState.value = AuthState.failure;
-  //       Get.snackbar("Gagal Login", "Akun tidak ditemukan.");
-  //       return;
-  //     }
+      // Cek apakah dokumen ditemukan
+      if (snapshot.docs.isEmpty) {
+        authState.value = AuthState.failure;
+        Get.snackbar("Gagal Login", "Akun tidak ditemukan.");
+        return;
+      }
 
-  //     final doc = snapshot.docs.first;
-  //     //karena pake QuerySnapshot, dan doc.data itu sendiri punya data
-  //     //dalam bentuk Map<String, dynamic>,
-  //     //jadi tambahin as Map<String, dynamic>
-  //     final userData = doc.data() as Map<String, dynamic>;
-  //     final email = userData['email'];
-  //     final role = (userData['role'] ?? '').toString().toLowerCase();
-  //     final status = (userData['status'] ?? '').toString().toLowerCase();
-  //     // Setelah login berhasil dan data user diambil
-  //     final company = userData['company'] ?? ''; // Ambil dari Firestore
+      final doc = snapshot.docs.first;
+      //karena pake QuerySnapshot, dan doc.data itu sendiri punya data
+      //dalam bentuk Map<String, dynamic>,
+      //jadi tambahin as Map<String, dynamic>
+      final userData = doc.data() as Map<String, dynamic>;
+      final email = userData['email'];
+      final role = (userData['role'] ?? '').toString().toLowerCase();
+      final status = (userData['status'] ?? '').toString().toLowerCase();
+      // Setelah login berhasil dan data user diambil
+      final company = userData['company'] ?? ''; // Ambil dari Firestore
+      
+      currentRole.value = role;
 
-  //     currentRole.value = role;
+      // Panggil fetchCS dengan parameter company
+      Get.find<CSListController>().listenToCS(company);
 
-  //     // Panggil fetchCS dengan parameter company
-  //     Get.find<CSListController>().listenToCS(company);
+      // Login ke Firebase Auth
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-  //     // Login ke Firebase Auth
-  //     await _auth.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
+      // Cek status approval
+      if (role != 'superadmin' && status != 'approved') {
+        authState.value = AuthState.pendingApproval;
+        Get.snackbar("Login Error", "Akunmu belum diverifikasi oleh admin");
+        return;
+      }
 
-  //     // Cek status approval
-  //     if (role != 'superadmin' && status != 'approved') {
-  //       authState.value = AuthState.pendingApproval;
-  //       Get.snackbar("Login Error", "Akunmu belum diverifikasi oleh admin");
-  //       return;
-  //     }
-
-  //     authState.value = AuthState.authenticated;
-  //   } catch (e) {
-  //     authState.value = AuthState.failure;
-  //     Get.snackbar("Login Error", "Terjadi kesalahan saat login.");
-  //   }
-  // }
+      authState.value = AuthState.authenticated;
+    } catch (e) {
+      authState.value = AuthState.failure;
+      Get.snackbar("Login Error", "Terjadi kesalahan saat login.");
+    }
+  }
 
   // CEK USERNAME
   Future<bool> checkUsernameAvailability(String username) async {
@@ -157,66 +157,66 @@ class AuthController extends GetxController {
     final doc = await _firestore.collection('users').doc(user.uid).get();
     final data = doc.data();
     if (data != null) {
-      currentUser.value = UserModel.fromMap(data);
+      currentUser.value = UserModel.fromMap(data, id: doc.id);
     }
   }
 
-  Future<void> login(String usernameOrEmail, String password) async {
-  authState.value = AuthState.loading;
+//   Future<void> login(String usernameOrEmail, String password) async {
+//   authState.value = AuthState.loading;
 
-  try {
-    QuerySnapshot snapshot;
+//   try {
+//     QuerySnapshot snapshot;
 
-    if (usernameOrEmail.contains('@')) {
-      snapshot = await _firestore
-          .collection('users')
-          .where('email', isEqualTo: usernameOrEmail)
-          .limit(1)
-          .get();
-    } else {
-      snapshot = await _firestore
-          .collection('users')
-          .where('username', isEqualTo: usernameOrEmail)
-          .limit(1)
-          .get();
-    }
+//     if (usernameOrEmail.contains('@')) {
+//       snapshot = await _firestore
+//           .collection('users')
+//           .where('email', isEqualTo: usernameOrEmail)
+//           .limit(1)
+//           .get();
+//     } else {
+//       snapshot = await _firestore
+//           .collection('users')
+//           .where('username', isEqualTo: usernameOrEmail)
+//           .limit(1)
+//           .get();
+//     }
 
-    if (snapshot.docs.isEmpty) {
-      authState.value = AuthState.failure;
-      Get.snackbar("Gagal Login", "Akun tidak ditemukan.");
-      return;
-    }
+//     if (snapshot.docs.isEmpty) {
+//       authState.value = AuthState.failure;
+//       Get.snackbar("Gagal Login", "Akun tidak ditemukan.");
+//       return;
+//     }
 
-    final doc = snapshot.docs.first;
-    final userData = doc.data() as Map<String, dynamic>;
-    final email = userData['email'];
-    final role = (userData['role'] ?? '').toString().toLowerCase();
-    final status = (userData['status'] ?? '').toString().toLowerCase();
-    final company = userData['company'] ?? '';
+//     final doc = snapshot.docs.first;
+//     final userData = doc.data() as Map<String, dynamic>;
+//     final email = userData['email'];
+//     final role = (userData['role'] ?? '').toString().toLowerCase();
+//     final status = (userData['status'] ?? '').toString().toLowerCase();
+//     final company = userData['company'] ?? '';
 
-    currentRole.value = role;
-    Get.find<CSListController>().listenToCS(company);
+//     currentRole.value = role;
+//     Get.find<CSListController>().listenToCS(company);
 
-    await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+//     await _auth.signInWithEmailAndPassword(
+//       email: email,
+//       password: password,
+//     );
 
-    if (role != 'superadmin' && status != 'approved') {
-      authState.value = AuthState.pendingApproval;
-      Get.snackbar("Login Error", "Akunmu belum diverifikasi oleh admin");
-      return;
-    }
+//     if (role != 'superadmin' && status != 'approved') {
+//       authState.value = AuthState.pendingApproval;
+//       Get.snackbar("Login Error", "Akunmu belum diverifikasi oleh admin");
+//       return;
+//     }
 
-    // 🔥 Tambahkan baris ini supaya currentUser keisi:
-    await fetchCurrentUserData();
+//     // 🔥 Tambahkan baris ini supaya currentUser keisi:
+//     await fetchCurrentUserData();
 
-    authState.value = AuthState.authenticated;
-  } catch (e) {
-    authState.value = AuthState.failure;
-    Get.snackbar("Login Error", "Terjadi kesalahan saat login.");
-  }
-}
+//     authState.value = AuthState.authenticated;
+//   } catch (e) {
+//     authState.value = AuthState.failure;
+//     Get.snackbar("Login Error", "Terjadi kesalahan saat login.");
+//   }
+// }
 
 
   // GET DATA COMPANY SUPERVISOR (untuk diinsert ke field company register CS)

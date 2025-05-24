@@ -22,6 +22,7 @@ class InfoLead extends StatelessWidget implements PreferredSizeWidget {
                 content: lead.phone
               ),
             ),
+            SizedBox(width: 30),
             Expanded(
               child: InfoItem(
                 label: "Sumber",
@@ -39,6 +40,7 @@ class InfoLead extends StatelessWidget implements PreferredSizeWidget {
                 content: lead.email
               ),
             ),
+            SizedBox(width: 30),
             Expanded(
               child: InfoItem(
                 label: "Dibuat Pada",
@@ -88,7 +90,7 @@ class InfoItem extends StatelessWidget {
         Text(
           content,
           style: TextStyle(
-            fontSize: descText,
+            fontSize: body,
             fontWeight: FontWeight.w600
           ),
         )

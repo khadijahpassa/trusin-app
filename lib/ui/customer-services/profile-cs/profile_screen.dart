@@ -6,15 +6,15 @@ import 'package:trusin_app/controllers/auth_controller.dart';
 import 'package:trusin_app/ui/general/components/profile/change_password_form.dart';
 import 'package:trusin_app/ui/general/components/profile/text_field_input.dart';
 
-class ProfileScreenCs extends StatefulWidget {
-  const ProfileScreenCs({super.key});
+class ProfileScreenSupervisor extends StatefulWidget {
+  ProfileScreenSupervisor({super.key});
 
   @override
-  State<ProfileScreenCs> createState() =>
-      _ProfileScreenCsState();
+  State<ProfileScreenSupervisor> createState() =>
+      _ProfileScreenSupervisorState();
 }
 
-class _ProfileScreenCsState extends State<ProfileScreenCs> {
+class _ProfileScreenSupervisorState extends State<ProfileScreenSupervisor> {
   bool isEditing = false;
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -279,14 +279,14 @@ class _ProfileScreenCsState extends State<ProfileScreenCs> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(color: text300),
               ),
             ),
             child: Text("Batal",
-                style: TextStyle(fontSize: heading3, color: Colors.black)),
+                style: TextStyle(fontSize: descText, color: Colors.black)),
           ),
         ),
         SizedBox(width: 12),
@@ -337,12 +337,12 @@ class _ProfileScreenCsState extends State<ProfileScreenCs> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: primary500,
-              padding: EdgeInsets.symmetric(vertical: 25),
+              padding: EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),
             child: Text("Simpan",
-                style: TextStyle(fontSize: heading3, color: Colors.white)),
+                style: TextStyle(fontSize: descText, color: Colors.white)),
           ),
         ),
       ],
@@ -364,7 +364,7 @@ class _ProfileScreenCsState extends State<ProfileScreenCs> {
                   borderRadius: BorderRadius.circular(12)),
             ),
             child: Text("Logout",
-                style: TextStyle(fontSize: heading3, color: Colors.white)),
+                style: TextStyle(fontSize: descText, color: Colors.white)),
           ),
         ),
       ],

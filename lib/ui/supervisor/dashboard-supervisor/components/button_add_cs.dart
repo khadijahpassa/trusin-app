@@ -26,7 +26,7 @@ class ButtonAddCs extends StatelessWidget {
                   Text(
                     'Daftarin akun untuk Customer Service!',
                     style: TextStyle(
-                      fontSize: descText,
+                      fontSize: body,
                       fontWeight: FontWeight.bold
                     ),
                   ),
@@ -41,7 +41,7 @@ class ButtonAddCs extends StatelessWidget {
                     },
                     child: Text(
                       'Daftar',
-                      style: TextStyle(color: secondary100, fontSize: body),
+                      style: TextStyle(color: secondary100, fontSize: caption),
                     ),
                   ),
                 ],

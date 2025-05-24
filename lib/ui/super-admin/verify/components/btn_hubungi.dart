@@ -8,7 +8,7 @@ class HubungiButton extends StatelessWidget {
   final CompanyRequest data;
   const HubungiButton({super.key, required this.data});
 
-  // fuction private(_)
+  // function private(_)
   void _openWhatsApp(String phoneNumber) async {
     final normalized = phoneNumber.replaceAll(RegExp(r'\D'), ''); // menghapus simbol aneh
     final whatsAppUrl = Uri.parse('https://wa.me/$normalized');
@@ -27,13 +27,14 @@ class HubungiButton extends StatelessWidget {
         backgroundColor: success100, 
         minimumSize: const Size(180, 48),
         elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: 23),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
       ),
       onPressed: () => _openWhatsApp(data.phone),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             'Hubungi',
@@ -43,10 +44,9 @@ class HubungiButton extends StatelessWidget {
               fontSize: descText,
             )
           ),
-          SizedBox(width: defaultPadding),
+          SizedBox(width: 8),
           SvgPicture.asset(
             'assets/icons/whatsapp.svg',
-            width: defaultPadding,
           )
         ],
       ),

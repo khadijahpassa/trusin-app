@@ -55,7 +55,7 @@ class Date extends StatelessWidget {
               ),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                 decoration: BoxDecoration(
                   color: primary500,
                   borderRadius: BorderRadius.circular(6),
@@ -75,7 +75,7 @@ class Date extends StatelessWidget {
             onTap: () => _pickDateTime(context),
             borderRadius: BorderRadius.circular(8),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
               decoration: BoxDecoration(
                 color: Colors.indigo[50],
                 borderRadius: BorderRadius.circular(10),
@@ -86,7 +86,7 @@ class Date extends StatelessWidget {
                   Text(
                     formattedDate,
                     style: TextStyle(
-                      fontSize: body,
+                      fontSize: caption,
                       color: Colors.indigo[900],
                       fontWeight: FontWeight.w600,
                     ),
