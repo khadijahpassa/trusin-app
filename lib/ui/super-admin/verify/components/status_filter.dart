@@ -14,35 +14,36 @@ class StatusFilter extends StatelessWidget {
 
       final selected = controller.selectedStatuses.keys.toList();
       return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: selected.map((status) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-            decoration: BoxDecoration(
-              color: lightBlue,
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () => controller.selectedStatuses.remove(status), 
-                  icon: const Icon(Icons.close, size: 16, color: primary500),
-                  constraints: const BoxConstraints(),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  status.capitalizeFirst!,
-                  style: TextStyle(
-                    fontSize: descText,
-                    color: primary500,  
-                    fontWeight: FontWeight.bold
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: selected.map((status) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: lightBlue,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () => controller.selectedStatuses.remove(status),
+                    icon: const Icon(Icons.close_rounded,
+                        size: 20, color: primary500),
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(), // Ini juga penting biar gak nge-force ukuran
                   ),
-                ),
-              ],
-            ),
-          );
-        }).toList()
-      );
+                  SizedBox(width: 3),
+                  Text(
+                    status.capitalizeFirst!,
+                    style: TextStyle(
+                        fontSize: body,
+                        color: primary500,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            );
+          }).toList());
     });
   }
 }

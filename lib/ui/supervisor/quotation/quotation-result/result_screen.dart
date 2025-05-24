@@ -10,6 +10,7 @@ import 'package:trusin_app/ui/customer-services/quotation/quotation-result/compo
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_header.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_table.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
+import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/bottom_navbar_supervisor.dart';
 
 class ResultScreen extends StatefulWidget {
   final String quotationId;
@@ -71,7 +72,7 @@ class _ResultScreenState extends State<ResultScreen> {
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => QuotationCSHomeScreen()),
+                MaterialPageRoute(builder: (context) => BottomNavbarSupervisor()),
                 (Route<dynamic> route) =>
                     false, 
               );

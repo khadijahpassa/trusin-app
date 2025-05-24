@@ -11,7 +11,6 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: secondary100,
-      scrolledUnderElevation: 0,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back_ios , 
@@ -22,13 +21,13 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
         },
       ),
       title: Text(
-        "Detail Lead",
-        textAlign: TextAlign.center,
+        "Buat Quotation",
         style: TextStyle(
           fontSize: heading3,
           fontWeight: FontWeight.w700
         ),
       ),
     );
+    
   }
 }
