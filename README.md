@@ -12,10 +12,12 @@ With role-based access, Supervisors can monitor progress and make sure Customer 
 Trusin supports **3 main roles** with different access and functionalities:
 
 **🔒 Super Admin** – (Approves company registrations from Supervisors before access is granted.)
+
 **👨‍💼 Supervisor**  
   - Track Customer Service (CS) progress
   - Set reminder schedules for CS  
-  - View and download quotation & invoice  
+  - View and download quotation & invoice
+
 **🧑‍💻 Customer Service (CS)**  
   - Manage leads (CRUD) in a **Kanban-style dashboard**  
   - **Follow-up scheduling** with reminders
