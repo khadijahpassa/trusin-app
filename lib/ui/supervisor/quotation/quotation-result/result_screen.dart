@@ -9,7 +9,6 @@ import 'package:trusin_app/ui/customer-services/quotation/quotation-result/compo
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_footer.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_header.dart';
 import 'package:trusin_app/ui/customer-services/quotation/quotation-result/components/result_table.dart';
-import 'package:trusin_app/ui/customer-services/quotation/quotation_home_screen.dart';
 import 'package:trusin_app/ui/supervisor/dashboard-supervisor/components/bottom_navbar_supervisor.dart';
 
 class ResultScreen extends StatefulWidget {
