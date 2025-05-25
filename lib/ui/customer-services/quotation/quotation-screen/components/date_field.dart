@@ -5,13 +5,11 @@ import 'package:trusin_app/const.dart';
 
 class DateFieldWithStatus extends StatelessWidget {
   final DateTime combinedDateTime;
-  final String selectedCategory;
   final void Function()? onTap;
 
   const DateFieldWithStatus({
     super.key,
     required this.combinedDateTime,
-    required this.selectedCategory,
     this.onTap,
   });
 
@@ -68,23 +66,6 @@ class DateFieldWithStatus extends StatelessWidget {
         ),
 
         const SizedBox(height: 8),
-
-        // Baris status / selectedCategory di bawah field
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.blue[100],
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            selectedCategory,
-            style: const TextStyle(
-              color: Colors.blue,
-              fontSize: 12.5,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
       ],
     );
   }

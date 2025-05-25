@@ -19,7 +19,7 @@ class StatistikCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 183,
-      height: 500,
+      height: 200,
       padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: lightBlue,

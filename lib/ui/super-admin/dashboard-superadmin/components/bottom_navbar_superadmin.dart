@@ -16,35 +16,35 @@ class BottomNavbarSuperadmin extends StatefulWidget {
 class _BottomNavbarSuperadminState extends State<BottomNavbarSuperadmin> {
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    // Navigasi ke halaman sesuai index
-    switch (index) {
-      case 0:
-        Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => NotificationSuperadmin()));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => VerifySuperadmin()));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => NotificationSuperadmin()));
-        break;
-      case 3:
-        Navigator.push(context, MaterialPageRoute(builder: 
-        (context) => CompaniesSuperadmin()));
-        break;
-    }
-  } 
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  //   // Navigasi ke halaman sesuai index
+  //   switch (index) {
+  //     case 0:
+  //       Navigator.push(context, MaterialPageRoute(builder: 
+  //       (context) => NotificationSuperadmin()));
+  //       break;
+  //     case 1:
+  //       Navigator.push(context, MaterialPageRoute(builder: 
+  //       (context) => VerifySuperadmin()));
+  //       break;
+  //     case 2:
+  //       Navigator.push(context, MaterialPageRoute(builder: 
+  //       (context) => NotificationSuperadmin()));
+  //       break;
+  //     case 3:
+  //       Navigator.push(context, MaterialPageRoute(builder: 
+  //       (context) => CompaniesSuperadmin()));
+  //       break;
+  //   }
+  // } 
   
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double itemWidth = screenWidth / 4; // Karena ada 4 item
+    double itemWidth = screenWidth / 4; 
     return Scaffold(
       body: IndexedStack(
       index: _selectedIndex,

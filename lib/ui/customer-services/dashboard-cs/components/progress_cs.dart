@@ -119,8 +119,8 @@ class _CustomerList extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 60),
                     itemBuilder: (context, index) {
                       final lead = filteredList[index];
-                      final nama = lead.name ?? 'Nama Tidak Tersedia';
-                      final judul = lead.title ?? 'Judul Tidak Tersedia';
+                      final nama = lead.name;
+                      final judul = lead.title;
                       final tanggal = lead.createdOn ?? DateTime.now();
                       final formattedDate =
                           "${tanggal.day}/${tanggal.month}/${tanggal.year}";

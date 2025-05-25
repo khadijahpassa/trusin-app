@@ -25,7 +25,7 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey,
             spreadRadius: 2,
             blurRadius: 5,
           ),
@@ -67,13 +67,14 @@ class ProductCard extends StatelessWidget {
                   });
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: error400,
                     shape: BoxShape.circle,
                   ),
                   child: SvgPicture.asset(
                     'assets/icons/trash.svg',
+                    colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     width: 23,
                     height: 23,
                   ),

@@ -143,10 +143,6 @@ class AuthController extends GetxController {
     }
   }
 
-  // GET DATA USER (name & displayRole)
-  // var displayName = ''.obs;
-  // var displayRole = ''.obs;
-
   var currentUser = Rxn<UserModel>();
 
   Future<void> fetchCurrentUserData() async {

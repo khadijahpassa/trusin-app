@@ -24,7 +24,7 @@ class ProfileLead extends StatelessWidget implements PreferredSizeWidget {
         return const Text("Loading...");
       }
 
-      final selectedCategory = lead.reminderCategory ?? 'No Reminder';
+      final selectedCategory = lead.reminderCategory;
 
       return Row(
         children: [

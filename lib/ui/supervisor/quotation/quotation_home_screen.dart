@@ -72,14 +72,14 @@ class QuotationSvHomeScreen extends StatelessWidget {
                       ),
                     ),
                     title: Text(
-                      item.toSeller ?? 'Tanpa nama',
+                      item.toSeller,
                       style: const TextStyle(
                         color: Color(0xFF003399),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     subtitle: Text(
-                      item.toCompany ?? 'Tanpa perusahaan',
+                      item.toCompany,
                       style: const TextStyle(
                         color: Colors.grey,
                       ),

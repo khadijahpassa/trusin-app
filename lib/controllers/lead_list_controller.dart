@@ -106,7 +106,7 @@ class LeadListController extends GetxController {
     };
 
     for (var lead in leadList) {
-      final status = lead.status ?? 'Unknown';
+      final status = lead.status;
       result[status] = (result[status] ?? 0) + 1;
     }
 
@@ -212,7 +212,7 @@ class LeadListController extends GetxController {
           id: lead.id.hashCode,
           title: "Reminder Lead",
           body:
-              "Reminder: ${lead.reminderCategory ?? 'Follow up'} - ${lead.name ?? 'Customer'}",
+              "Reminder: ${lead.reminderCategory} - ${lead.name}",
           scheduledDate: lead.reminderDate,
         );
         print('Scheduling notification at $reminderDate for ${lead.name}');

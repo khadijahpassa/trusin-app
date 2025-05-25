@@ -18,8 +18,6 @@ class CompanyRequestCard extends StatelessWidget {
     })
     .toList();
 
-    print('🔍 filteredList: ${filteredList.map((e) => '${e.companyName} (${e.status})').toList()}');
-
       if (filteredList.isEmpty) {
         return const Center(child: Text('Tidak ada data'));
       }
